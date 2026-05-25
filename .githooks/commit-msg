@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# commit-msg hook — enforce Conventional Commits + TDD prefix (CONSTITUTION §1.1 / §5).
+# Allowed prefixes:
+#   test(red):       — failing test landed (Red)
+#   feat(green):     — minimum impl to pass (Green)
+#   fix(green):      — bug-fix green commit
+#   refactor:        — refactor under green tests, no new behavior
+#   docs:            — documentation only
+#   chore:           — build / deps / CI / hooks
+#   test:            — additional tests over already-green code (not the Red step)
+#   perf: / style: / build: / ci:  — Conventional Commits standard
+#
+# Bypass with explicit `[no-tdd]` tag in the body for non-code-changes.
+
+msg_file="$1"
+first_line=$(head -n1 "$msg_file")
+
+# allow Merge / Revert commits
+if [[ "$first_line" =~ ^(Merge|Revert) ]]; then
+    exit 0
+fi
+
+# allow [no-tdd] body opt-out
+if grep -q '\[no-tdd\]' "$msg_file"; then
+    exit 0
+fi
+
+pattern='^(test\(red\)|feat\(green\)|fix\(green\)|refactor|docs|chore|test|perf|style|build|ci)(\(.+\))?: .+'
+if [[ ! "$first_line" =~ $pattern ]]; then
+    echo "commit-msg rejected: subject line must use a Conventional Commits prefix." >&2
+    echo "  see CONSTITUTION.md §1.1 and §5 for the allowed set." >&2
+    echo "  got: $first_line" >&2
+    exit 1
+fi

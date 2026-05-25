@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# pre-commit hook for SAGE — see CONSTITUTION §5.
+# Install once per clone:
+#   git config core.hooksPath .githooks
+set -euo pipefail
+
+echo "[pre-commit] cargo fmt --check ..."
+cargo fmt --all -- --check
+
+echo "[pre-commit] cargo clippy -D warnings ..."
+cargo clippy --workspace --all-targets --quiet -- -D warnings
+
+echo "[pre-commit] CLAUDE.md presence (CONSTITUTION §3.5 #1) ..."
+cargo run -q -p gen-claude-index -- --presence
+
+echo "[pre-commit] CLAUDE_INDEX.md freshness (CONSTITUTION §3.5 #3) ..."
+cargo run -q -p gen-claude-index -- --check
+
+echo "[pre-commit] all gates green."

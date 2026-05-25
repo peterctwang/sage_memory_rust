@@ -825,6 +825,7 @@ dependencies = [
  "sage-reader",
  "sage-writer",
  "serde",
+ "smol_str",
  "tests-support",
  "tokio",
 ]

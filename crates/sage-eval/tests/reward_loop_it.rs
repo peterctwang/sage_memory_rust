@@ -7,6 +7,7 @@
 use std::sync::Arc;
 
 use sage_core::{compute_reward, Document, Query, RewardCfg, RewardInputs, TenantId, WriterReward};
+use sage_eval::{compute_reward_for_sample, EvalSample, JudgeInputs};
 use sage_graph::MemGraphStore;
 use sage_llm::MockLlm;
 use sage_reader::HeuristicReader;
@@ -66,6 +67,31 @@ async fn perfect_retrieval_gives_high_reward() {
         traj > 0.9,
         "trajectory reward should remain high, got {traj}"
     );
+}
+
+#[tokio::test]
+async fn compute_reward_for_sample_composes_reader_and_reward() {
+    let llm = Arc::new(MockLlm::new());
+    llm.push(r#"{"triples":[{"src":"Alice","rel":"founded","dst":"Acme"}],"stop":true}"#);
+    let writer = LlmWriterPolicy::new(Arc::clone(&llm));
+    let graph = MemGraphStore::new();
+    let t = TenantId::DEFAULT;
+    let action = writer
+        .step(&empty_state(), &Document::new(1, "Alice founded Acme."))
+        .await
+        .unwrap();
+    apply_action(&graph, t, &action).await.unwrap();
+
+    let reader = HeuristicReader::default();
+    let sample = EvalSample {
+        query: Query::ask("Acme").with_k(1),
+        ground_truth: vec![1],
+    };
+    let r = compute_reward_for_sample(&reader, t, &graph, &sample, &[], JudgeInputs::default())
+        .await
+        .unwrap();
+    assert!(r.r_rec > 0.99, "got r_rec={}", r.r_rec);
+    assert!(r.r_pre > 0.99, "got r_pre={}", r.r_pre);
 }
 
 #[tokio::test]

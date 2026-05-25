@@ -15,6 +15,7 @@ sage-core    = { workspace = true }
 async-trait  = { workspace = true }
 ahash        = { workspace = true }
 serde        = { workspace = true }
+smol_str     = { workspace = true }
 
 [dev-dependencies]
 sage-graph    = { workspace = true }
