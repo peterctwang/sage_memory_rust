@@ -10,13 +10,16 @@ use std::sync::Arc;
 
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
-use sage_core::{EntityScan, GraphStore, Query, Reader, ReaderGraph, TenantId};
+use sage_core::{EntityScan, EntityType, GraphStore, Query, Reader, ReaderGraph, TenantId};
 use sage_embed::DeterministicEmbedder;
 use sage_graph::{MemGraphStore, SledGraphStore};
 use sage_llm::MockLlm;
 use sage_reader::HeuristicReader;
 use sage_runtime::SageEngine;
-use sage_writer::LlmWriterPolicy;
+use sage_writer::{apply_action, EntityRef, LlmWriterPolicy, WriterAction};
+use serde::Deserialize;
+use smallvec::SmallVec;
+use smol_str::SmolStr;
 
 #[derive(Parser, Debug)]
 #[command(name = "sage", version, about, long_about = None)]
@@ -47,6 +50,17 @@ enum Cmd {
         /// Query text. Use quotes for multi-word.
         text: String,
     },
+    /// Ingest pre-parsed triples (no LLM) into a sled-backed graph.
+    /// Reads JSON envelope from stdin:
+    ///   {"triples":[{"src":"A","rel":"r","dst":"B"}], "stop":true}
+    IngestStub {
+        #[arg(long)]
+        db: PathBuf,
+        #[arg(long)]
+        doc_id: u64,
+        #[arg(long, default_value_t = 0)]
+        tenant: u64,
+    },
 }
 
 #[tokio::main(flavor = "current_thread")]
@@ -61,7 +75,65 @@ async fn main() -> Result<()> {
             tenant,
             text,
         } => run_query(db, TenantId(tenant), k, text).await,
+        Cmd::IngestStub { db, doc_id, tenant } => {
+            run_ingest_stub(db, TenantId(tenant), doc_id).await
+        }
     }
+}
+
+#[derive(Deserialize)]
+struct StubTriple {
+    src: String,
+    rel: String,
+    dst: String,
+}
+
+#[derive(Deserialize)]
+struct StubEnvelope {
+    triples: Vec<StubTriple>,
+}
+
+async fn run_ingest_stub(db_path: PathBuf, t: TenantId, doc_id: u64) -> Result<()> {
+    use std::io::Read;
+    let mut s = String::new();
+    std::io::stdin()
+        .read_to_string(&mut s)
+        .context("read stdin")?;
+    let env: StubEnvelope = serde_json::from_str(&s).context("stdin not JSON envelope")?;
+
+    let mut triples: SmallVec<[(EntityRef, SmolStr, EntityRef); 8]> = SmallVec::new();
+    for t in env.triples {
+        triples.push((
+            EntityRef::New {
+                name: SmolStr::new(t.src.trim()),
+                etype: EntityType::Concept,
+                desc: None,
+            },
+            SmolStr::new(t.rel.trim()),
+            EntityRef::New {
+                name: SmolStr::new(t.dst.trim()),
+                etype: EntityType::Concept,
+                desc: None,
+            },
+        ));
+    }
+    let action = WriterAction {
+        triples,
+        source: doc_id,
+        stop: true,
+    };
+
+    let store = SledGraphStore::open(&db_path).context("open sled")?;
+    let report = apply_action(&store, t, &action).await?;
+    let out = serde_json::json!({
+        "doc_id": doc_id,
+        "tenant": t.0,
+        "entities_added": report.entities_added,
+        "edges_added":    report.edges_added,
+        "triples_skipped": report.triples_skipped,
+    });
+    println!("{}", serde_json::to_string_pretty(&out)?);
+    Ok(())
 }
 
 async fn run_demo() -> Result<()> {

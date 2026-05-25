@@ -24,5 +24,8 @@ sage-writer  = { workspace = true }
 sage-embed   = { workspace = true }
 clap         = { workspace = true }
 tokio        = { workspace = true }
+serde        = { workspace = true }
 serde_json   = { workspace = true }
 anyhow       = { workspace = true }
+smallvec     = { workspace = true }
+smol_str     = { workspace = true }

@@ -752,7 +752,10 @@ dependencies = [
  "sage-reader",
  "sage-runtime",
  "sage-writer",
+ "serde",
  "serde_json",
+ "smallvec",
+ "smol_str",
  "tokio",
 ]
 
