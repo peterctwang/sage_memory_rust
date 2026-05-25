@@ -39,3 +39,43 @@ pub async fn compute_reward_for_sample<R: sage_core::Reader + ?Sized>(
         fmt_bonus: judge.fmt_bonus,
     }))
 }
+
+/// Batch reward computation — useful for GRPO trajectory groups (M4).
+///
+/// `triples_per_sample` must be the same length as `samples`; element `i` is
+/// the triple set the writer emitted for sample `i`. Pass empty slice if you
+/// only want the retrieval-based components.
+///
+/// `judge_per_sample` likewise — pass `vec![JudgeInputs::default(); N]` if
+/// you have no judge LLM yet.
+pub async fn compute_reward_batch<R: sage_core::Reader + ?Sized>(
+    reader: &R,
+    tenant: TenantId,
+    graph: &dyn ReaderGraph,
+    samples: &[EvalSample],
+    triples_per_sample: &[Vec<(EntityId, SmolStr, EntityId)>],
+    judge_per_sample: &[JudgeInputs],
+) -> Result<Vec<WriterReward>> {
+    if !triples_per_sample.is_empty() && triples_per_sample.len() != samples.len() {
+        return Err(sage_core::SageError::Invalid(format!(
+            "triples_per_sample.len()={} != samples.len()={}",
+            triples_per_sample.len(),
+            samples.len()
+        )));
+    }
+    if !judge_per_sample.is_empty() && judge_per_sample.len() != samples.len() {
+        return Err(sage_core::SageError::Invalid(format!(
+            "judge_per_sample.len()={} != samples.len()={}",
+            judge_per_sample.len(),
+            samples.len()
+        )));
+    }
+    let mut out = Vec::with_capacity(samples.len());
+    for (i, sample) in samples.iter().enumerate() {
+        let triples: &[(EntityId, SmolStr, EntityId)] =
+            triples_per_sample.get(i).map_or(&[][..], Vec::as_slice);
+        let judge = judge_per_sample.get(i).copied().unwrap_or_default();
+        out.push(compute_reward_for_sample(reader, tenant, graph, sample, triples, judge).await?);
+    }
+    Ok(out)
+}

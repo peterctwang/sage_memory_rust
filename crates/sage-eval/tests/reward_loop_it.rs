@@ -7,7 +7,7 @@
 use std::sync::Arc;
 
 use sage_core::{compute_reward, Document, Query, RewardCfg, RewardInputs, TenantId, WriterReward};
-use sage_eval::{compute_reward_for_sample, EvalSample, JudgeInputs};
+use sage_eval::{compute_reward_batch, compute_reward_for_sample, EvalSample, JudgeInputs};
 use sage_graph::MemGraphStore;
 use sage_llm::MockLlm;
 use sage_reader::HeuristicReader;
@@ -92,6 +92,61 @@ async fn compute_reward_for_sample_composes_reader_and_reward() {
         .unwrap();
     assert!(r.r_rec > 0.99, "got r_rec={}", r.r_rec);
     assert!(r.r_pre > 0.99, "got r_pre={}", r.r_pre);
+}
+
+#[tokio::test]
+async fn batch_returns_one_reward_per_sample() {
+    let llm = Arc::new(MockLlm::new());
+    llm.push(r#"{"triples":[{"src":"Alice","rel":"founded","dst":"Acme"}],"stop":true}"#);
+    llm.push(r#"{"triples":[{"src":"Bob","rel":"works_at","dst":"Globex"}],"stop":true}"#);
+    let writer = LlmWriterPolicy::new(Arc::clone(&llm));
+    let graph = MemGraphStore::new();
+    let t = TenantId::DEFAULT;
+    for i in 1..=2u64 {
+        let a = writer
+            .step(&empty_state(), &Document::new(i, format!("d{i}")))
+            .await
+            .unwrap();
+        apply_action(&graph, t, &a).await.unwrap();
+    }
+    let reader = HeuristicReader::default();
+    let samples = vec![
+        EvalSample {
+            query: Query::ask("Acme").with_k(1),
+            ground_truth: vec![1],
+        },
+        EvalSample {
+            query: Query::ask("Globex").with_k(1),
+            ground_truth: vec![2],
+        },
+    ];
+    let rs = compute_reward_batch(&reader, t, &graph, &samples, &[], &[])
+        .await
+        .unwrap();
+    assert_eq!(rs.len(), 2);
+    for r in &rs {
+        assert!(r.r_rec > 0.99, "got {}", r.r_rec);
+    }
+}
+
+#[tokio::test]
+async fn batch_rejects_mismatched_triples_length() {
+    let graph = MemGraphStore::new();
+    let reader = HeuristicReader::default();
+    let samples = vec![EvalSample {
+        query: Query::ask("x"),
+        ground_truth: vec![1],
+    }];
+    let res = compute_reward_batch(
+        &reader,
+        TenantId::DEFAULT,
+        &graph,
+        &samples,
+        &vec![vec![]; 5],
+        &[],
+    )
+    .await;
+    assert!(matches!(res, Err(sage_core::SageError::Invalid(_))));
 }
 
 #[tokio::test]
