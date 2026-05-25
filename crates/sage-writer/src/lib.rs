@@ -10,7 +10,7 @@ pub mod policy;
 pub mod sanitizer;
 
 pub use action::{EntityRef, RawTriple, WriterAction, WriterState};
-pub use apply::{apply_action, ApplyReport};
+pub use apply::{apply_action, apply_action_embedded, ApplyReport};
 pub use llm_policy::LlmWriterPolicy;
 pub use policy::WriterPolicy;
 pub use sanitizer::{RejectReason, SanitizerCfg, TripleSanitizer};

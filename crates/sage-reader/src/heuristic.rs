@@ -1,21 +1,35 @@
 //! `HeuristicReader` — `HeuristicPlanner` + soft addressing + entity-to-doc
 //! aggregation via `source_docs`. Pure CPU; latency O(|V_t|) per query.
 
+use std::sync::Arc;
+
 use ahash::AHashMap;
 use async_trait::async_trait;
 use sage_core::{
-    DocId, EntityId, Query, ReadOutput, Reader, ReaderGraph, Result, Score, Subgraph, TenantId,
+    DocId, Embedder, EntityId, Query, ReadOutput, Reader, ReaderGraph, Result, Score, Subgraph,
+    TenantId,
 };
 
 use crate::addressing::{score_entry, softmax_entry, AddressingWeights};
 use crate::planner::{HeuristicPlanner, QueryPlanner};
 
-#[derive(Debug)]
 pub struct HeuristicReader<P: QueryPlanner = HeuristicPlanner> {
     planner: P,
     weights: AddressingWeights,
+    embedder: Option<Arc<dyn Embedder>>,
     subgraph_hops: u8,
     max_subgraph_seeds: usize,
+}
+
+impl<P: QueryPlanner + std::fmt::Debug> std::fmt::Debug for HeuristicReader<P> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("HeuristicReader")
+            .field("planner", &self.planner)
+            .field("weights", &self.weights)
+            .field("embedder", &self.embedder.as_ref().map(|e| e.dim()))
+            .field("subgraph_hops", &self.subgraph_hops)
+            .finish_non_exhaustive()
+    }
 }
 
 impl Default for HeuristicReader<HeuristicPlanner> {
@@ -23,6 +37,7 @@ impl Default for HeuristicReader<HeuristicPlanner> {
         Self {
             planner: HeuristicPlanner::new(),
             weights: AddressingWeights::default(),
+            embedder: None,
             subgraph_hops: 1,
             max_subgraph_seeds: 16,
         }
@@ -34,6 +49,7 @@ impl<P: QueryPlanner> HeuristicReader<P> {
         Self {
             planner,
             weights: AddressingWeights::default(),
+            embedder: None,
             subgraph_hops: 1,
             max_subgraph_seeds: 16,
         }
@@ -42,6 +58,15 @@ impl<P: QueryPlanner> HeuristicReader<P> {
     pub fn with_weights(mut self, w: AddressingWeights) -> Self {
         self.weights = w;
         self
+    }
+
+    pub fn with_embedder(mut self, e: Arc<dyn Embedder>) -> Self {
+        self.embedder = Some(e);
+        self
+    }
+
+    pub fn embedder(&self) -> Option<&Arc<dyn Embedder>> {
+        self.embedder.as_ref()
     }
 }
 
@@ -54,9 +79,19 @@ impl<P: QueryPlanner + std::fmt::Debug> Reader for HeuristicReader<P> {
             return Ok(ReadOutput::default());
         }
 
+        let query_emb: Option<Arc<[f32]>> = match &self.embedder {
+            Some(e) => Some(Arc::clone(
+                e.embed(&[q.text.as_ref()]).await?.first().ok_or_else(|| {
+                    sage_core::SageError::Reader("embedder returned empty".into())
+                })?,
+            )),
+            None => None,
+        };
+        let q_emb_ref: Option<&[f32]> = query_emb.as_deref();
+
         let raw_scores: Vec<Score> = all
             .iter()
-            .map(|e| score_entry(e, &plan, &self.weights))
+            .map(|e| score_entry(e, &plan, &self.weights, q_emb_ref))
             .collect();
         let probs = softmax_entry(&raw_scores, self.weights.t0);
 

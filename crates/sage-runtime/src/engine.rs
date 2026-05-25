@@ -3,9 +3,9 @@
 
 use std::sync::Arc;
 
-use sage_core::{Document, Query, ReadOutput, Reader, ReaderGraph, Result, TenantId};
+use sage_core::{Document, Embedder, Query, ReadOutput, Reader, ReaderGraph, Result, TenantId};
 use sage_llm::LlmClient;
-use sage_writer::{apply_action, ApplyReport, WriterPolicy, WriterState};
+use sage_writer::{apply_action_embedded, ApplyReport, WriterPolicy, WriterState};
 
 #[derive(Debug, Default, Clone)]
 pub struct IngestReport {
@@ -42,6 +42,7 @@ where
     reader: R,
     graph: Arc<G>,
     llm: Arc<L>,
+    embedder: Option<Arc<dyn Embedder>>,
     tenant: TenantId,
 }
 
@@ -72,12 +73,18 @@ where
             reader,
             graph,
             llm,
+            embedder: None,
             tenant: TenantId::DEFAULT,
         }
     }
 
     pub fn with_tenant(mut self, t: TenantId) -> Self {
         self.tenant = t;
+        self
+    }
+
+    pub fn with_embedder(mut self, e: Arc<dyn Embedder>) -> Self {
+        self.embedder = Some(e);
         self
     }
 
@@ -90,6 +97,9 @@ where
     pub fn llm(&self) -> &Arc<L> {
         &self.llm
     }
+    pub fn embedder(&self) -> Option<&Arc<dyn Embedder>> {
+        self.embedder.as_ref()
+    }
 
     pub async fn ingest_one(&self, doc: Document) -> Result<ApplyReport> {
         let state = WriterState {
@@ -99,7 +109,13 @@ where
             step: 0,
         };
         let action = self.writer.step(&state, &doc).await?;
-        apply_action(self.graph.as_ref(), self.tenant, &action).await
+        apply_action_embedded(
+            self.graph.as_ref(),
+            self.embedder.as_deref(),
+            self.tenant,
+            &action,
+        )
+        .await
     }
 
     pub async fn ingest<I>(&self, docs: I) -> Result<IngestReport>

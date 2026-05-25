@@ -551,6 +551,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "sage-embed"
+version = "0.1.0"
+dependencies = [
+ "ahash",
+ "async-trait",
+ "sage-core",
+ "tokio",
+]
+
+[[package]]
 name = "sage-graph"
 version = "0.1.0"
 dependencies = [
@@ -601,6 +611,7 @@ version = "0.1.0"
 dependencies = [
  "async-trait",
  "sage-core",
+ "sage-embed",
  "sage-graph",
  "sage-llm",
  "sage-reader",

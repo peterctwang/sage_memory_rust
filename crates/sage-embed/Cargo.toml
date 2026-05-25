@@ -1,0 +1,19 @@
+[package]
+name        = "sage-embed"
+version     = { workspace = true }
+edition     = { workspace = true }
+rust-version = { workspace = true }
+license     = { workspace = true }
+publish     = { workspace = true }
+description = "Embedder backends for SAGE. M3 ships a deterministic hash embedder; real models land later."
+
+[lints]
+workspace = true
+
+[dependencies]
+sage-core    = { workspace = true }
+async-trait  = { workspace = true }
+ahash        = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true }

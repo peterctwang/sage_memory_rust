@@ -20,7 +20,7 @@ pub struct AddressingWeights {
 impl Default for AddressingWeights {
     fn default() -> Self {
         Self {
-            lambdas: [1.0, 0.6, 0.0, 0.3, 1.0, 0.8],
+            lambdas: [1.0, 0.6, 0.8, 0.3, 1.0, 0.8],
             t0: 0.7,
             eta: 0.5,
         }
@@ -29,9 +29,18 @@ impl Default for AddressingWeights {
 
 /// `sₑ(q)` from SPEC §5.2 / paper §4.2.2.
 ///
+/// `query_emb` is the (optional) query embedding; cosine similarity contributes
+/// `λ_cos · cos(emb(e), query_emb).max(0)` when both the query and the entity
+/// carry embeddings.
+///
 /// Returns `f32::NEG_INFINITY` if a `MustExclude` constraint hits — such entities
 /// are then suppressed by `softmax_entry`.
-pub fn score_entry(e: &Entity, plan: &QueryPlan, w: &AddressingWeights) -> Score {
+pub fn score_entry(
+    e: &Entity,
+    plan: &QueryPlan,
+    w: &AddressingWeights,
+    query_emb: Option<&[f32]>,
+) -> Score {
     if violates_hard_constraints(e, &plan.hard_constraints) {
         return f32::NEG_INFINITY;
     }
@@ -50,12 +59,15 @@ pub fn score_entry(e: &Entity, plan: &QueryPlan, w: &AddressingWeights) -> Score
         .filter(|t| aliases_lc.iter().any(|a| a == t.as_str()))
         .count()
         .min(1) as f32;
-    let s_cos = 0.0; // M3
+    let s_cos = match (query_emb, e.embedding.as_deref()) {
+        (Some(q), Some(ent)) => sage_core::cosine(ent, q).max(0.0),
+        _ => 0.0,
+    };
     let s_type = match (&plan.etype_hint, &e.etype) {
         (Some(h), got) if h == got => 1.0,
         _ => 0.0,
     };
-    let s_cons = 1.0; // hard-fail returned NEG_INFINITY above
+    let s_cons = 1.0;
     let s_ner_el = plan
         .expansions
         .iter()
@@ -164,7 +176,7 @@ mod tests {
     fn exact_match_scores_positive() {
         let w = AddressingWeights::default();
         let e = Entity::new(1, "Alice", EntityType::Person);
-        let s = score_entry(&e, &plan_for("Alice founded Acme"), &w);
+        let s = score_entry(&e, &plan_for("Alice founded Acme"), &w, None);
         assert!(s > 0.0, "got {s}");
     }
 
@@ -174,7 +186,7 @@ mod tests {
         let unrelated = Entity::new(2, "Zog", EntityType::Person);
         let alice = Entity::new(1, "Alice", EntityType::Person);
         let plan = plan_for("who is Alice");
-        assert!(score_entry(&alice, &plan, &w) > score_entry(&unrelated, &plan, &w));
+        assert!(score_entry(&alice, &plan, &w, None) > score_entry(&unrelated, &plan, &w, None));
     }
 
     #[test]
@@ -184,14 +196,14 @@ mod tests {
         let mut plan = plan_for("Alice");
         plan.hard_constraints
             .push(sage_core::Constraint::MustExclude(SmolStr::new("Alice")));
-        assert_eq!(score_entry(&e, &plan, &w), f32::NEG_INFINITY);
+        assert_eq!(score_entry(&e, &plan, &w, None), f32::NEG_INFINITY);
     }
 
     #[test]
     fn alias_match_scores_positive() {
         let w = AddressingWeights::default();
         let e = ent_with_aliases(1, "Alice Liddell", &["alice", "ally"]);
-        let s = score_entry(&e, &plan_for("ally went"), &w);
+        let s = score_entry(&e, &plan_for("ally went"), &w, None);
         assert!(s > 0.0, "got {s}");
     }
 

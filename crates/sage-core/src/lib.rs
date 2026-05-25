@@ -3,6 +3,7 @@
 //! See `SPEC_SAGE_Rust.md` §2–§5 and `CONSTITUTION.md` §2 for boundaries.
 
 pub mod document;
+pub mod embed;
 pub mod entity;
 pub mod error;
 pub mod graph;
@@ -12,6 +13,7 @@ pub mod reader;
 pub mod reward;
 
 pub use document::Document;
+pub use embed::{cosine, Embedder};
 pub use entity::{Edge, Entity, EntityType, EDGE_SCHEMA_V, ENTITY_SCHEMA_V};
 pub use error::{Result, SageError};
 pub use graph::{GraphStore, SnapshotId, Subgraph};

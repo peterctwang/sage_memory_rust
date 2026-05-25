@@ -7,6 +7,8 @@
   - [`crates/sage-core/`](crates/sage-core/CLAUDE.md) — SAGE 共用型別、trait 介面與 reward 中性層；所有其他 crate 的依賴基石。
     - [`crates/sage-core/src/`](crates/sage-core/src/CLAUDE.md) — sage-core 的模組實作層。
     - [`crates/sage-core/tests/`](crates/sage-core/tests/CLAUDE.md) — sage-core 的整合測試與屬性測試。
+  - [`crates/sage-embed/`](crates/sage-embed/CLAUDE.md) — Embedder 後端集合：M3 提供 `DeterministicEmbedder`（hash bag-of-words）；真實模型（BGE / E5）留待後續。
+    - [`crates/sage-embed/src/`](crates/sage-embed/src/CLAUDE.md) — Embedder 實作模組。
   - [`crates/sage-graph/`](crates/sage-graph/CLAUDE.md) — `GraphStore` 後端實作集合；M0 只含 in-memory，sled/rocksdb 留待 M5。
     - [`crates/sage-graph/src/`](crates/sage-graph/src/CLAUDE.md) — 圖儲存後端模組。
     - [`crates/sage-graph/tests/`](crates/sage-graph/tests/CLAUDE.md) — 整合測試 — 透過 trait 公開介面驗證 `MemGraphStore` 行為。

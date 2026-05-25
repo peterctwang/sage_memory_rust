@@ -9,6 +9,7 @@
 | 路徑 | 種類 | 用途 |
 |---|---|---|
 | `sage-core/` | crate | 共用型別 + trait + reward 介面 |
+| `sage-embed/` | crate | Embedder backends — DeterministicEmbedder (M3-partial) |
 | `sage-graph/` | crate | `GraphStore` 實作（M0：`MemGraphStore`）|
 | `sage-llm/` | crate | LLM client trait + `MockLlm` |
 | `sage-reader/` | crate | Heuristic reader + soft addressing (M2; GFM in M3) |

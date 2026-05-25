@@ -4,7 +4,7 @@
 //! reused. Edges link the source document via `provenance`.
 
 use ahash::AHashMap;
-use sage_core::{Edge, Entity, EntityId, GraphStore, Result, TenantId};
+use sage_core::{Edge, Embedder, Entity, EntityId, GraphStore, Result, TenantId};
 use smol_str::SmolStr;
 
 use crate::action::{EntityRef, WriterAction};
@@ -14,6 +14,7 @@ pub struct ApplyReport {
     pub entities_added: usize,
     pub edges_added: usize,
     pub triples_skipped: usize,
+    pub added_entity_ids: Vec<EntityId>,
 }
 
 /// Stable id for a freshly-named entity within this tenant.
@@ -28,8 +29,19 @@ fn name_to_id(name: &str) -> EntityId {
     }
 }
 
+/// Land an action onto the store. If `embedder` is provided, freshly-created
+/// entities have their `embedding` populated with `embedder(name)`.
 pub async fn apply_action(
     store: &dyn GraphStore,
+    tenant: TenantId,
+    action: &WriterAction,
+) -> Result<ApplyReport> {
+    apply_action_embedded(store, None, tenant, action).await
+}
+
+pub async fn apply_action_embedded(
+    store: &dyn GraphStore,
+    embedder: Option<&dyn Embedder>,
     tenant: TenantId,
     action: &WriterAction,
 ) -> Result<ApplyReport> {
@@ -37,8 +49,26 @@ pub async fn apply_action(
     let mut local: AHashMap<SmolStr, EntityId> = AHashMap::new();
 
     for (src, rel, dst) in &action.triples {
-        let src_id = resolve(store, tenant, src, &mut local, action.source, &mut report).await?;
-        let dst_id = resolve(store, tenant, dst, &mut local, action.source, &mut report).await?;
+        let src_id = resolve(
+            store,
+            embedder,
+            tenant,
+            src,
+            &mut local,
+            action.source,
+            &mut report,
+        )
+        .await?;
+        let dst_id = resolve(
+            store,
+            embedder,
+            tenant,
+            dst,
+            &mut local,
+            action.source,
+            &mut report,
+        )
+        .await?;
         let mut edge = Edge::new(src_id, dst_id, rel.clone(), action.source);
         edge.tenant = tenant;
         match store.upsert_edge(tenant, edge).await {
@@ -51,6 +81,7 @@ pub async fn apply_action(
 
 async fn resolve(
     store: &dyn GraphStore,
+    embedder: Option<&dyn Embedder>,
     tenant: TenantId,
     r: &EntityRef,
     local: &mut AHashMap<SmolStr, EntityId>,
@@ -72,8 +103,19 @@ async fn resolve(
                     e.desc = Some(std::sync::Arc::<str>::from(d.as_str()));
                 }
                 e.source_docs.push(provenance);
+                if let Some(emb) = embedder {
+                    let text = match &e.desc {
+                        Some(d) => format!("{name} {d}"),
+                        None => name.to_string(),
+                    };
+                    let vecs = emb.embed(&[text.as_str()]).await?;
+                    if let Some(v) = vecs.into_iter().next() {
+                        e.embedding = Some(v);
+                    }
+                }
                 store.upsert_entity(tenant, e).await?;
                 report.entities_added += 1;
+                report.added_entity_ids.push(id);
             }
             Ok(id)
         }
