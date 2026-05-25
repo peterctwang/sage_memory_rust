@@ -1,0 +1,18 @@
+[package]
+name        = "tests-support"
+version     = { workspace = true }
+edition     = { workspace = true }
+rust-version = { workspace = true }
+license     = { workspace = true }
+publish     = { workspace = true }
+description = "Shared fixtures, mocks, and proptest strategies. Test-only — must never be in [dependencies] of a non-test crate."
+
+[lints]
+workspace = true
+
+[dependencies]
+sage-core    = { workspace = true }
+proptest     = { workspace = true }
+smol_str     = { workspace = true }
+smallvec     = { workspace = true }
+rand         = { workspace = true }
