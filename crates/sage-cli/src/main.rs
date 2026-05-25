@@ -12,6 +12,7 @@ use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use sage_core::{EntityScan, EntityType, GraphStore, Query, Reader, ReaderGraph, TenantId};
 use sage_embed::DeterministicEmbedder;
+use sage_eval::{EvalRunner, EvalSample};
 use sage_graph::{MemGraphStore, SledGraphStore};
 use sage_llm::MockLlm;
 use sage_reader::HeuristicReader;
@@ -61,6 +62,18 @@ enum Cmd {
         #[arg(long, default_value_t = 0)]
         tenant: u64,
     },
+    /// Run retrieval eval against a sled-backed graph.
+    /// Reads a JSON array from stdin:
+    ///   [{"query":"Who founded Acme?","ground_truth":[1]}, ...]
+    /// Prints aggregated Recall@k / Precision@k / F1@k / MRR as JSON.
+    Eval {
+        #[arg(long)]
+        db: PathBuf,
+        #[arg(long, default_value_t = 5)]
+        k: usize,
+        #[arg(long, default_value_t = 0)]
+        tenant: u64,
+    },
 }
 
 #[tokio::main(flavor = "current_thread")]
@@ -78,7 +91,46 @@ async fn main() -> Result<()> {
         Cmd::IngestStub { db, doc_id, tenant } => {
             run_ingest_stub(db, TenantId(tenant), doc_id).await
         }
+        Cmd::Eval { db, k, tenant } => run_eval(db, TenantId(tenant), k).await,
     }
+}
+
+#[derive(Deserialize)]
+struct EvalSampleJson {
+    query: String,
+    ground_truth: Vec<sage_core::DocId>,
+}
+
+async fn run_eval(db_path: PathBuf, t: TenantId, k: usize) -> Result<()> {
+    use std::io::Read;
+    let mut s = String::new();
+    std::io::stdin()
+        .read_to_string(&mut s)
+        .context("read stdin")?;
+    let raw: Vec<EvalSampleJson> = serde_json::from_str(&s).context("stdin not a sample array")?;
+    let samples: Vec<EvalSample> = raw
+        .into_iter()
+        .map(|r| EvalSample {
+            query: Query::ask(r.query).with_k(k),
+            ground_truth: r.ground_truth,
+        })
+        .collect();
+
+    let g: Arc<SledGraphStore> = Arc::new(SledGraphStore::open(&db_path).context("open sled")?);
+    let embedder: Arc<dyn sage_core::Embedder> = Arc::new(DeterministicEmbedder::new(128));
+    let reader = Arc::new(HeuristicReader::default().with_embedder(embedder));
+    let runner = EvalRunner::new(reader, k).with_tenant(t);
+    let report = runner.run(g.as_ref(), &samples).await?;
+    let out = serde_json::json!({
+        "samples":        report.samples,
+        "k":              report.k,
+        "recall_at_k":    report.recall_at_k,
+        "precision_at_k": report.precision_at_k,
+        "f1_at_k":        report.f1_at_k,
+        "mrr":            report.mrr,
+    });
+    println!("{}", serde_json::to_string_pretty(&out)?);
+    Ok(())
 }
 
 #[derive(Deserialize)]

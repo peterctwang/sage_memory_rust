@@ -747,6 +747,7 @@ dependencies = [
  "clap",
  "sage-core",
  "sage-embed",
+ "sage-eval",
  "sage-graph",
  "sage-llm",
  "sage-reader",

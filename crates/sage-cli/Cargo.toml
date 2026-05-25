@@ -22,6 +22,7 @@ sage-reader  = { workspace = true }
 sage-runtime = { workspace = true }
 sage-writer  = { workspace = true }
 sage-embed   = { workspace = true }
+sage-eval    = { workspace = true }
 clap         = { workspace = true }
 tokio        = { workspace = true }
 serde        = { workspace = true }
