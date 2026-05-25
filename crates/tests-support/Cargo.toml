@@ -15,4 +15,5 @@ sage-core    = { workspace = true }
 proptest     = { workspace = true }
 smol_str     = { workspace = true }
 smallvec     = { workspace = true }
+ahash        = { workspace = true }
 rand         = { workspace = true }

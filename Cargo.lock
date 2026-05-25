@@ -1017,6 +1017,7 @@ dependencies = [
 name = "tests-support"
 version = "0.1.0"
 dependencies = [
+ "ahash",
  "proptest",
  "rand 0.8.6",
  "sage-core",

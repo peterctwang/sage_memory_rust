@@ -1,7 +1,8 @@
-//! Shared fixtures + proptest strategies for SAGE tests.
+//! Shared fixtures + proptest strategies + reusable contract suites.
 //!
 //! Must only be referenced via `[dev-dependencies]` or by other test-support crates.
 
+pub mod contracts;
 pub mod strategies;
 
 use sage_core::{Document, Edge, Entity, EntityType};
