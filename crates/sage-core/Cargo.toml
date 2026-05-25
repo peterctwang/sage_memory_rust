@@ -20,6 +20,7 @@ smallvec     = { workspace = true }
 ahash        = { workspace = true }
 
 [dev-dependencies]
-proptest     = { workspace = true }
-insta        = { workspace = true }
-tokio        = { workspace = true }
+proptest      = { workspace = true }
+insta         = { workspace = true }
+tokio         = { workspace = true }
+tests-support = { workspace = true }

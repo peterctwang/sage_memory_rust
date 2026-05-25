@@ -8,6 +8,7 @@ pub mod error;
 pub mod graph;
 pub mod ids;
 pub mod query;
+pub mod reader;
 pub mod reward;
 
 pub use document::Document;
@@ -16,4 +17,8 @@ pub use error::{Result, SageError};
 pub use graph::{GraphStore, SnapshotId, Subgraph};
 pub use ids::{DocId, EntityId, Score, TenantId};
 pub use query::{Constraint, Probe, Query, QueryPlan};
-pub use reward::{precision, recovery, repetition_penalty, RewardCfg, TaskWeights, WriterReward};
+pub use reader::{EntityScan, ReadOutput, Reader, ReaderGraph, RelationPath};
+pub use reward::{
+    compute_reward, precision, recovery, repetition_penalty, RewardCfg, RewardInputs, TaskWeights,
+    WriterReward,
+};

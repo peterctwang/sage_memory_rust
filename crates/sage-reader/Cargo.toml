@@ -1,29 +1,26 @@
 [package]
-name        = "sage-writer"
+name        = "sage-reader"
 version     = { workspace = true }
 edition     = { workspace = true }
 rust-version = { workspace = true }
 license     = { workspace = true }
 publish     = { workspace = true }
-description = "Memory writer: LLM-driven triple extraction + sanitizer + graph apply."
+description = "Memory reader: heuristic query planner + soft addressing. GFM lands in M3."
 
 [lints]
 workspace = true
 
 [dependencies]
 sage-core    = { workspace = true }
-sage-llm     = { workspace = true }
 async-trait  = { workspace = true }
-serde        = { workspace = true }
-serde_json   = { workspace = true }
+ahash        = { workspace = true }
 smol_str     = { workspace = true }
 smallvec     = { workspace = true }
-ahash        = { workspace = true }
-regex        = { workspace = true }
 tracing      = { workspace = true }
 
 [dev-dependencies]
 sage-graph    = { workspace = true }
+sage-llm      = { workspace = true }
+sage-writer   = { workspace = true }
 tests-support = { workspace = true }
 tokio         = { workspace = true }
-proptest      = { workspace = true }

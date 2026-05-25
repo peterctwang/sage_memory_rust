@@ -545,6 +545,7 @@ dependencies = [
  "serde_json",
  "smallvec",
  "smol_str",
+ "tests-support",
  "thiserror",
  "tokio",
 ]
@@ -578,11 +579,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "sage-reader"
+version = "0.1.0"
+dependencies = [
+ "ahash",
+ "async-trait",
+ "sage-core",
+ "sage-graph",
+ "sage-llm",
+ "sage-writer",
+ "smallvec",
+ "smol_str",
+ "tests-support",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
 name = "sage-writer"
 version = "0.1.0"
 dependencies = [
  "ahash",
  "async-trait",
+ "proptest",
  "regex",
  "sage-core",
  "sage-graph",

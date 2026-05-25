@@ -6,11 +6,15 @@
 - [`crates/`](crates/CLAUDE.md) — 全部產品 crate 的容器；每個子目錄是一個獨立 Cargo crate。
   - [`crates/sage-core/`](crates/sage-core/CLAUDE.md) — SAGE 共用型別、trait 介面與 reward 中性層；所有其他 crate 的依賴基石。
     - [`crates/sage-core/src/`](crates/sage-core/src/CLAUDE.md) — sage-core 的模組實作層。
+    - [`crates/sage-core/tests/`](crates/sage-core/tests/CLAUDE.md) — sage-core 的整合測試與屬性測試。
   - [`crates/sage-graph/`](crates/sage-graph/CLAUDE.md) — `GraphStore` 後端實作集合；M0 只含 in-memory，sled/rocksdb 留待 M5。
     - [`crates/sage-graph/src/`](crates/sage-graph/src/CLAUDE.md) — 圖儲存後端模組。
     - [`crates/sage-graph/tests/`](crates/sage-graph/tests/CLAUDE.md) — 整合測試 — 透過 trait 公開介面驗證 `MemGraphStore` 行為。
   - [`crates/sage-llm/`](crates/sage-llm/CLAUDE.md) — LLM client trait 與測試用 mock；真實 backend (Anthropic / OpenAI) 留待 M1。
     - [`crates/sage-llm/src/`](crates/sage-llm/src/CLAUDE.md) — LLM client 模組層。
+  - [`crates/sage-reader/`](crates/sage-reader/CLAUDE.md) — 純 CPU 記憶讀取器：HeuristicPlanner + Soft Addressing + entity→doc 聚合。GFM 留 M3。
+    - [`crates/sage-reader/src/`](crates/sage-reader/src/CLAUDE.md) — Reader 模組：planner / addressing / heuristic 三段管線。
+    - [`crates/sage-reader/tests/`](crates/sage-reader/tests/CLAUDE.md) — 整合測試 — ingest（writer）→ query（reader）端到端走 MemGraphStore。
   - [`crates/sage-writer/`](crates/sage-writer/CLAUDE.md) — LLM-driven memory writer：抽 triples、sanitize、落圖；對應論文 §4.1 / SPEC §4。
     - [`crates/sage-writer/src/`](crates/sage-writer/src/CLAUDE.md) — Writer 模組層：拆 action / policy / llm / sanitizer / apply。
     - [`crates/sage-writer/tests/`](crates/sage-writer/tests/CLAUDE.md) — 整合測試 — 把 LlmWriterPolicy + apply_action 串到真的 MemGraphStore。

@@ -66,6 +66,31 @@ impl WriterReward {
     }
 }
 
+/// Pure inputs needed to score one writer trajectory; the LLM-dependent
+/// terms (`r_ded`, `r_ans`, `fmt_bonus`) are passed in from the orchestrating
+/// runtime so that this module stays backend-neutral.
+#[derive(Debug, Clone, Copy)]
+pub struct RewardInputs<'a> {
+    pub retrieved: &'a [crate::DocId],
+    pub ground_truth: &'a [crate::DocId],
+    pub triples: &'a [(EntityId, SmolStr, EntityId)],
+    pub r_ded: f32,
+    pub r_ans: f32,
+    pub fmt_bonus: f32,
+}
+
+/// Assemble a full `WriterReward` from precomputed inputs.
+pub fn compute_reward(inp: RewardInputs<'_>) -> WriterReward {
+    WriterReward {
+        r_rec: recovery(inp.retrieved, inp.ground_truth),
+        r_pre: precision(inp.retrieved, inp.ground_truth),
+        r_ded: inp.r_ded.clamp(0.0, 1.0),
+        r_ans: inp.r_ans.clamp(0.0, 1.0),
+        rep_penalty: repetition_penalty(inp.triples),
+        fmt_bonus: inp.fmt_bonus.clamp(0.0, 1.0),
+    }
+}
+
 /// r_rec = |P_k ∩ 𝒟⁺| / |𝒟⁺|
 pub fn recovery(retrieved: &[crate::DocId], ground_truth: &[crate::DocId]) -> f32 {
     if ground_truth.is_empty() {

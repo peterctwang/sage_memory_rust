@@ -6,7 +6,8 @@ use ahash::AHashMap;
 use async_trait::async_trait;
 use parking_lot::RwLock;
 use sage_core::{
-    DocId, Edge, Entity, EntityId, GraphStore, Result, SageError, SnapshotId, Subgraph, TenantId,
+    DocId, Edge, Entity, EntityId, EntityScan, GraphStore, Result, SageError, SnapshotId, Subgraph,
+    TenantId,
 };
 
 #[derive(Default, Debug, Clone)]
@@ -178,6 +179,31 @@ impl GraphStore for MemGraphStore {
 
     async fn entity_count(&self, t: TenantId) -> Result<usize> {
         Ok(self.with_tenant(t, |d| d.entities.len()).unwrap_or(0))
+    }
+}
+
+#[async_trait]
+impl EntityScan for MemGraphStore {
+    async fn all_entities(&self, t: TenantId) -> Result<Vec<Entity>> {
+        Ok(self
+            .with_tenant(t, |d| d.entities.values().cloned().collect())
+            .unwrap_or_default())
+    }
+
+    async fn find_by_name(&self, t: TenantId, name: &str) -> Result<Vec<EntityId>> {
+        let needle = name.to_lowercase();
+        Ok(self
+            .with_tenant(t, |d| {
+                d.entities
+                    .values()
+                    .filter(|e| {
+                        e.name.to_lowercase() == needle
+                            || e.aliases.iter().any(|a| a.to_lowercase() == needle)
+                    })
+                    .map(|e| e.id)
+                    .collect()
+            })
+            .unwrap_or_default())
     }
 }
 
