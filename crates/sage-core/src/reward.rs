@@ -91,6 +91,24 @@ pub fn compute_reward(inp: RewardInputs<'_>) -> WriterReward {
     }
 }
 
+/// Edge habituation — attenuates weight with each repeated activation.
+/// `w / (1 + rate · hits)`. SPEC §13 #4.
+pub fn habituation(weight: f32, hit_count: u32, rate: f32) -> f32 {
+    let denom = 1.0 + rate.max(0.0) * hit_count as f32;
+    if denom < 1e-12 {
+        weight
+    } else {
+        weight / denom
+    }
+}
+
+/// Age-based forgetting — exponential decay over time.
+/// `w · exp(-λ · age)`. SPEC §13 #4.
+pub fn forgetting(weight: f32, age_secs: u64, lambda: f32) -> f32 {
+    let lam = lambda.max(0.0);
+    weight * (-lam * age_secs as f32).exp()
+}
+
 /// r_rec = |P_k ∩ 𝒟⁺| / |𝒟⁺|
 pub fn recovery(retrieved: &[crate::DocId], ground_truth: &[crate::DocId]) -> f32 {
     if ground_truth.is_empty() {
@@ -200,6 +218,44 @@ mod tests {
     #[test]
     fn precision_half_relevant() {
         assert!((precision(&[1, 99], &[1, 2]) - 0.5).abs() < 1e-6);
+    }
+
+    #[test]
+    fn habituation_zero_hits_is_identity() {
+        assert!((habituation(1.0, 0, 0.5) - 1.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn habituation_attenuates_with_hits() {
+        let a = habituation(1.0, 0, 0.5);
+        let b = habituation(1.0, 5, 0.5);
+        let c = habituation(1.0, 50, 0.5);
+        assert!(a > b && b > c, "monotone decrease: {a} > {b} > {c}");
+        assert!(c > 0.0);
+    }
+
+    #[test]
+    fn habituation_negative_rate_clamps_to_zero() {
+        // negative rate must not amplify the weight
+        assert!((habituation(1.0, 5, -1.0) - 1.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn forgetting_zero_age_is_identity() {
+        assert!((forgetting(1.0, 0, 0.1) - 1.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn forgetting_decays_over_time() {
+        let a = forgetting(1.0, 10, 0.1);
+        let b = forgetting(1.0, 100, 0.1);
+        assert!(a > b);
+        assert!(b > 0.0);
+    }
+
+    #[test]
+    fn forgetting_zero_lambda_is_identity() {
+        assert!((forgetting(1.0, 9999, 0.0) - 1.0).abs() < 1e-6);
     }
 
     #[test]

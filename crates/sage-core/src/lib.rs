@@ -23,6 +23,6 @@ pub use ops::{scatter_add_1d, scatter_add_rows};
 pub use query::{Constraint, Probe, Query, QueryPlan};
 pub use reader::{EntityScan, ReadOutput, Reader, ReaderGraph, RelationPath};
 pub use reward::{
-    compute_reward, precision, recovery, repetition_penalty, RewardCfg, RewardInputs, TaskWeights,
-    WriterReward,
+    compute_reward, forgetting, habituation, precision, recovery, repetition_penalty, RewardCfg,
+    RewardInputs, TaskWeights, WriterReward,
 };

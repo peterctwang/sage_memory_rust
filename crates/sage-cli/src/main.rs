@@ -76,8 +76,19 @@ enum Cmd {
     },
 }
 
+fn init_tracing() {
+    let filter = tracing_subscriber::EnvFilter::try_from_default_env()
+        .unwrap_or_else(|_| "warn,sage=info".parse().expect("static filter must parse"));
+    let _ = tracing_subscriber::fmt()
+        .with_env_filter(filter)
+        .with_writer(std::io::stderr)
+        .with_target(false)
+        .try_init();
+}
+
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<()> {
+    init_tracing();
     let cli = Cli::parse();
     match cli.cmd {
         Cmd::Demo => run_demo().await,
