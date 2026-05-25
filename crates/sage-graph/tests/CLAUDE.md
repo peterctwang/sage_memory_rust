@@ -9,6 +9,7 @@
 | 路徑 | 種類 | 用途 |
 |---|---|---|
 | `mem_integration.rs` | test | 2 個 case：fixture walkable graph、tenant 隔離 |
+| `sled_integration.rs` | test | 2 個 case：跨 reopen 持久化、k_hop 走訪（feature `sled`）|
 
 ## Public Surface
 internal only。

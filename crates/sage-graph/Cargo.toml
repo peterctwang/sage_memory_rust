@@ -10,17 +10,24 @@ description = "Graph storage backends for SAGE (in-memory; sled later)."
 [lints]
 workspace = true
 
+[features]
+default = ["sled"]
+sled    = ["dep:sled", "dep:serde_json"]
+
 [dependencies]
 sage-core    = { workspace = true }
 async-trait  = { workspace = true }
 parking_lot  = { workspace = true }
 ahash        = { workspace = true }
 serde        = { workspace = true }
+serde_json   = { workspace = true, optional = true }
 smallvec     = { workspace = true }
 smol_str     = { workspace = true }
 tracing      = { workspace = true }
+sled         = { workspace = true, optional = true }
 
 [dev-dependencies]
 tokio          = { workspace = true }
 proptest       = { workspace = true }
 tests-support  = { workspace = true }
+tempfile       = { workspace = true }

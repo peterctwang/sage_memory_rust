@@ -1,6 +1,6 @@
 # sage-graph/
 
-> `GraphStore` 後端實作集合；M0 只含 in-memory，sled/rocksdb 留待 M5。
+> `GraphStore` 後端實作集合：`MemGraphStore`（M0）+ `SledGraphStore`（M5）。
 
 ## Purpose
 把 `sage-core::GraphStore` trait 落地到具體儲存層。實作必須完整通過 trait 契約測試。
@@ -13,16 +13,19 @@
 | `tests/` | dir | 整合測試 — 見 `tests/CLAUDE.md` |
 
 ## Public Surface
-- `MemGraphStore` — `Send + Sync`，所有狀態由 `parking_lot::RwLock` 保護。
+- `MemGraphStore` — in-process，`parking_lot::RwLock` 保護的 `AHashMap`。
+- `SledGraphStore`（feature `sled`，預設啟用）— 持久化於 `sled::Db`，JSON 序列化。
+  - `open(path)` / `temporary()`
 
 ## Invariants
-- 多租戶完全隔離：`TenantId(a) ≠ TenantId(b)` ⇒ 兩者 entities/edges/snapshots 互不可見。
+- 多租戶完全隔離：`TenantId(a) ≠ TenantId(b)` ⇒ 兩者 entities/edges/snapshots 互不可見（兩個實作皆遵守）。
 - `upsert_edge` 必驗證端點存在，否則回 `SageError::Invalid`。
-- `snapshot` 為 deep clone；`restore` 取代當前 tenant 完整狀態。
+- `snapshot` 為深拷貝；`restore` 取代當前 tenant 完整狀態（snapshots 本身不被覆寫）。
+- 兩個實作對外行為等價；新增測試請對兩者都覆蓋（避免暗中分歧）。
 
 ## Tests
-- 單元（6）：upsert/get、edge endpoint 檢查、neighbors、k_hop、tenant 隔離、snapshot roundtrip。
-- 整合（2）：`tests/mem_integration.rs` — 透過 `tests-support` fixture 走 trait API。
+- `MemGraphStore`：6 unit + 2 integration。
+- `SledGraphStore`：7 unit（含 `persists_across_reopen`）+ 2 integration（含 `reload_preserves_graph`）。
 
 ## Related
 - 上層：[`../CLAUDE.md`](../CLAUDE.md)
