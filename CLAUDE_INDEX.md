@@ -11,6 +11,9 @@
     - [`crates/sage-graph/tests/`](crates/sage-graph/tests/CLAUDE.md) — 整合測試 — 透過 trait 公開介面驗證 `MemGraphStore` 行為。
   - [`crates/sage-llm/`](crates/sage-llm/CLAUDE.md) — LLM client trait 與測試用 mock；真實 backend (Anthropic / OpenAI) 留待 M1。
     - [`crates/sage-llm/src/`](crates/sage-llm/src/CLAUDE.md) — LLM client 模組層。
+  - [`crates/sage-writer/`](crates/sage-writer/CLAUDE.md) — LLM-driven memory writer：抽 triples、sanitize、落圖；對應論文 §4.1 / SPEC §4。
+    - [`crates/sage-writer/src/`](crates/sage-writer/src/CLAUDE.md) — Writer 模組層：拆 action / policy / llm / sanitizer / apply。
+    - [`crates/sage-writer/tests/`](crates/sage-writer/tests/CLAUDE.md) — 整合測試 — 把 LlmWriterPolicy + apply_action 串到真的 MemGraphStore。
   - [`crates/tests-support/`](crates/tests-support/CLAUDE.md) — 共用測試 fixture、mock、proptest 策略 — **test-only**，不得進入產品 dependency 樹。
     - [`crates/tests-support/src/`](crates/tests-support/src/CLAUDE.md) — Fixture 與 proptest 策略模組。
 - [`scripts/`](scripts/CLAUDE.md) — 開發輔助工具：CLAUDE.md 索引生成、未來的 CI 護欄與檢查腳本。

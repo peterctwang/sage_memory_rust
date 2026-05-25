@@ -16,4 +16,4 @@ pub use error::{Result, SageError};
 pub use graph::{GraphStore, SnapshotId, Subgraph};
 pub use ids::{DocId, EntityId, Score, TenantId};
 pub use query::{Constraint, Probe, Query, QueryPlan};
-pub use reward::{repetition_penalty, RewardCfg, TaskWeights, WriterReward};
+pub use reward::{precision, recovery, repetition_penalty, RewardCfg, TaskWeights, WriterReward};

@@ -66,6 +66,26 @@ impl WriterReward {
     }
 }
 
+/// r_rec = |P_k ∩ 𝒟⁺| / |𝒟⁺|
+pub fn recovery(retrieved: &[crate::DocId], ground_truth: &[crate::DocId]) -> f32 {
+    if ground_truth.is_empty() {
+        return 0.0;
+    }
+    let gt: ahash::AHashSet<_> = ground_truth.iter().collect();
+    let hit = retrieved.iter().filter(|d| gt.contains(d)).count();
+    hit as f32 / ground_truth.len() as f32
+}
+
+/// r_pre = |P_k ∩ 𝒟⁺| / |P_k|
+pub fn precision(retrieved: &[crate::DocId], ground_truth: &[crate::DocId]) -> f32 {
+    if retrieved.is_empty() {
+        return 0.0;
+    }
+    let gt: ahash::AHashSet<_> = ground_truth.iter().collect();
+    let hit = retrieved.iter().filter(|d| gt.contains(d)).count();
+    hit as f32 / retrieved.len() as f32
+}
+
 /// ρ_rep(𝒢) = (|𝒯| − |uniq(𝒯)|) / |𝒯|
 pub fn repetition_penalty(triples: &[(EntityId, SmolStr, EntityId)]) -> f32 {
     if triples.is_empty() {
@@ -125,6 +145,36 @@ mod tests {
         let cfg = RewardCfg::default();
         let v = r.trajectory(&cfg);
         assert!((v - (1.0 - 0.2 * 0.5)).abs() < 1e-6, "got {v}");
+    }
+
+    #[test]
+    fn recovery_empty_gt_is_zero() {
+        assert_eq!(recovery(&[1, 2], &[]), 0.0);
+    }
+
+    #[test]
+    fn recovery_full_hit_is_one() {
+        assert!((recovery(&[1, 2, 3], &[1, 2]) - 1.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn recovery_half_hit() {
+        assert!((recovery(&[1], &[1, 2]) - 0.5).abs() < 1e-6);
+    }
+
+    #[test]
+    fn precision_empty_retrieved_is_zero() {
+        assert_eq!(precision(&[], &[1]), 0.0);
+    }
+
+    #[test]
+    fn precision_all_relevant_is_one() {
+        assert!((precision(&[1, 2], &[1, 2, 3]) - 1.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn precision_half_relevant() {
+        assert!((precision(&[1, 99], &[1, 2]) - 0.5).abs() < 1e-6);
     }
 
     #[test]

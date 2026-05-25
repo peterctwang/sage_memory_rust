@@ -4,6 +4,7 @@ members = [
     "crates/sage-core",
     "crates/sage-graph",
     "crates/sage-llm",
+    "crates/sage-writer",
     "crates/tests-support",
     "scripts/gen-claude-index",
 ]
@@ -28,6 +29,7 @@ ahash          = "0.8"
 parking_lot    = "0.12"
 tracing        = "0.1"
 rand           = { version = "0.8", features = ["std_rng"] }
+regex          = "1"
 
 # test deps
 tokio          = { version = "1", features = ["macros", "rt-multi-thread", "sync"] }
@@ -38,6 +40,7 @@ insta          = { version = "1", features = ["json"] }
 sage-core      = { path = "crates/sage-core" }
 sage-graph     = { path = "crates/sage-graph" }
 sage-llm       = { path = "crates/sage-llm" }
+sage-writer    = { path = "crates/sage-writer" }
 tests-support  = { path = "crates/tests-support" }
 
 [workspace.lints.rust]

@@ -11,6 +11,7 @@
 | `sage-core/` | crate | 共用型別 + trait + reward 介面 |
 | `sage-graph/` | crate | `GraphStore` 實作（M0：`MemGraphStore`）|
 | `sage-llm/` | crate | LLM client trait + `MockLlm` |
+| `sage-writer/` | crate | LLM-driven writer policy + sanitizer + apply (M1) |
 | `tests-support/` | crate | 共用 fixture / proptest 策略（test-only）|
 
 ## Public Surface
