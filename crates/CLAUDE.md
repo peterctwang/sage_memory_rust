@@ -8,9 +8,10 @@
 ## Contents
 | 路徑 | 種類 | 用途 |
 |---|---|---|
+| `sage-cli/` | crate | `sage` 命令列工具：demo / stats / query (M5-partial) |
 | `sage-core/` | crate | 共用型別 + trait + reward 介面 |
 | `sage-embed/` | crate | Embedder backends — DeterministicEmbedder (M3-partial) |
-| `sage-graph/` | crate | `GraphStore` 實作（M0：`MemGraphStore`）|
+| `sage-graph/` | crate | `GraphStore` 實作（M0 `MemGraphStore` + M5 `SledGraphStore`）|
 | `sage-llm/` | crate | LLM client trait + `MockLlm` |
 | `sage-reader/` | crate | Heuristic reader + soft addressing (M2; GFM in M3) |
 | `sage-runtime/` | crate | SageEngine 高層 API；ingest + query + query_with_answer (M2.5) |

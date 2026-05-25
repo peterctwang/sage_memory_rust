@@ -3,7 +3,9 @@
 
 use std::sync::Arc;
 
-use sage_core::{Document, Embedder, Query, ReadOutput, Reader, ReaderGraph, Result, TenantId};
+use sage_core::{
+    Document, Embedder, Query, ReadOutput, Reader, ReaderGraph, Result, SnapshotId, TenantId,
+};
 use sage_llm::LlmClient;
 use sage_writer::{apply_action_embedded, ApplyReport, WriterPolicy, WriterState};
 
@@ -133,6 +135,16 @@ where
 
     pub async fn query(&self, q: &Query) -> Result<ReadOutput> {
         self.reader.read(self.tenant, q, self.graph.as_ref()).await
+    }
+
+    /// Take a graph snapshot for the engine's tenant — SPEC §6 evolve scaffold.
+    pub async fn snapshot(&self) -> Result<SnapshotId> {
+        sage_core::GraphStore::snapshot(self.graph.as_ref(), self.tenant).await
+    }
+
+    /// Restore the graph to a prior snapshot.
+    pub async fn restore(&self, snap: SnapshotId) -> Result<()> {
+        sage_core::GraphStore::restore(self.graph.as_ref(), self.tenant, snap).await
     }
 
     /// Convenience: query + ask the LLM to synthesize an answer from retrieved evidence.

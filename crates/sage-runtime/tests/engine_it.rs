@@ -93,6 +93,36 @@ async fn engine_respects_tenant() {
 }
 
 #[tokio::test]
+async fn snapshot_and_restore_round_trip() {
+    let engine = make_engine(
+        &[
+            r#"{"triples":[{"src":"A","rel":"knows","dst":"B"}],"stop":true}"#,
+            r#"{"triples":[{"src":"C","rel":"knows","dst":"D"}],"stop":true}"#,
+        ],
+        &[],
+    );
+    engine
+        .ingest(vec![sage_core::Document::new(1, "x")])
+        .await
+        .unwrap();
+    let snap = engine.snapshot().await.unwrap();
+    engine
+        .ingest(vec![sage_core::Document::new(2, "y")])
+        .await
+        .unwrap();
+    assert_eq!(
+        engine.graph().entity_count(engine.tenant()).await.unwrap(),
+        4
+    );
+    engine.restore(snap).await.unwrap();
+    assert_eq!(
+        engine.graph().entity_count(engine.tenant()).await.unwrap(),
+        2,
+        "post-restore must match snapshot state"
+    );
+}
+
+#[tokio::test]
 async fn ingest_single_doc() {
     let engine = make_engine(
         &[r#"{"triples":[{"src":"A","rel":"knows","dst":"B"}],"stop":true}"#],

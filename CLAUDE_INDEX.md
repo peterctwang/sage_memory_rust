@@ -4,6 +4,8 @@
 > See `CONSTITUTION.md` §3.
 
 - [`crates/`](crates/CLAUDE.md) — 全部產品 crate 的容器；每個子目錄是一個獨立 Cargo crate。
+  - [`crates/sage-cli/`](crates/sage-cli/CLAUDE.md) — `sage` 命令列工具：demo / stats / query。對 MemGraphStore 與 SledGraphStore 都可用。
+    - [`crates/sage-cli/src/`](crates/sage-cli/src/CLAUDE.md) — bin entry。
   - [`crates/sage-core/`](crates/sage-core/CLAUDE.md) — SAGE 共用型別、trait 介面與 reward 中性層；所有其他 crate 的依賴基石。
     - [`crates/sage-core/src/`](crates/sage-core/src/CLAUDE.md) — sage-core 的模組實作層。
     - [`crates/sage-core/tests/`](crates/sage-core/tests/CLAUDE.md) — sage-core 的整合測試與屬性測試。

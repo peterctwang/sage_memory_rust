@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+    "crates/sage-cli",
     "crates/sage-core",
     "crates/sage-embed",
     "crates/sage-graph",
@@ -35,6 +36,7 @@ rand           = { version = "0.8", features = ["std_rng"] }
 regex          = "1"
 sled           = "0.34"
 tempfile       = "3"
+clap           = { version = "4", features = ["derive"] }
 
 # test deps
 tokio          = { version = "1", features = ["macros", "rt-multi-thread", "sync"] }
