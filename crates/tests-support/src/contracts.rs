@@ -78,6 +78,24 @@ pub async fn snapshot_restore_roundtrip<G: GraphStore>(g: &G) -> Result<()> {
     Ok(())
 }
 
+/// Upserting the same entity twice does not duplicate or grow entity count.
+pub async fn upsert_entity_is_idempotent<G: GraphStore>(g: &G) -> Result<()> {
+    let t = TenantId::DEFAULT;
+    g.upsert_entity(t, entity(1, "Alice")).await?;
+    let mut updated = entity(1, "Alice");
+    updated.desc = Some(std::sync::Arc::<str>::from("the protagonist"));
+    g.upsert_entity(t, updated).await?;
+    assert_eq!(
+        g.entity_count(t).await?,
+        1,
+        "second upsert must not duplicate"
+    );
+    let got = g.get_entity(t, 1).await?.unwrap();
+    assert_eq!(got.name, "Alice");
+    assert!(got.desc.is_some(), "second upsert must overwrite fields");
+    Ok(())
+}
+
 /// `EntityScan::find_by_name` is case-insensitive and respects tenant scope.
 pub async fn find_by_name_case_insensitive<G: GraphStore + EntityScan>(g: &G) -> Result<()> {
     let t = TenantId::DEFAULT;

@@ -80,3 +80,9 @@ async fn contract_find_by_name_case_insensitive() {
         .await
         .unwrap();
 }
+#[tokio::test]
+async fn contract_upsert_entity_is_idempotent() {
+    contracts::upsert_entity_is_idempotent(&SledGraphStore::temporary().unwrap())
+        .await
+        .unwrap();
+}

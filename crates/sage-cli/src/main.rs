@@ -74,6 +74,18 @@ enum Cmd {
         #[arg(long, default_value_t = 0)]
         tenant: u64,
     },
+    /// List entities in a sled-backed graph.
+    List {
+        #[arg(long)]
+        db: PathBuf,
+        #[arg(long, default_value_t = 0)]
+        tenant: u64,
+        /// Case-insensitive substring filter on entity name/aliases.
+        #[arg(long)]
+        name: Option<String>,
+        #[arg(long, default_value_t = 50)]
+        limit: usize,
+    },
 }
 
 fn init_tracing() {
@@ -103,7 +115,54 @@ async fn main() -> Result<()> {
             run_ingest_stub(db, TenantId(tenant), doc_id).await
         }
         Cmd::Eval { db, k, tenant } => run_eval(db, TenantId(tenant), k).await,
+        Cmd::List {
+            db,
+            tenant,
+            name,
+            limit,
+        } => run_list(db, TenantId(tenant), name, limit).await,
     }
+}
+
+async fn run_list(
+    db_path: PathBuf,
+    t: TenantId,
+    needle: Option<String>,
+    limit: usize,
+) -> Result<()> {
+    let g = SledGraphStore::open(&db_path).context("open sled")?;
+    let needle_lc = needle.map(|s| s.to_lowercase());
+    let ents = g.all_entities(t).await?;
+    let filtered: Vec<_> = ents
+        .into_iter()
+        .filter(|e| match &needle_lc {
+            None => true,
+            Some(n) => {
+                e.name.to_lowercase().contains(n.as_str())
+                    || e.aliases
+                        .iter()
+                        .any(|a| a.to_lowercase().contains(n.as_str()))
+            }
+        })
+        .take(limit)
+        .map(|e| {
+            serde_json::json!({
+                "id": e.id,
+                "name": e.name.as_str(),
+                "etype": format!("{:?}", e.etype),
+                "aliases": e.aliases.iter().map(smol_str::SmolStr::as_str).collect::<Vec<_>>(),
+                "has_embedding": e.embedding.is_some(),
+                "source_docs": e.source_docs.iter().copied().collect::<Vec<_>>(),
+            })
+        })
+        .collect();
+    let out = serde_json::json!({
+        "tenant": t.0,
+        "count":  filtered.len(),
+        "entities": filtered,
+    });
+    println!("{}", serde_json::to_string_pretty(&out)?);
+    Ok(())
 }
 
 #[derive(Deserialize)]
