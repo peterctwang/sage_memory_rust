@@ -11,8 +11,9 @@ description = "LLM client trait + mock backend for SAGE."
 workspace = true
 
 [features]
-default   = []
-anthropic = ["dep:reqwest", "dep:serde_json", "dep:tokio"]
+default    = []
+anthropic  = ["dep:reqwest", "dep:serde_json", "dep:tokio"]
+claude-cli = ["dep:serde_json", "dep:tokio"]
 
 [dependencies]
 sage-core    = { workspace = true }

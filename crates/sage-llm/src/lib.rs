@@ -3,6 +3,9 @@
 #[cfg(feature = "anthropic")]
 pub mod anthropic;
 
+#[cfg(feature = "claude-cli")]
+pub mod claude_cli;
+
 pub mod mock;
 
 use async_trait::async_trait;
@@ -11,6 +14,9 @@ use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "anthropic")]
 pub use anthropic::{AnthropicLlm, RetryCfg};
+
+#[cfg(feature = "claude-cli")]
+pub use claude_cli::ClaudeCliLlm;
 
 pub use mock::MockLlm;
 

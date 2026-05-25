@@ -3,7 +3,10 @@
 > LLM client trait 與測試用 mock；真實 backend (Anthropic / OpenAI) 留待 M1。
 
 ## Purpose
-為 SAGE 提供與具體 LLM 供應商解耦的呼叫介面，配套一個確定性 mock，讓 writer/reader 訓練與整合測試不需網路。
+為 SAGE 提供與具體 LLM 供應商解耦的呼叫介面。三套後端：
+- `MockLlm`（預設）— 確定性 FIFO 腳本，CI/單元測試用，零外部依賴。
+- `AnthropicLlm`（feature `anthropic`）— Anthropic Messages API，reqwest + 指數退避。
+- `ClaudeCliLlm`（feature `claude-cli`）— 本地 `claude` 二進位 subprocess，借用 user 既有 Claude Code 訂閱，無需 API key。
 
 ## Contents
 | 路徑 | 種類 | 用途 |

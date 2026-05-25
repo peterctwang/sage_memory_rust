@@ -11,6 +11,7 @@
 | `lib.rs` | module | `LlmClient` trait + `ChatRequest/Response/Message/Role` |
 | `mock.rs` | module | `MockLlm` — `parking_lot::Mutex<VecDeque>` 腳本佇列 |
 | `anthropic.rs` | module | `AnthropicLlm` + `RetryCfg` — reqwest + exp backoff (feature `anthropic`) |
+| `claude_cli.rs` | module | `ClaudeCliLlm` — local `claude` binary subprocess (feature `claude-cli`); 模式參考 mission-framework Python harness |
 
 ## Public Surface
 - `LlmClient`, `ChatRequest`, `ChatResponse`, `ChatMessage`, `Role`
