@@ -784,6 +784,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "sage-eval"
+version = "0.1.0"
+dependencies = [
+ "ahash",
+ "async-trait",
+ "sage-core",
+ "sage-graph",
+ "sage-llm",
+ "sage-reader",
+ "sage-writer",
+ "serde",
+ "tests-support",
+ "tokio",
+]
+
+[[package]]
 name = "sage-graph"
 version = "0.1.0"
 dependencies = [

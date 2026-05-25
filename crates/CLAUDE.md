@@ -11,6 +11,7 @@
 | `sage-cli/` | crate | `sage` 命令列工具：demo / stats / query (M5-partial) |
 | `sage-core/` | crate | 共用型別 + trait + reward 介面 |
 | `sage-embed/` | crate | Embedder backends — DeterministicEmbedder (M3-partial) |
+| `sage-eval/` | crate | 評估指標 Recall@k / Precision@k / F1@k / MRR + EvalRunner |
 | `sage-graph/` | crate | `GraphStore` 實作（M0 `MemGraphStore` + M5 `SledGraphStore`）|
 | `sage-llm/` | crate | LLM client trait + `MockLlm` |
 | `sage-reader/` | crate | Heuristic reader + soft addressing (M2; GFM in M3) |

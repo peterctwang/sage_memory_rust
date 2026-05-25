@@ -4,6 +4,7 @@ members = [
     "crates/sage-cli",
     "crates/sage-core",
     "crates/sage-embed",
+    "crates/sage-eval",
     "crates/sage-graph",
     "crates/sage-llm",
     "crates/sage-reader",
@@ -46,6 +47,7 @@ insta          = { version = "1", features = ["json"] }
 # internal
 sage-core      = { path = "crates/sage-core" }
 sage-embed     = { path = "crates/sage-embed" }
+sage-eval      = { path = "crates/sage-eval" }
 sage-graph     = { path = "crates/sage-graph" }
 sage-llm       = { path = "crates/sage-llm" }
 sage-reader    = { path = "crates/sage-reader" }

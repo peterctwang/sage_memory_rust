@@ -11,6 +11,9 @@
     - [`crates/sage-core/tests/`](crates/sage-core/tests/CLAUDE.md) — sage-core 的整合測試與屬性測試。
   - [`crates/sage-embed/`](crates/sage-embed/CLAUDE.md) — Embedder 後端集合：M3 提供 `DeterministicEmbedder`（hash bag-of-words）；真實模型（BGE / E5）留待後續。
     - [`crates/sage-embed/src/`](crates/sage-embed/src/CLAUDE.md) — Embedder 實作模組。
+  - [`crates/sage-eval/`](crates/sage-eval/CLAUDE.md) — 檢索評估指標 + 驅動樣本跑分；Recall@k / Precision@k / F1@k / MRR。
+    - [`crates/sage-eval/src/`](crates/sage-eval/src/CLAUDE.md) — 指標 + 驅動實作。
+    - [`crates/sage-eval/tests/`](crates/sage-eval/tests/CLAUDE.md) — 端到端整合測試 — ingest + reader + EvalRunner 一氣呵成。
   - [`crates/sage-graph/`](crates/sage-graph/CLAUDE.md) — `GraphStore` 後端實作集合：`MemGraphStore`（M0）+ `SledGraphStore`（M5）。
     - [`crates/sage-graph/src/`](crates/sage-graph/src/CLAUDE.md) — 圖儲存後端模組。
     - [`crates/sage-graph/tests/`](crates/sage-graph/tests/CLAUDE.md) — 整合測試 — 透過 trait 公開介面驗證 `MemGraphStore` 行為。

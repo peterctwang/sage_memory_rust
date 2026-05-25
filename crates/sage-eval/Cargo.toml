@@ -1,0 +1,25 @@
+[package]
+name        = "sage-eval"
+version     = { workspace = true }
+edition     = { workspace = true }
+rust-version = { workspace = true }
+license     = { workspace = true }
+publish     = { workspace = true }
+description = "Retrieval evaluation metrics: Recall@k, Precision@k, MRR, F1@k."
+
+[lints]
+workspace = true
+
+[dependencies]
+sage-core    = { workspace = true }
+async-trait  = { workspace = true }
+ahash        = { workspace = true }
+serde        = { workspace = true }
+
+[dev-dependencies]
+sage-graph    = { workspace = true }
+sage-llm      = { workspace = true }
+sage-reader   = { workspace = true }
+sage-writer   = { workspace = true }
+tokio         = { workspace = true }
+tests-support = { workspace = true }
