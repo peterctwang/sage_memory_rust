@@ -1,10 +1,16 @@
-//! LLM client trait + in-process mock backend.
+//! LLM client trait + in-process mock backend + optional real backends.
+
+#[cfg(feature = "anthropic")]
+pub mod anthropic;
 
 pub mod mock;
 
 use async_trait::async_trait;
 use sage_core::Result;
 use serde::{Deserialize, Serialize};
+
+#[cfg(feature = "anthropic")]
+pub use anthropic::{AnthropicLlm, RetryCfg};
 
 pub use mock::MockLlm;
 

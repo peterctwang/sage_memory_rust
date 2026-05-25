@@ -7,6 +7,7 @@
 |---|---|---|
 | `lib.rs` | module | re-export |
 | `deterministic.rs` | module | `DeterministicEmbedder` — ahash + signed bag-of-words |
+| `hnsw_index.rs` | module | `HnswIndex` — `VectorIndex` impl via `hnsw_rs` (feature `hnsw`) |
 
 ## Public Surface
 - `DeterministicEmbedder::{new, with_seed, dim, embed}`

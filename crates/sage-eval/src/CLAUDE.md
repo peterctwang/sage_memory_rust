@@ -8,6 +8,8 @@
 | `lib.rs` | module | re-export |
 | `metrics.rs` | module | 純指標：`recall_at_k`, `precision_at_k`, `f1_at_k`, `mrr` |
 | `runner.rs` | module | `EvalRunner<R>` + `EvalSample` + `EvalReport` |
+| `reward_loop.rs` | module | `compute_reward_for_sample` + `compute_reward_batch` + `JudgeInputs` |
+| `grpo.rs` | module | `group_relative_advantage` + `clipped_ratio` + `grpo_objective` (M4 prep) |
 
 ## Public Surface
 見父層 CLAUDE.md。

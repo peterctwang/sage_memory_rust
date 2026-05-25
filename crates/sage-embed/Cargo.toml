@@ -10,10 +10,16 @@ description = "Embedder backends for SAGE. M3 ships a deterministic hash embedde
 [lints]
 workspace = true
 
+[features]
+default = ["hnsw"]
+hnsw    = ["dep:hnsw_rs"]
+
 [dependencies]
 sage-core    = { workspace = true }
 async-trait  = { workspace = true }
 ahash        = { workspace = true }
+parking_lot  = { workspace = true }
+hnsw_rs      = { workspace = true, optional = true }
 
 [dev-dependencies]
 tokio = { workspace = true }

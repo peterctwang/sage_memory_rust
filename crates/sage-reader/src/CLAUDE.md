@@ -12,6 +12,7 @@
 | `planner.rs` | module | `QueryPlanner` trait + `HeuristicPlanner`（token + stopword）|
 | `addressing.rs` | module | `score_entry`, `softmax_entry`, `AddressingWeights` |
 | `heuristic.rs` | module | `HeuristicReader<P>` — Reader trait 實作 |
+| `gfm.rs` | module | `GfmLayer` + `GfmConfig` + `GfmGraphView` — 單層 forward (M3 spike) |
 
 ## Public Surface
 見父層 CLAUDE.md。

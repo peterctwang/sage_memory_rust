@@ -12,6 +12,7 @@ pub mod ops;
 pub mod query;
 pub mod reader;
 pub mod reward;
+pub mod vector_index;
 
 pub use document::Document;
 pub use embed::{cosine, Embedder};
@@ -26,3 +27,4 @@ pub use reward::{
     compute_reward, forgetting, habituation, precision, recovery, repetition_penalty, RewardCfg,
     RewardInputs, TaskWeights, WriterReward,
 };
+pub use vector_index::VectorIndex;

@@ -10,6 +10,7 @@
 |---|---|---|
 | `lib.rs` | module | `LlmClient` trait + `ChatRequest/Response/Message/Role` |
 | `mock.rs` | module | `MockLlm` — `parking_lot::Mutex<VecDeque>` 腳本佇列 |
+| `anthropic.rs` | module | `AnthropicLlm` + `RetryCfg` — reqwest + exp backoff (feature `anthropic`) |
 
 ## Public Surface
 - `LlmClient`, `ChatRequest`, `ChatResponse`, `ChatMessage`, `Role`

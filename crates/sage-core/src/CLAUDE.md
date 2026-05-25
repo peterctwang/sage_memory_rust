@@ -15,7 +15,11 @@
 | `document.rs` | module | `Document` |
 | `query.rs` | module | `Query`, `QueryPlan`, `Probe`, `Constraint` |
 | `graph.rs` | module | `GraphStore` trait, `Subgraph`, `SnapshotId` |
-| `reward.rs` | module | `WriterReward`, `TaskWeights`, `RewardCfg`, `repetition_penalty` |
+| `reader.rs` | module | `Reader` trait, `ReaderGraph`, `EntityScan`, `ReadOutput` |
+| `reward.rs` | module | `WriterReward`, reward math, `habituation`, `forgetting` |
+| `embed.rs` | module | `Embedder` trait + `cosine` helper |
+| `ops.rs` | module | `scatter_add_1d` / `scatter_add_rows` CPU kernels (M3 spike) |
+| `vector_index.rs` | module | `VectorIndex` trait — impls in `sage-embed` |
 
 ## Public Surface
 見 `crates/sage-core/CLAUDE.md` 的 Public Surface 區塊。
