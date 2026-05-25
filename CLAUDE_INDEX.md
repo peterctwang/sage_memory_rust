@@ -15,6 +15,9 @@
   - [`crates/sage-reader/`](crates/sage-reader/CLAUDE.md) — 純 CPU 記憶讀取器：HeuristicPlanner + Soft Addressing + entity→doc 聚合。GFM 留 M3。
     - [`crates/sage-reader/src/`](crates/sage-reader/src/CLAUDE.md) — Reader 模組：planner / addressing / heuristic 三段管線。
     - [`crates/sage-reader/tests/`](crates/sage-reader/tests/CLAUDE.md) — 整合測試 — ingest（writer）→ query（reader）端到端走 MemGraphStore。
+  - [`crates/sage-runtime/`](crates/sage-runtime/CLAUDE.md) — SageEngine — 把 writer / reader / graph / llm 串成單一高層 API。
+    - [`crates/sage-runtime/src/`](crates/sage-runtime/src/CLAUDE.md) — Engine 模組層；單一 `engine.rs` 承載所有黏合邏輯。
+    - [`crates/sage-runtime/tests/`](crates/sage-runtime/tests/CLAUDE.md) — 端到端整合測試：透過 SageEngine 驗證跨 crate 黏合正確。
   - [`crates/sage-writer/`](crates/sage-writer/CLAUDE.md) — LLM-driven memory writer：抽 triples、sanitize、落圖；對應論文 §4.1 / SPEC §4。
     - [`crates/sage-writer/src/`](crates/sage-writer/src/CLAUDE.md) — Writer 模組層：拆 action / policy / llm / sanitizer / apply。
     - [`crates/sage-writer/tests/`](crates/sage-writer/tests/CLAUDE.md) — 整合測試 — 把 LlmWriterPolicy + apply_action 串到真的 MemGraphStore。

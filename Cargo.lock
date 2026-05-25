@@ -596,6 +596,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "sage-runtime"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "sage-core",
+ "sage-graph",
+ "sage-llm",
+ "sage-reader",
+ "sage-writer",
+ "tests-support",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
 name = "sage-writer"
 version = "0.1.0"
 dependencies = [

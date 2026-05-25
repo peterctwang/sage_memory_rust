@@ -1,0 +1,24 @@
+[package]
+name        = "sage-runtime"
+version     = { workspace = true }
+edition     = { workspace = true }
+rust-version = { workspace = true }
+license     = { workspace = true }
+publish     = { workspace = true }
+description = "SageEngine — glues writer + reader + graph + LLM into a high-level API."
+
+[lints]
+workspace = true
+
+[dependencies]
+sage-core    = { workspace = true }
+sage-graph   = { workspace = true }
+sage-llm     = { workspace = true }
+sage-reader  = { workspace = true }
+sage-writer  = { workspace = true }
+async-trait  = { workspace = true }
+tracing      = { workspace = true }
+
+[dev-dependencies]
+tokio         = { workspace = true }
+tests-support = { workspace = true }

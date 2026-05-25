@@ -12,6 +12,7 @@
 | `sage-graph/` | crate | `GraphStore` 實作（M0：`MemGraphStore`）|
 | `sage-llm/` | crate | LLM client trait + `MockLlm` |
 | `sage-reader/` | crate | Heuristic reader + soft addressing (M2; GFM in M3) |
+| `sage-runtime/` | crate | SageEngine 高層 API；ingest + query + query_with_answer (M2.5) |
 | `sage-writer/` | crate | LLM-driven writer policy + sanitizer + apply (M1) |
 | `tests-support/` | crate | 共用 fixture / proptest 策略（test-only）|
 

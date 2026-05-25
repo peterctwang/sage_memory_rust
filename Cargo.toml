@@ -5,6 +5,7 @@ members = [
     "crates/sage-graph",
     "crates/sage-llm",
     "crates/sage-reader",
+    "crates/sage-runtime",
     "crates/sage-writer",
     "crates/tests-support",
     "scripts/gen-claude-index",
@@ -42,6 +43,7 @@ sage-core      = { path = "crates/sage-core" }
 sage-graph     = { path = "crates/sage-graph" }
 sage-llm       = { path = "crates/sage-llm" }
 sage-reader    = { path = "crates/sage-reader" }
+sage-runtime   = { path = "crates/sage-runtime" }
 sage-writer    = { path = "crates/sage-writer" }
 tests-support  = { path = "crates/tests-support" }
 
