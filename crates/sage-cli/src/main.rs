@@ -15,7 +15,7 @@ use sage_core::{EntityScan, EntityType, GraphStore, Query, Reader, ReaderGraph, 
 use sage_embed::{DeterministicEmbedder, HnswIndex};
 use sage_eval::{EvalRunner, EvalSample};
 use sage_graph::{MemGraphStore, SledGraphStore};
-use sage_llm::{ClaudeCliLlm, LlmClient, MinimaxLlm, MockLlm};
+use sage_llm::{ClaudeCliLlm, FallbackLlm, LlmClient, MinimaxLlm, MockLlm};
 use sage_reader::{AddressingWeights, HeuristicReader, LlmQueryPlanner};
 use sage_runtime::SageEngine;
 use sage_writer::{
@@ -77,10 +77,14 @@ enum Cmd {
         k: usize,
         #[arg(long, default_value_t = 0)]
         tenant: u64,
-        /// Use Claude CLI to expand each query (LlmQueryPlanner). ~2s LLM call
-        /// per unique query; cached within run. Honors $SAGE_CLAUDE_BIN.
+        /// Use an LLM to expand each query (LlmQueryPlanner). ~1-2s LLM call
+        /// per unique query; cached within run.
         #[arg(long, default_value_t = false)]
         llm_plan: bool,
+        /// Which backend to use when --llm-plan is set: claude-cli or minimax.
+        /// `minimax` auto-composes Claude fallback when SAGE_CLAUDE_BIN is set.
+        #[arg(long, default_value = "claude-cli")]
+        planner_llm: String,
         /// Override AddressingWeights for tuning sweeps. Format:
         ///   "lambda_exact,lambda_alias,lambda_cos,lambda_type,lambda_cons,lambda_ner_el[,T0]"
         /// Example: --weights "1.0,0.6,0.8,0.3,0.1,0.8"
@@ -168,8 +172,9 @@ async fn main() -> Result<()> {
             k,
             tenant,
             llm_plan,
+            planner_llm,
             weights,
-        } => run_eval(db, TenantId(tenant), k, llm_plan, weights).await,
+        } => run_eval(db, TenantId(tenant), k, llm_plan, &planner_llm, weights).await,
         Cmd::Ingest {
             db,
             doc_id,
@@ -295,26 +300,15 @@ async fn run_ingest_batch(
     let store = SledGraphStore::open(&db_path).context("open sled")?;
     let embedder = DeterministicEmbedder::new(128);
 
-    // Build LLM client once — reuse across all docs. Boxed as a trait object
-    // so we can swap backends without monomorphizing the whole loop.
-    let llm_client: Arc<dyn LlmClient> = match llm_kind {
-        "claude-cli" => {
-            let mut c = ClaudeCliLlm::new();
-            if let Ok(p) = std::env::var("SAGE_CLAUDE_BIN") {
-                c = c.with_binary(p);
-            }
-            Arc::new(c)
-        }
-        "minimax" => {
-            let c =
-                MinimaxLlm::from_env().context("MinimaxLlm::from_env (need MINIMAX_API_KEY)")?;
-            Arc::new(c)
-        }
-        "mock" => anyhow::bail!(
+    // `minimax` automatically composes with Claude as fallback when
+    // SAGE_CLAUDE_BIN is set — empty/erroring MiniMax calls fall through
+    // so we never lose a doc to the ~5-10% slop.
+    if llm_kind == "mock" {
+        anyhow::bail!(
             "--llm mock not supported for ingest-batch; use per-doc 'sage ingest --llm mock'"
-        ),
-        other => anyhow::bail!("unknown --llm '{other}'; use 'claude-cli' or 'minimax'"),
-    };
+        );
+    }
+    let llm_client = build_llm_client(llm_kind)?;
     let policy = LlmWriterPolicy::new(llm_client.clone());
 
     let mut total_docs = 0usize;
@@ -491,12 +485,37 @@ async fn build_index_for_query(
     Ok(Arc::new(idx))
 }
 
-fn make_claude_cli_for_planner() -> ClaudeCliLlm {
+fn build_claude_cli() -> ClaudeCliLlm {
     let mut c = ClaudeCliLlm::new();
     if let Ok(p) = std::env::var("SAGE_CLAUDE_BIN") {
         c = c.with_binary(p);
     }
     c
+}
+
+/// Build a configured LlmClient. `"claude-cli"` returns Claude only;
+/// `"minimax"` returns MiniMax+Claude-fallback if both are configured,
+/// MiniMax only otherwise.
+fn build_llm_client(kind: &str) -> Result<Arc<dyn LlmClient>> {
+    match kind {
+        "claude-cli" => Ok(Arc::new(build_claude_cli())),
+        "minimax" => {
+            let mm =
+                MinimaxLlm::from_env().context("MinimaxLlm::from_env (need MINIMAX_API_KEY)")?;
+            if std::env::var("SAGE_CLAUDE_BIN").is_ok() {
+                let claude = Arc::new(build_claude_cli()) as Arc<dyn LlmClient>;
+                eprintln!("[sage] LLM: MiniMax (primary) + Claude (fallback on empty/error)");
+                Ok(Arc::new(FallbackLlm::new(
+                    Arc::new(mm) as Arc<dyn LlmClient>,
+                    claude,
+                )))
+            } else {
+                eprintln!("[sage] LLM: MiniMax (no fallback — SAGE_CLAUDE_BIN unset)");
+                Ok(Arc::new(mm))
+            }
+        }
+        other => anyhow::bail!("unknown llm kind '{other}'; use 'claude-cli' or 'minimax'"),
+    }
 }
 
 fn parse_weights(s: &str) -> Result<AddressingWeights> {
@@ -526,6 +545,7 @@ async fn run_eval(
     t: TenantId,
     k: usize,
     llm_plan: bool,
+    planner_llm: &str,
     weights: Option<String>,
 ) -> Result<()> {
     use std::io::Read;
@@ -553,8 +573,8 @@ async fn run_eval(
     tracing::info!(weights = ?resolved_weights, "AddressingWeights resolved");
 
     let report = if llm_plan {
-        tracing::info!("eval using LlmQueryPlanner (claude-cli)");
-        let planner = LlmQueryPlanner::new(Arc::new(make_claude_cli_for_planner()));
+        tracing::info!(planner_llm, "eval using LlmQueryPlanner");
+        let planner = LlmQueryPlanner::new(build_llm_client(planner_llm)?);
         let reader = Arc::new(
             HeuristicReader::with_planner(planner)
                 .with_embedder(embedder)

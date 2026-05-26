@@ -93,7 +93,7 @@ fn extract_json_object(s: &str) -> Option<&str> {
     None
 }
 
-pub struct LlmQueryPlanner<L: LlmClient> {
+pub struct LlmQueryPlanner<L: LlmClient + ?Sized> {
     llm: Arc<L>,
     /// Fallback when LLM fails — keeps query path resilient.
     fallback: HeuristicPlanner,
@@ -101,7 +101,7 @@ pub struct LlmQueryPlanner<L: LlmClient> {
     max_tokens: u32,
 }
 
-impl<L: LlmClient> std::fmt::Debug for LlmQueryPlanner<L> {
+impl<L: LlmClient + ?Sized> std::fmt::Debug for LlmQueryPlanner<L> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("LlmQueryPlanner")
             .field("cache_size", &self.cache.lock().len())
@@ -110,7 +110,7 @@ impl<L: LlmClient> std::fmt::Debug for LlmQueryPlanner<L> {
     }
 }
 
-impl<L: LlmClient> LlmQueryPlanner<L> {
+impl<L: LlmClient + ?Sized> LlmQueryPlanner<L> {
     pub fn new(llm: Arc<L>) -> Self {
         Self {
             llm,
@@ -183,7 +183,7 @@ impl<L: LlmClient> LlmQueryPlanner<L> {
 }
 
 #[async_trait]
-impl<L: LlmClient> QueryPlanner for LlmQueryPlanner<L> {
+impl<L: LlmClient + ?Sized> QueryPlanner for LlmQueryPlanner<L> {
     async fn plan(&self, q: &Query) -> Result<QueryPlan> {
         if let Some(p) = self.cache.lock().get(&q.text).cloned() {
             return Ok(p);

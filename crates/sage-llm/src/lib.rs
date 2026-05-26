@@ -9,7 +9,10 @@ pub mod claude_cli;
 #[cfg(feature = "minimax")]
 pub mod minimax;
 
+pub mod fallback;
 pub mod mock;
+
+pub use fallback::FallbackLlm;
 
 use async_trait::async_trait;
 use sage_core::Result;

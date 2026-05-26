@@ -1,0 +1,1001 @@
+{"doc_id": 1001, "text": "Linus Torvalds created the Linux kernel in 1991 in Helsinki, Finland. He still maintains the project as benevolent dictator for life."}
+{"doc_id": 1002, "text": "Guido van Rossum released Python in 1991 in Amsterdam. He stepped down as Python's BDFL in 2018."}
+{"doc_id": 1003, "text": "Bjarne Stroustrup designed C++ at Bell Labs starting in 1979 as an extension of the C language."}
+{"doc_id": 1004, "text": "Dennis Ritchie created C at Bell Labs in 1972. He also co-authored the Unix operating system with Ken Thompson."}
+{"doc_id": 1005, "text": "James Gosling designed Java at Sun Microsystems, with the first public release in 1995."}
+{"doc_id": 1006, "text": "Brendan Eich wrote the first version of JavaScript in 10 days at Netscape in 1995."}
+{"doc_id": 1007, "text": "Anders Hejlsberg led the design of C# at Microsoft and previously created Turbo Pascal."}
+{"doc_id": 1008, "text": "Yukihiro Matsumoto, known as Matz, released Ruby in 1995 in Japan."}
+{"doc_id": 1009, "text": "Rasmus Lerdorf created PHP in 1994, originally for tracking visits to his online resume."}
+{"doc_id": 1010, "text": "John McCarthy designed Lisp at MIT in 1958 and coined the term artificial intelligence."}
+{"doc_id": 1011, "text": "Tim Berners-Lee invented the World Wide Web at CERN in 1989, including HTTP, HTML, and the first web browser."}
+{"doc_id": 1012, "text": "Vint Cerf and Bob Kahn designed the TCP/IP protocols in the 1970s, forming the foundation of the modern Internet."}
+{"doc_id": 1013, "text": "Larry Page and Sergey Brin founded Google at Stanford in 1998, building on their PageRank algorithm."}
+{"doc_id": 1014, "text": "Steve Wozniak designed the Apple I personal computer in Cupertino in 1976, which Steve Jobs sold."}
+{"doc_id": 1015, "text": "Bill Gates and Paul Allen founded Microsoft in 1975 in Albuquerque, New Mexico."}
+{"doc_id": 1016, "text": "Mark Zuckerberg launched Facebook from his Harvard dorm room in 2004."}
+{"doc_id": 1017, "text": "Jeff Bezos founded Amazon in 1994 in Seattle, initially as an online bookstore."}
+{"doc_id": 1018, "text": "Elon Musk founded SpaceX in 2002 with the goal of making humanity multi-planetary."}
+{"doc_id": 1019, "text": "Jack Dorsey co-founded Twitter in 2006 and later founded the payments company Square."}
+{"doc_id": 1020, "text": "Reed Hastings co-founded Netflix in 1997 in Scotts Valley, California."}
+{"doc_id": 1021, "text": "Linda Liukas created the children's coding book series Hello Ruby, inspired by Yukihiro Matsumoto's Ruby language."}
+{"doc_id": 1022, "text": "Margaret Hamilton led the team that wrote the on-board flight software for the Apollo missions at MIT in the 1960s."}
+{"doc_id": 1023, "text": "Grace Hopper developed the first compiler, A-0, at Remington Rand in 1952 and contributed to COBOL."}
+{"doc_id": 1024, "text": "Ada Lovelace wrote the first computer algorithm for Charles Babbage's Analytical Engine in 1843."}
+{"doc_id": 1025, "text": "Alan Turing proposed the universal computing machine in his 1936 paper at Cambridge, founding theoretical computer science."}
+{"doc_id": 2001, "text": "Marie Curie discovered polonium and radium in Paris in 1898 and won two Nobel Prizes in different sciences."}
+{"doc_id": 2002, "text": "Albert Einstein published the theory of special relativity in 1905 while working at the Swiss Patent Office in Bern."}
+{"doc_id": 2003, "text": "Isaac Newton formulated the laws of motion and universal gravitation at Cambridge in 1687."}
+{"doc_id": 2004, "text": "Charles Darwin published On the Origin of Species in 1859, proposing evolution by natural selection after his Beagle voyage."}
+{"doc_id": 2005, "text": "Rosalind Franklin produced the X-ray diffraction images that revealed DNA's structure at King's College London in 1952."}
+{"doc_id": 2006, "text": "Niels Bohr developed the model of atomic structure with quantized electron orbits in Copenhagen in 1913."}
+{"doc_id": 2007, "text": "Werner Heisenberg formulated the uncertainty principle in 1927, a cornerstone of quantum mechanics."}
+{"doc_id": 2008, "text": "Erwin Schrodinger published the wave equation that describes quantum systems in 1926 in Zurich."}
+{"doc_id": 2009, "text": "Richard Feynman developed quantum electrodynamics and shared the 1965 Nobel Prize for that work."}
+{"doc_id": 2010, "text": "Stephen Hawking proposed that black holes emit radiation, now called Hawking radiation, in 1974 at Cambridge."}
+{"doc_id": 2011, "text": "Galileo Galilei used a telescope to discover moons of Jupiter in 1610 and supported the heliocentric model."}
+{"doc_id": 2012, "text": "Johannes Kepler discovered the three laws of planetary motion in the early 17th century in Prague."}
+{"doc_id": 2013, "text": "Dmitri Mendeleev published the periodic table of elements in 1869 in Saint Petersburg."}
+{"doc_id": 2014, "text": "Linus Pauling won Nobel Prizes in both Chemistry and Peace, the only person to win two unshared Nobel Prizes."}
+{"doc_id": 2015, "text": "Gregor Mendel established the laws of inheritance through experiments with pea plants in the 1860s at his monastery in Brno."}
+{"doc_id": 2016, "text": "Louis Pasteur developed pasteurization and the first rabies vaccine in 19th-century France."}
+{"doc_id": 2017, "text": "Alexander Fleming discovered penicillin at St. Mary's Hospital in London in 1928, launching the antibiotic era."}
+{"doc_id": 2018, "text": "Jonas Salk developed the inactivated polio vaccine in 1955 at the University of Pittsburgh."}
+{"doc_id": 2019, "text": "Rachel Carson published Silent Spring in 1962, sparking the modern environmental movement."}
+{"doc_id": 2020, "text": "Jane Goodall began her landmark study of wild chimpanzees in Gombe, Tanzania in 1960."}
+{"doc_id": 2021, "text": "Stephen Jay Gould proposed the theory of punctuated equilibrium with Niles Eldredge in 1972."}
+{"doc_id": 2022, "text": "Carl Sagan popularized astronomy through the Cosmos TV series in 1980 and advised NASA on planetary missions."}
+{"doc_id": 2023, "text": "Katherine Johnson computed orbital mechanics for NASA's early space missions including John Glenn's first orbital flight in 1962."}
+{"doc_id": 2024, "text": "Vera Rubin's observations of galaxy rotation provided early evidence for dark matter in the 1970s."}
+{"doc_id": 2025, "text": "Barbara McClintock discovered genetic transposition in maize and won the Nobel Prize in 1983 for that work."}
+{"doc_id": 3001, "text": "Abraham Lincoln signed the Emancipation Proclamation in 1863, freeing slaves in Confederate states."}
+{"doc_id": 3002, "text": "George Washington commanded the Continental Army during the American Revolution and became the first U.S. president in 1789."}
+{"doc_id": 3003, "text": "Napoleon Bonaparte crowned himself Emperor of France in 1804 and was defeated at Waterloo in 1815."}
+{"doc_id": 3004, "text": "Winston Churchill served as British Prime Minister during most of World War II and won the Nobel Prize in Literature in 1953."}
+{"doc_id": 3005, "text": "Franklin D. Roosevelt was elected to four terms as U.S. president and led the country through the Great Depression and World War II."}
+{"doc_id": 3006, "text": "Mahatma Gandhi led India to independence from British rule in 1947 through nonviolent civil disobedience."}
+{"doc_id": 3007, "text": "Nelson Mandela was imprisoned for 27 years before becoming South Africa's first democratically elected president in 1994."}
+{"doc_id": 3008, "text": "Martin Luther King Jr. delivered his I Have a Dream speech at the 1963 March on Washington."}
+{"doc_id": 3009, "text": "Queen Elizabeth I reigned over England from 1558 to 1603, presiding over the Elizabethan era."}
+{"doc_id": 3010, "text": "Catherine the Great expanded the Russian Empire during her reign from 1762 to 1796."}
+{"doc_id": 3011, "text": "Julius Caesar crossed the Rubicon in 49 BC, triggering civil war and the end of the Roman Republic."}
+{"doc_id": 3012, "text": "Genghis Khan founded the Mongol Empire in 1206 and became the largest contiguous land empire in history."}
+{"doc_id": 3013, "text": "Cleopatra VII was the last active pharaoh of Ptolemaic Egypt and died in 30 BC."}
+{"doc_id": 3014, "text": "Joan of Arc led French troops to several victories during the Hundred Years' War before her execution in 1431."}
+{"doc_id": 3015, "text": "Christopher Columbus reached the Americas in 1492 while seeking a westward route to Asia."}
+{"doc_id": 3016, "text": "Ferdinand Magellan's expedition completed the first circumnavigation of Earth from 1519 to 1522, though Magellan died en route."}
+{"doc_id": 3017, "text": "Marco Polo traveled to China in the 13th century and described his journeys in The Travels of Marco Polo."}
+{"doc_id": 3018, "text": "Vasco da Gama led the first European maritime voyage to India in 1498."}
+{"doc_id": 3019, "text": "Eleanor Roosevelt chaired the UN committee that drafted the Universal Declaration of Human Rights, adopted in 1948."}
+{"doc_id": 3020, "text": "Susan B. Anthony was a leader of the U.S. women's suffrage movement in the 19th century."}
+{"doc_id": 3021, "text": "Frederick Douglass escaped slavery and became a leading abolitionist and statesman in 19th-century America."}
+{"doc_id": 3022, "text": "Harriet Tubman helped enslaved people escape via the Underground Railroad and served as a Union scout during the Civil War."}
+{"doc_id": 3023, "text": "Malala Yousafzai survived an attack by the Taliban and won the Nobel Peace Prize in 2014 at age 17."}
+{"doc_id": 3024, "text": "Mother Teresa founded the Missionaries of Charity in 1950 and won the Nobel Peace Prize in 1979."}
+{"doc_id": 3025, "text": "Lech Walesa led the Polish Solidarity movement in the 1980s and became Poland's first democratically elected president."}
+{"doc_id": 4001, "text": "William Shakespeare wrote Hamlet, Macbeth, and many other plays in late 16th-century and early 17th-century England."}
+{"doc_id": 4002, "text": "Jane Austen published Pride and Prejudice in 1813, one of several novels examining English gentry life."}
+{"doc_id": 4003, "text": "Leo Tolstoy wrote War and Peace and Anna Karenina in 19th-century Russia."}
+{"doc_id": 4004, "text": "Fyodor Dostoevsky wrote Crime and Punishment and The Brothers Karamazov, exploring moral and existential themes."}
+{"doc_id": 4005, "text": "Gabriel Garcia Marquez wrote One Hundred Years of Solitude in 1967, defining magical realism in Latin American literature."}
+{"doc_id": 4006, "text": "Toni Morrison won the Nobel Prize in Literature in 1993; her novel Beloved received the Pulitzer Prize."}
+{"doc_id": 4007, "text": "Virginia Woolf wrote Mrs Dalloway and To the Lighthouse, pioneering stream-of-consciousness narration."}
+{"doc_id": 4008, "text": "James Joyce wrote Ulysses in 1922, considered a landmark of modernist literature."}
+{"doc_id": 4009, "text": "Franz Kafka wrote The Metamorphosis in 1915; most of his work was published posthumously by Max Brod."}
+{"doc_id": 4010, "text": "Ernest Hemingway won the Nobel Prize in 1954 and is known for novels like The Old Man and the Sea."}
+{"doc_id": 4011, "text": "Pablo Picasso co-founded Cubism with Georges Braque and painted Guernica in 1937 in response to the Spanish Civil War."}
+{"doc_id": 4012, "text": "Vincent van Gogh painted The Starry Night in 1889 while staying at an asylum in Saint-Remy-de-Provence."}
+{"doc_id": 4013, "text": "Leonardo da Vinci painted the Mona Lisa around 1503 in Florence; he was also an inventor and anatomist."}
+{"doc_id": 4014, "text": "Michelangelo sculpted the David in 1504 and painted the Sistine Chapel ceiling between 1508 and 1512."}
+{"doc_id": 4015, "text": "Frida Kahlo painted intense self-portraits drawing on Mexican folk art in the early 20th century."}
+{"doc_id": 4016, "text": "Claude Monet led the Impressionist movement and painted the Water Lilies series at his Giverny garden."}
+{"doc_id": 4017, "text": "Georgia O'Keeffe painted large-scale flowers and New Mexico landscapes in the 20th century."}
+{"doc_id": 4018, "text": "Salvador Dali was a key figure in Surrealism; his painting The Persistence of Memory features melting clocks."}
+{"doc_id": 4019, "text": "Wolfgang Amadeus Mozart composed over 600 works including operas like The Magic Flute, dying young in 1791."}
+{"doc_id": 4020, "text": "Ludwig van Beethoven composed nine symphonies and continued composing despite progressive hearing loss."}
+{"doc_id": 4021, "text": "Johann Sebastian Bach composed the Brandenburg Concertos and Mass in B minor in 18th-century Germany."}
+{"doc_id": 4022, "text": "Bob Dylan won the Nobel Prize in Literature in 2016, the first songwriter to receive the award."}
+{"doc_id": 4023, "text": "The Beatles formed in Liverpool in 1960 and changed the course of popular music in the 1960s."}
+{"doc_id": 4024, "text": "Aretha Franklin was crowned the Queen of Soul and won 18 Grammy Awards over her career."}
+{"doc_id": 4025, "text": "Akira Kurosawa directed films like Seven Samurai and Rashomon, influencing global cinema in the 20th century."}
+{"doc_id": 1026, "text": "Sundar Pichai became CEO of Google in 2015 and later CEO of Alphabet in 2019."}
+{"doc_id": 1027, "text": "Satya Nadella took over as Microsoft CEO in 2014, pivoting the company to cloud-first."}
+{"doc_id": 1028, "text": "Tim Cook succeeded Steve Jobs as Apple CEO in 2011."}
+{"doc_id": 1029, "text": "Elon Musk founded Tesla in 2003 with significant investor backing and Neuralink in 2016."}
+{"doc_id": 1030, "text": "Patrick and John Collison co-founded Stripe in 2010 to handle online payments."}
+{"doc_id": 1031, "text": "Brian Chesky, Joe Gebbia, and Nathan Blecharczyk founded Airbnb in 2008 in San Francisco."}
+{"doc_id": 1032, "text": "Drew Houston founded Dropbox in 2007 while studying at MIT."}
+{"doc_id": 1033, "text": "Evan Spiegel and Bobby Murphy co-founded Snap Inc in 2011, launching Snapchat."}
+{"doc_id": 1034, "text": "Travis Kalanick and Garrett Camp founded Uber in 2009 in San Francisco."}
+{"doc_id": 1035, "text": "Sam Altman became CEO of OpenAI in 2019; OpenAI released ChatGPT in November 2022."}
+{"doc_id": 1036, "text": "Demis Hassabis co-founded DeepMind in 2010 in London; Google acquired it in 2014."}
+{"doc_id": 1037, "text": "Yann LeCun developed convolutional neural networks at Bell Labs in the late 1980s."}
+{"doc_id": 1038, "text": "Geoffrey Hinton popularized deep neural network training methods and won the 2018 Turing Award."}
+{"doc_id": 1039, "text": "Yoshua Bengio shared the 2018 Turing Award for foundational contributions to deep learning."}
+{"doc_id": 1040, "text": "Fei-Fei Li led the creation of ImageNet at Stanford, transforming computer vision research."}
+{"doc_id": 1041, "text": "Andrej Karpathy co-founded OpenAI and later led AI at Tesla."}
+{"doc_id": 1042, "text": "Linus Pauling created the Pauling electronegativity scale in 1932, beyond his Nobel work."}
+{"doc_id": 1043, "text": "Donald Knuth wrote The Art of Computer Programming starting in 1968 and created TeX in 1978."}
+{"doc_id": 1044, "text": "Edsger Dijkstra invented the shortest path algorithm in 1956 in Amsterdam."}
+{"doc_id": 1045, "text": "Tony Hoare invented the quicksort algorithm in 1959 and developed Hoare logic for program verification."}
+{"doc_id": 1046, "text": "Frances Allen pioneered compiler optimization at IBM and was the first woman to win the Turing Award in 2006."}
+{"doc_id": 1047, "text": "Whitfield Diffie and Martin Hellman published the Diffie-Hellman key exchange in 1976."}
+{"doc_id": 1048, "text": "Ron Rivest, Adi Shamir, and Leonard Adleman invented the RSA cryptosystem at MIT in 1977."}
+{"doc_id": 1049, "text": "Tim Bray co-edited the XML specification published by the W3C in 1998."}
+{"doc_id": 1050, "text": "Roy Fielding defined REST architectural style in his 2000 PhD dissertation at UC Irvine."}
+{"doc_id": 2026, "text": "James Watson and Francis Crick proposed the DNA double-helix structure in Cambridge in 1953."}
+{"doc_id": 2027, "text": "Lynn Margulis proposed the endosymbiotic theory of cellular evolution in 1967."}
+{"doc_id": 2028, "text": "Tu Youyou discovered artemisinin for malaria treatment and won the 2015 Nobel Prize."}
+{"doc_id": 2029, "text": "Katalin Kariko and Drew Weissman shared the 2023 Nobel Prize for mRNA vaccine research."}
+{"doc_id": 2030, "text": "Frances Arnold won the 2018 Nobel Prize for directed evolution of enzymes."}
+{"doc_id": 2031, "text": "Jennifer Doudna and Emmanuelle Charpentier shared the 2020 Nobel Prize for CRISPR-Cas9 gene editing."}
+{"doc_id": 2032, "text": "Donna Strickland shared the 2018 Nobel Prize in Physics for chirped pulse amplification of lasers."}
+{"doc_id": 2033, "text": "Andrea Ghez shared the 2020 Nobel Prize in Physics for discoveries about the Milky Way supermassive black hole."}
+{"doc_id": 2034, "text": "Tim Hunt shared the 2001 Nobel Prize in Medicine for discovering cyclins that regulate the cell cycle."}
+{"doc_id": 2035, "text": "Katalin Kariko pioneered mRNA modifications enabling COVID-19 vaccines at the University of Pennsylvania."}
+{"doc_id": 2036, "text": "Vera Rubin discovered evidence for dark matter through galaxy rotation curves in the 1970s."}
+{"doc_id": 2037, "text": "Henrietta Leavitt discovered the period-luminosity relationship of Cepheid variable stars in 1908."}
+{"doc_id": 2038, "text": "Cecilia Payne-Gaposchkin showed in 1925 that stars are made mostly of hydrogen."}
+{"doc_id": 2039, "text": "Subrahmanyan Chandrasekhar derived the Chandrasekhar limit for white dwarf stars in 1930."}
+{"doc_id": 2040, "text": "Edwin Hubble proved galaxies exist beyond the Milky Way and discovered cosmic expansion in 1929."}
+{"doc_id": 2041, "text": "James Clerk Maxwell unified electricity and magnetism in equations published in 1865."}
+{"doc_id": 2042, "text": "Michael Faraday discovered electromagnetic induction in 1831 at the Royal Institution in London."}
+{"doc_id": 2043, "text": "Lise Meitner explained nuclear fission with Otto Frisch in 1939 after fleeing Nazi Germany."}
+{"doc_id": 2044, "text": "Chien-Shiung Wu experimentally demonstrated parity violation in beta decay in 1956 at Columbia."}
+{"doc_id": 2045, "text": "Tu Youyou extracted artemisinin from sweet wormwood using ancient Chinese medical texts as a guide."}
+{"doc_id": 2046, "text": "Frederick Sanger sequenced insulin in 1955 and won two Nobel Prizes in Chemistry."}
+{"doc_id": 2047, "text": "Rita Levi-Montalcini discovered nerve growth factor and won the 1986 Nobel Prize in Medicine."}
+{"doc_id": 2048, "text": "Barbara McClintock identified jumping genes in maize and won the 1983 Nobel Prize in Medicine."}
+{"doc_id": 2049, "text": "Stanley Prusiner discovered prions and won the 1997 Nobel Prize for that work."}
+{"doc_id": 2050, "text": "Carl Wieman, Eric Cornell, and Wolfgang Ketterle won the 2001 Nobel for creating Bose-Einstein condensates."}
+{"doc_id": 3026, "text": "Sun Tzu wrote The Art of War in ancient China around the 5th century BC."}
+{"doc_id": 3027, "text": "Confucius taught ethical philosophy in China during the 6th and 5th centuries BC."}
+{"doc_id": 3028, "text": "Buddha founded Buddhism in northern India in the 6th to 5th centuries BC."}
+{"doc_id": 3029, "text": "Socrates founded Western philosophical inquiry in Athens in the 5th century BC."}
+{"doc_id": 3030, "text": "Plato founded the Academy in Athens around 387 BC and wrote The Republic."}
+{"doc_id": 3031, "text": "Aristotle tutored Alexander the Great and founded the Lyceum in Athens in 335 BC."}
+{"doc_id": 3032, "text": "Alexander the Great conquered an empire from Greece to India between 336 and 323 BC."}
+{"doc_id": 3033, "text": "Hammurabi of Babylon codified one of the earliest legal codes around 1754 BC."}
+{"doc_id": 3034, "text": "Charlemagne was crowned Emperor of the Romans on Christmas Day in 800 AD."}
+{"doc_id": 3035, "text": "Suleiman the Magnificent expanded the Ottoman Empire to its peak in the 16th century."}
+{"doc_id": 3036, "text": "Akbar the Great expanded the Mughal Empire across the Indian subcontinent in the 16th century."}
+{"doc_id": 3037, "text": "Tokugawa Ieyasu founded the Tokugawa shogunate in Japan in 1603."}
+{"doc_id": 3038, "text": "Simon Bolivar led independence movements that freed several South American countries in the 19th century."}
+{"doc_id": 3039, "text": "Otto von Bismarck unified Germany under Prussian leadership in 1871."}
+{"doc_id": 3040, "text": "Vladimir Lenin led the Bolshevik Revolution that established Soviet Russia in 1917."}
+{"doc_id": 3041, "text": "Mao Zedong founded the People's Republic of China in 1949."}
+{"doc_id": 3042, "text": "Mikhail Gorbachev introduced perestroika and glasnost as Soviet leader from 1985 to 1991."}
+{"doc_id": 3043, "text": "Margaret Thatcher served as British Prime Minister from 1979 to 1990."}
+{"doc_id": 3044, "text": "Indira Gandhi served as Prime Minister of India in two terms beginning in 1966."}
+{"doc_id": 3045, "text": "Jacinda Ardern served as Prime Minister of New Zealand from 2017 to 2023."}
+{"doc_id": 3046, "text": "Angela Merkel served as Chancellor of Germany from 2005 to 2021."}
+{"doc_id": 3047, "text": "Volodymyr Zelenskyy became President of Ukraine in 2019."}
+{"doc_id": 3048, "text": "Neil Armstrong became the first person to walk on the Moon during Apollo 11 in July 1969."}
+{"doc_id": 3049, "text": "Yuri Gagarin became the first human in space aboard Vostok 1 on April 12, 1961."}
+{"doc_id": 3050, "text": "Valentina Tereshkova became the first woman in space aboard Vostok 6 in June 1963."}
+{"doc_id": 4026, "text": "Haruki Murakami wrote Norwegian Wood in 1987 and Kafka on the Shore in 2002."}
+{"doc_id": 4027, "text": "Chimamanda Ngozi Adichie wrote Half of a Yellow Sun and Americanah, exploring identity in Nigeria and the diaspora."}
+{"doc_id": 4028, "text": "Margaret Atwood wrote The Handmaids Tale in 1985, exploring authoritarian gender control."}
+{"doc_id": 4029, "text": "Octavia Butler wrote Kindred and the Parable series, pioneering Afrofuturism in science fiction."}
+{"doc_id": 4030, "text": "Ursula K. Le Guin wrote The Left Hand of Darkness in 1969, redefining gender in science fiction."}
+{"doc_id": 4031, "text": "J K Rowling published the first Harry Potter novel in 1997."}
+{"doc_id": 4032, "text": "George R R Martin began publishing A Song of Ice and Fire with A Game of Thrones in 1996."}
+{"doc_id": 4033, "text": "Cormac McCarthy wrote Blood Meridian in 1985 and The Road in 2006, winning the Pulitzer for the latter."}
+{"doc_id": 4034, "text": "Salman Rushdie wrote Midnights Children in 1981 and survived an attack in 2022."}
+{"doc_id": 4035, "text": "Kazuo Ishiguro won the 2017 Nobel Prize in Literature; he wrote The Remains of the Day and Never Let Me Go."}
+{"doc_id": 4036, "text": "Christopher Nolan directed Memento in 2000, Inception in 2010, and Oppenheimer in 2023."}
+{"doc_id": 4037, "text": "Bong Joon-ho directed Parasite, which won the 2020 Academy Award for Best Picture."}
+{"doc_id": 4038, "text": "Greta Gerwig directed Little Women in 2019 and Barbie in 2023."}
+{"doc_id": 4039, "text": "Quentin Tarantino directed Pulp Fiction in 1994, winning the Cannes Palme d Or."}
+{"doc_id": 4040, "text": "Steven Spielberg directed Jaws in 1975, ET in 1982, and Jurassic Park in 1993."}
+{"doc_id": 4041, "text": "Hayao Miyazaki co-founded Studio Ghibli and directed Spirited Away, which won the 2003 Animated Feature Oscar."}
+{"doc_id": 4042, "text": "Jordan Peele directed Get Out in 2017, winning the Best Original Screenplay Oscar."}
+{"doc_id": 4043, "text": "Beyonce released the visual album Lemonade in 2016 and has won 32 Grammy Awards."}
+{"doc_id": 4044, "text": "Taylor Swift re-recorded her early albums starting in 2021 to regain ownership of her masters."}
+{"doc_id": 4045, "text": "Kendrick Lamar won the 2018 Pulitzer Prize for Music for the album DAMN."}
+{"doc_id": 4046, "text": "BTS became the first Korean act to top the Billboard Hot 100 in 2020 with Dynamite."}
+{"doc_id": 4047, "text": "Adele released the album 21 in 2011 and 30 in 2021, winning multiple Album of the Year Grammys."}
+{"doc_id": 4048, "text": "Lin-Manuel Miranda created the musical Hamilton, which premiered on Broadway in 2015."}
+{"doc_id": 4049, "text": "Yo-Yo Ma is a renowned cellist who founded the Silk Road Ensemble in 1998."}
+{"doc_id": 4050, "text": "Bjork has fused electronic and experimental music in albums like Homogenic in 1997 and Vespertine in 2001."}
+{"doc_id": 5001, "text": "Michael Jordan won six NBA championships with the Chicago Bulls in the 1990s."}
+{"doc_id": 5002, "text": "LeBron James won his fourth NBA championship with the Los Angeles Lakers in 2020."}
+{"doc_id": 5003, "text": "Serena Williams won 23 Grand Slam singles titles in tennis."}
+{"doc_id": 5004, "text": "Roger Federer won 20 Grand Slam singles tennis titles before retiring in 2022."}
+{"doc_id": 5005, "text": "Rafael Nadal won 14 French Open titles, a record for any single Grand Slam tournament."}
+{"doc_id": 5006, "text": "Novak Djokovic surpassed 24 Grand Slam singles titles in tennis history."}
+{"doc_id": 5007, "text": "Pele won three FIFA World Cups with the Brazilian national football team."}
+{"doc_id": 5008, "text": "Diego Maradona led Argentina to win the 1986 FIFA World Cup in Mexico."}
+{"doc_id": 5009, "text": "Lionel Messi led Argentina to win the 2022 FIFA World Cup in Qatar."}
+{"doc_id": 5010, "text": "Cristiano Ronaldo became the all-time top scorer in international football history."}
+{"doc_id": 5011, "text": "Tiger Woods won 15 major championships in professional golf."}
+{"doc_id": 5012, "text": "Usain Bolt set the 100 meter world record at 9.58 seconds in Berlin in 2009."}
+{"doc_id": 5013, "text": "Michael Phelps won 23 Olympic gold medals in swimming."}
+{"doc_id": 5014, "text": "Simone Biles became the most decorated American gymnast with 25 World Championship medals."}
+{"doc_id": 5015, "text": "Wayne Gretzky scored more career points than any other NHL hockey player."}
+{"doc_id": 5016, "text": "Babe Ruth hit 714 home runs across his Major League Baseball career."}
+{"doc_id": 5017, "text": "Muhammad Ali won the world heavyweight boxing title three times."}
+{"doc_id": 5018, "text": "Magic Johnson won five NBA championships with the Los Angeles Lakers in the 1980s."}
+{"doc_id": 5019, "text": "Larry Bird led the Boston Celtics to three NBA championships in the 1980s."}
+{"doc_id": 5020, "text": "Kobe Bryant won five NBA championships with the Los Angeles Lakers."}
+{"doc_id": 5021, "text": "Naomi Osaka became the first Asian player to be ranked world number one in tennis singles."}
+{"doc_id": 5022, "text": "Allyson Felix won the most Olympic medals by any American track athlete."}
+{"doc_id": 5023, "text": "Eliud Kipchoge ran a sub-two-hour marathon in Vienna in 2019, the first ever."}
+{"doc_id": 5024, "text": "Mia Hamm scored 158 international goals during her US Womens National soccer team career."}
+{"doc_id": 5025, "text": "Billie Jean King won the Battle of the Sexes tennis match against Bobby Riggs in 1973."}
+{"doc_id": 5026, "text": "Jackie Robinson broke the color barrier in Major League Baseball in 1947."}
+{"doc_id": 5027, "text": "Jesse Owens won four gold medals at the 1936 Berlin Olympics."}
+{"doc_id": 5028, "text": "Tom Brady won seven Super Bowl championships in his NFL career."}
+{"doc_id": 5029, "text": "Peyton Manning won two Super Bowl championships during his NFL career."}
+{"doc_id": 5030, "text": "Tony Hawk landed the first documented 900 on a skateboard at the 1999 X Games."}
+{"doc_id": 5031, "text": "Megan Rapinoe led the US Women to win the 2019 FIFA World Cup."}
+{"doc_id": 5032, "text": "Shaun White won three Olympic gold medals in snowboarding halfpipe."}
+{"doc_id": 5033, "text": "Lindsey Vonn became one of the most decorated skiers in Alpine skiing history."}
+{"doc_id": 5034, "text": "Apolo Anton Ohno won eight Olympic medals in short track speed skating."}
+{"doc_id": 5035, "text": "Kelly Slater won 11 World Surf League championships across his career."}
+{"doc_id": 5036, "text": "Phil Mickelson became the oldest player to win a major golf championship at age 50 in 2021."}
+{"doc_id": 5037, "text": "Jack Nicklaus won 18 major championships, the all-time record in professional golf."}
+{"doc_id": 5038, "text": "Annika Sorenstam won 72 LPGA Tour events during her professional golf career."}
+{"doc_id": 5039, "text": "Marathon runner Paula Radcliffe held the world record for the womens marathon for over a decade."}
+{"doc_id": 5040, "text": "Florence Griffith Joyner set the 100m and 200m womens world records in 1988 that still stand."}
+{"doc_id": 5041, "text": "Carl Lewis won nine Olympic gold medals across four Summer Olympics."}
+{"doc_id": 5042, "text": "Dawn Fraser was the first swimmer to win the same Olympic event at three consecutive Games."}
+{"doc_id": 5043, "text": "Mark Spitz won seven gold medals at the 1972 Munich Olympics in swimming."}
+{"doc_id": 5044, "text": "Larisa Latynina won 18 Olympic medals across three Games in gymnastics."}
+{"doc_id": 5045, "text": "Nadia Comaneci scored the first perfect 10 in Olympic gymnastics at the 1976 Montreal Games."}
+{"doc_id": 5046, "text": "Mark Cavendish equaled the Tour de France record with 34 career stage wins in 2021."}
+{"doc_id": 5047, "text": "Eddy Merckx won the Tour de France five times across the 1960s and 1970s."}
+{"doc_id": 5048, "text": "Lewis Hamilton won seven Formula One World Drivers Championships."}
+{"doc_id": 5049, "text": "Max Verstappen won three consecutive Formula One World Drivers Championships from 2021 to 2023."}
+{"doc_id": 5050, "text": "Michael Schumacher won seven Formula One World Drivers Championships in his career."}
+{"doc_id": 6001, "text": "Mount Everest is the highest mountain on Earth, located in the Himalayas between Nepal and China."}
+{"doc_id": 6002, "text": "The Amazon River is the largest river by discharge volume, flowing through South America."}
+{"doc_id": 6003, "text": "The Sahara is the largest hot desert in the world, covering much of North Africa."}
+{"doc_id": 6004, "text": "Antarctica is the coldest continent and contains the South Pole."}
+{"doc_id": 6005, "text": "The Great Barrier Reef off Australia is the worlds largest coral reef system."}
+{"doc_id": 6006, "text": "Mount Kilimanjaro in Tanzania is the highest free-standing mountain in the world."}
+{"doc_id": 6007, "text": "The Nile is the longest river in the world, flowing through northeastern Africa."}
+{"doc_id": 6008, "text": "Lake Baikal in Russia is the deepest and oldest freshwater lake on Earth."}
+{"doc_id": 6009, "text": "The Mariana Trench in the Pacific Ocean contains the deepest known point on Earth."}
+{"doc_id": 6010, "text": "Greenland is the worlds largest island, governed by Denmark."}
+{"doc_id": 6011, "text": "The Grand Canyon in Arizona was carved by the Colorado River over millions of years."}
+{"doc_id": 6012, "text": "Niagara Falls straddles the border between the United States and Canada."}
+{"doc_id": 6013, "text": "Victoria Falls on the Zambezi River borders Zambia and Zimbabwe."}
+{"doc_id": 6014, "text": "Iceland sits atop the Mid-Atlantic Ridge and is geologically very active."}
+{"doc_id": 6015, "text": "Hawaii is the only US state composed entirely of islands in the Pacific Ocean."}
+{"doc_id": 6016, "text": "The Yangtze is the longest river in Asia and the third longest in the world."}
+{"doc_id": 6017, "text": "The Ganges is considered sacred in Hinduism and flows through India and Bangladesh."}
+{"doc_id": 6018, "text": "The Mississippi River is the second longest in North America after the Missouri."}
+{"doc_id": 6019, "text": "Mount Fuji is Japans tallest mountain and an active stratovolcano."}
+{"doc_id": 6020, "text": "K2 on the Pakistan-China border is the second highest mountain in the world."}
+{"doc_id": 6021, "text": "Tokyo is the most populous metropolitan area in the world."}
+{"doc_id": 6022, "text": "Singapore is a city-state in Southeast Asia known for its multicultural population."}
+{"doc_id": 6023, "text": "Dubai built the Burj Khalifa, the tallest building in the world, completed in 2010."}
+{"doc_id": 6024, "text": "Venice is built on more than 100 small islands in a lagoon in northeastern Italy."}
+{"doc_id": 6025, "text": "Machu Picchu is a 15th-century Inca citadel in Peru rediscovered in 1911."}
+{"doc_id": 6026, "text": "The Pyramids of Giza are ancient Egyptian monuments built around 2500 BC."}
+{"doc_id": 6027, "text": "The Great Wall of China was built over many dynasties starting in the 7th century BC."}
+{"doc_id": 6028, "text": "Petra in Jordan was carved into rose-red sandstone cliffs over 2000 years ago."}
+{"doc_id": 6029, "text": "Stonehenge in England was constructed between 3000 and 2000 BC."}
+{"doc_id": 6030, "text": "Angkor Wat in Cambodia is the largest religious monument in the world."}
+{"doc_id": 6031, "text": "The Colosseum in Rome was completed in 80 AD under Emperor Titus."}
+{"doc_id": 6032, "text": "The Eiffel Tower in Paris was completed in 1889 for the Worlds Fair."}
+{"doc_id": 6033, "text": "The Statue of Liberty was a gift from France to the United States in 1886."}
+{"doc_id": 6034, "text": "Mount Rushmore in South Dakota depicts four US presidents carved between 1927 and 1941."}
+{"doc_id": 6035, "text": "The Taj Mahal in India was built by Mughal Emperor Shah Jahan in memory of his wife."}
+{"doc_id": 6036, "text": "The Acropolis of Athens dates back to the 5th century BC and includes the Parthenon."}
+{"doc_id": 6037, "text": "Easter Island is famous for nearly 1000 monumental moai statues created by the Rapa Nui people."}
+{"doc_id": 6038, "text": "Galapagos Islands inspired Charles Darwins theory of evolution by natural selection."}
+{"doc_id": 6039, "text": "The Galapagos archipelago belongs to Ecuador and lies in the Pacific Ocean."}
+{"doc_id": 6040, "text": "Chernobyl in Ukraine was the site of the 1986 nuclear disaster."}
+{"doc_id": 6041, "text": "The International Space Station orbits Earth at an altitude of about 400 kilometers."}
+{"doc_id": 6042, "text": "The Panama Canal connects the Atlantic and Pacific Oceans across Central America."}
+{"doc_id": 6043, "text": "The Suez Canal connects the Mediterranean and Red Seas through Egypt."}
+{"doc_id": 6044, "text": "Vatican City is the smallest independent state in the world by area and population."}
+{"doc_id": 6045, "text": "Monaco is the second smallest country in the world after Vatican City."}
+{"doc_id": 6046, "text": "Russia is the largest country in the world by land area."}
+{"doc_id": 6047, "text": "China is the most populous country in the world."}
+{"doc_id": 6048, "text": "India surpassed China as the most populous country in 2023."}
+{"doc_id": 6049, "text": "The Atacama Desert in Chile is the driest non-polar desert on Earth."}
+{"doc_id": 6050, "text": "The Dead Sea between Israel and Jordan has the lowest land elevation on Earth."}
+{"doc_id": 7001, "text": "Jeff Bezos stepped down as Amazon CEO in 2021, succeeded by Andy Jassy."}
+{"doc_id": 7002, "text": "Warren Buffett built Berkshire Hathaway into one of the largest holding companies."}
+{"doc_id": 7003, "text": "George Soros founded Soros Fund Management and the Open Society Foundations."}
+{"doc_id": 7004, "text": "Ray Dalio founded Bridgewater Associates in 1975, one of the worlds largest hedge funds."}
+{"doc_id": 7005, "text": "Janet Yellen became the first female US Treasury Secretary in 2021."}
+{"doc_id": 7006, "text": "Christine Lagarde became President of the European Central Bank in 2019."}
+{"doc_id": 7007, "text": "Mary Barra became CEO of General Motors in 2014, the first female head of a major automaker."}
+{"doc_id": 7008, "text": "Lisa Su took over as AMD CEO in 2014, driving a major turnaround."}
+{"doc_id": 7009, "text": "Jensen Huang co-founded Nvidia in 1993 and serves as its CEO."}
+{"doc_id": 7010, "text": "Larry Ellison co-founded Oracle in 1977 and led it for decades."}
+{"doc_id": 7011, "text": "Marc Benioff founded Salesforce in 1999, pioneering cloud-based CRM."}
+{"doc_id": 7012, "text": "Reid Hoffman co-founded LinkedIn in 2002, sold to Microsoft in 2016."}
+{"doc_id": 7013, "text": "Mark Cuban built his fortune from selling Broadcast.com to Yahoo in 1999."}
+{"doc_id": 7014, "text": "Pierre Omidyar founded eBay in 1995 as an online auction site."}
+{"doc_id": 7015, "text": "Jack Ma co-founded Alibaba in 1999 in Hangzhou, China."}
+{"doc_id": 7016, "text": "Pony Ma founded Tencent in 1998, owner of WeChat and major gaming investments."}
+{"doc_id": 7017, "text": "Masayoshi Son founded SoftBank Group in 1981."}
+{"doc_id": 7018, "text": "Bernard Arnault built LVMH into the worlds largest luxury goods conglomerate."}
+{"doc_id": 7019, "text": "Sam Walton founded Walmart in 1962 in Arkansas."}
+{"doc_id": 7020, "text": "Ingvar Kamprad founded IKEA in 1943 as a teenager in Sweden."}
+{"doc_id": 7021, "text": "Henry Ford introduced the assembly line for the Model T in 1913."}
+{"doc_id": 7022, "text": "John D Rockefeller founded Standard Oil in 1870 and became the worlds richest person."}
+{"doc_id": 7023, "text": "Andrew Carnegie sold his steel company to JP Morgan in 1901, then funded thousands of libraries."}
+{"doc_id": 7024, "text": "JP Morgan rescued the US banking system during the Panic of 1907."}
+{"doc_id": 7025, "text": "Cornelius Vanderbilt built railroad and shipping empires in 19th-century America."}
+{"doc_id": 7026, "text": "Bill Gates and Melinda French Gates founded the Bill and Melinda Gates Foundation in 2000."}
+{"doc_id": 7027, "text": "Mackenzie Scott has donated billions to charities since her divorce from Jeff Bezos in 2019."}
+{"doc_id": 7028, "text": "Chuck Feeney gave away his entire 8 billion dollar fortune via Atlantic Philanthropies."}
+{"doc_id": 7029, "text": "Peter Drucker is widely regarded as the founder of modern management thinking."}
+{"doc_id": 7030, "text": "W. Edwards Deming pioneered statistical quality control adopted by Japanese manufacturers."}
+{"doc_id": 7031, "text": "Eric Ries popularized the Lean Startup methodology with his 2011 book."}
+{"doc_id": 7032, "text": "Clayton Christensen introduced the theory of disruptive innovation at Harvard Business School."}
+{"doc_id": 7033, "text": "Michael Porter developed the Five Forces framework for analyzing industry competition."}
+{"doc_id": 7034, "text": "Daniel Kahneman won the 2002 Nobel Prize in Economics for prospect theory."}
+{"doc_id": 7035, "text": "Esther Duflo won the 2019 Nobel Prize in Economics with Abhijit Banerjee and Michael Kremer."}
+{"doc_id": 7036, "text": "Milton Friedman led the Chicago school of economics and won the 1976 Nobel Prize."}
+{"doc_id": 7037, "text": "John Maynard Keynes developed Keynesian macroeconomics in his 1936 General Theory."}
+{"doc_id": 7038, "text": "Adam Smith published The Wealth of Nations in 1776, founding modern economics."}
+{"doc_id": 7039, "text": "Karl Marx co-authored The Communist Manifesto in 1848 and wrote Das Kapital starting in 1867."}
+{"doc_id": 7040, "text": "Friedrich Hayek won the 1974 Nobel Prize in Economics for work on monetary theory."}
+{"doc_id": 7041, "text": "Joseph Schumpeter coined the term creative destruction in his 1942 book."}
+{"doc_id": 7042, "text": "Amartya Sen won the 1998 Nobel Prize in Economics for welfare economics."}
+{"doc_id": 7043, "text": "Paul Krugman won the 2008 Nobel Prize in Economics for trade theory."}
+{"doc_id": 7044, "text": "Joseph Stiglitz won the 2001 Nobel Prize in Economics for asymmetric information theory."}
+{"doc_id": 7045, "text": "Elinor Ostrom won the 2009 Nobel Prize in Economics, the first woman to receive it."}
+{"doc_id": 7046, "text": "Thomas Piketty wrote Capital in the Twenty-First Century, analyzing wealth inequality."}
+{"doc_id": 7047, "text": "Hyman Minsky theorized financial instability cycles, influential after the 2008 crisis."}
+{"doc_id": 7048, "text": "Ben Bernanke chaired the US Federal Reserve from 2006 to 2014, navigating the 2008 crisis."}
+{"doc_id": 7049, "text": "Jerome Powell became Federal Reserve Chair in 2018."}
+{"doc_id": 7050, "text": "Mario Draghi led the European Central Bank from 2011 to 2019 and later became Italian Prime Minister."}
+{"doc_id": 8001, "text": "Plate tectonics theory was developed in the 1960s, explaining continental drift."}
+{"doc_id": 8002, "text": "Big Bang cosmology explains the universes expansion from a hot dense initial state."}
+{"doc_id": 8003, "text": "General relativity describes gravity as the curvature of spacetime by mass and energy."}
+{"doc_id": 8004, "text": "Quantum entanglement allows correlated particle states regardless of separation."}
+{"doc_id": 8005, "text": "The Higgs boson was confirmed at CERN in 2012, completing the Standard Model."}
+{"doc_id": 8006, "text": "LIGO detected gravitational waves for the first time in 2015."}
+{"doc_id": 8007, "text": "The James Webb Space Telescope launched in December 2021 to observe distant galaxies."}
+{"doc_id": 8008, "text": "Hubble Space Telescope launched in 1990 and revolutionized observational astronomy."}
+{"doc_id": 8009, "text": "Voyager 1 became the first human-made object to enter interstellar space in 2012."}
+{"doc_id": 8010, "text": "The Apollo 11 mission landed Neil Armstrong and Buzz Aldrin on the Moon in 1969."}
+{"doc_id": 8011, "text": "Mars rover Curiosity landed in Gale Crater in August 2012."}
+{"doc_id": 8012, "text": "Perseverance rover landed on Mars in February 2021 and carried the Ingenuity helicopter."}
+{"doc_id": 8013, "text": "The Wright Flyer made the first controlled powered flight on December 17, 1903."}
+{"doc_id": 8014, "text": "Charles Lindbergh made the first solo nonstop transatlantic flight in 1927."}
+{"doc_id": 8015, "text": "Amelia Earhart became the first woman to fly solo across the Atlantic in 1932."}
+{"doc_id": 8016, "text": "Chuck Yeager broke the sound barrier in level flight in 1947."}
+{"doc_id": 8017, "text": "The Concorde supersonic airliner began commercial service in 1976."}
+{"doc_id": 8018, "text": "SpaceX Falcon 9 became the first orbital rocket to land and be reused in 2015."}
+{"doc_id": 8019, "text": "ARPANET, the precursor to the modern Internet, was launched in 1969."}
+{"doc_id": 8020, "text": "The first email was sent by Ray Tomlinson in 1971."}
+{"doc_id": 8021, "text": "The World Wide Web went public in 1991 after Tim Berners-Lees CERN work."}
+{"doc_id": 8022, "text": "The first iPhone was released by Apple on June 29, 2007."}
+{"doc_id": 8023, "text": "The Android operating system was released as open source in 2008."}
+{"doc_id": 8024, "text": "Bitcoin whitepaper was published by Satoshi Nakamoto in October 2008."}
+{"doc_id": 8025, "text": "Ethereum was launched in 2015 by Vitalik Buterin, enabling smart contracts."}
+{"doc_id": 8026, "text": "Linux Foundation was established in 2000 to coordinate Linux development."}
+{"doc_id": 8027, "text": "GitHub was founded in 2008 and acquired by Microsoft in 2018."}
+{"doc_id": 8028, "text": "Stack Overflow was founded in 2008 by Jeff Atwood and Joel Spolsky."}
+{"doc_id": 8029, "text": "Reddit was founded by Steve Huffman and Alexis Ohanian in 2005."}
+{"doc_id": 8030, "text": "Wikipedia was launched by Jimmy Wales and Larry Sanger in January 2001."}
+{"doc_id": 8031, "text": "Mozilla Firefox was first released in November 2004."}
+{"doc_id": 8032, "text": "Google Chrome was first released in September 2008."}
+{"doc_id": 8033, "text": "Microsoft Edge replaced Internet Explorer as the default Windows browser in 2015."}
+{"doc_id": 8034, "text": "Safari web browser was first released by Apple in 2003."}
+{"doc_id": 8035, "text": "Docker was released in 2013, popularizing containerized application deployment."}
+{"doc_id": 8036, "text": "Kubernetes was released by Google in 2014 to orchestrate containers at scale."}
+{"doc_id": 8037, "text": "React was open-sourced by Facebook in 2013 as a JavaScript UI library."}
+{"doc_id": 8038, "text": "Vue.js was created by Evan You and released in 2014."}
+{"doc_id": 8039, "text": "Angular was released by Google in 2016 as the successor to AngularJS."}
+{"doc_id": 8040, "text": "Rust language reached version 1.0 in 2015, emphasizing memory safety without garbage collection."}
+{"doc_id": 8041, "text": "Go language was announced by Google in 2009 and reached 1.0 in 2012."}
+{"doc_id": 8042, "text": "Swift was introduced by Apple at WWDC 2014 to replace Objective-C."}
+{"doc_id": 8043, "text": "Kotlin became the preferred language for Android development announced by Google in 2019."}
+{"doc_id": 8044, "text": "TypeScript was first released by Microsoft in 2012 to add types to JavaScript."}
+{"doc_id": 8045, "text": "Node.js was created by Ryan Dahl and first released in 2009."}
+{"doc_id": 8046, "text": "MongoDB was released as open-source document database in 2009."}
+{"doc_id": 8047, "text": "PostgreSQL traces its lineage to the POSTGRES project at UC Berkeley in 1986."}
+{"doc_id": 8048, "text": "Redis was created by Salvatore Sanfilippo and first released in 2009."}
+{"doc_id": 8049, "text": "Apache Spark was developed at UC Berkeleys AMPLab and open-sourced in 2010."}
+{"doc_id": 8050, "text": "TensorFlow was released by Google in November 2015 for machine learning."}
+{"doc_id": 9001, "text": "The Beatles released their first studio album Please Please Me in March 1963."}
+{"doc_id": 9002, "text": "Led Zeppelin formed in London in 1968, becoming one of the most influential rock bands."}
+{"doc_id": 9003, "text": "Pink Floyd released The Dark Side of the Moon in 1973, one of the best-selling albums ever."}
+{"doc_id": 9004, "text": "Queen released Bohemian Rhapsody in 1975, written by Freddie Mercury."}
+{"doc_id": 9005, "text": "The Rolling Stones formed in London in 1962 and continue performing into the 21st century."}
+{"doc_id": 9006, "text": "Bob Marley popularized reggae music worldwide before his death in 1981."}
+{"doc_id": 9007, "text": "Madonna released her self-titled debut album in 1983."}
+{"doc_id": 9008, "text": "Michael Jacksons Thriller, released in 1982, became the best-selling album of all time."}
+{"doc_id": 9009, "text": "Prince released the album Purple Rain in 1984, accompanying the film of the same name."}
+{"doc_id": 9010, "text": "Whitney Houston released her self-titled debut album in 1985."}
+{"doc_id": 9011, "text": "Nirvana released Nevermind in September 1991, launching the grunge movement into the mainstream."}
+{"doc_id": 9012, "text": "Radiohead released OK Computer in 1997, redefining alternative rock."}
+{"doc_id": 9013, "text": "U2 has won 22 Grammy Awards, the most for any rock band in history."}
+{"doc_id": 9014, "text": "Coldplay formed at University College London in 1996."}
+{"doc_id": 9015, "text": "Daft Punk released the album Random Access Memories in 2013."}
+{"doc_id": 9016, "text": "Bach composed his Toccata and Fugue in D minor sometime before 1750."}
+{"doc_id": 9017, "text": "Mozart composed The Marriage of Figaro in 1786 in Vienna."}
+{"doc_id": 9018, "text": "Beethoven completed his Ninth Symphony in 1824 despite being mostly deaf."}
+{"doc_id": 9019, "text": "Tchaikovsky composed Swan Lake in 1875-1876 and The Nutcracker in 1892."}
+{"doc_id": 9020, "text": "Debussy composed Clair de Lune as part of his Suite Bergamasque in 1905."}
+{"doc_id": 9021, "text": "Stravinskys The Rite of Spring premiered in Paris in 1913, causing a riot."}
+{"doc_id": 9022, "text": "Aaron Copland composed Appalachian Spring in 1944."}
+{"doc_id": 9023, "text": "Leonard Bernstein composed West Side Story which premiered on Broadway in 1957."}
+{"doc_id": 9024, "text": "John Williams composed scores for Star Wars, Indiana Jones, and Harry Potter."}
+{"doc_id": 9025, "text": "Hans Zimmer composed scores for The Lion King, Interstellar, and Dune."}
+{"doc_id": 9026, "text": "Star Wars Episode IV: A New Hope released in 1977, directed by George Lucas."}
+{"doc_id": 9027, "text": "James Cameron directed Titanic in 1997 and Avatar in 2009, both record-breaking."}
+{"doc_id": 9028, "text": "The Lord of the Rings trilogy was directed by Peter Jackson from 2001 to 2003."}
+{"doc_id": 9029, "text": "The Matrix was directed by the Wachowskis and released in 1999."}
+{"doc_id": 9030, "text": "Pulp Fiction by Quentin Tarantino won the Palme dOr at Cannes 1994."}
+{"doc_id": 9031, "text": "Citizen Kane directed by Orson Welles in 1941 is often cited as the greatest film ever made."}
+{"doc_id": 9032, "text": "Casablanca starring Humphrey Bogart and Ingrid Bergman premiered in 1942."}
+{"doc_id": 9033, "text": "Alfred Hitchcock directed Psycho in 1960 and Vertigo in 1958."}
+{"doc_id": 9034, "text": "Stanley Kubrick directed 2001: A Space Odyssey in 1968 and The Shining in 1980."}
+{"doc_id": 9035, "text": "Francis Ford Coppola directed The Godfather in 1972 and Apocalypse Now in 1979."}
+{"doc_id": 9036, "text": "Martin Scorsese directed Goodfellas in 1990 and The Departed in 2006."}
+{"doc_id": 9037, "text": "Pixar Animation Studios released Toy Story in 1995, the first fully computer-animated feature."}
+{"doc_id": 9038, "text": "Walt Disney co-founded Walt Disney Productions in 1923 and released Snow White in 1937."}
+{"doc_id": 9039, "text": "Charlie Chaplin directed and starred in City Lights in 1931."}
+{"doc_id": 9040, "text": "Akira Kurosawa influenced filmmakers worldwide; Rashomon launched his international career in 1950."}
+{"doc_id": 9041, "text": "Federico Fellini directed La Dolce Vita in 1960 and 8 1/2 in 1963."}
+{"doc_id": 9042, "text": "Ingmar Bergman directed The Seventh Seal in 1957 and Persona in 1966."}
+{"doc_id": 9043, "text": "Jean-Luc Godard directed Breathless in 1960, defining the French New Wave."}
+{"doc_id": 9044, "text": "Wes Anderson directed The Grand Budapest Hotel in 2014, winning four Academy Awards."}
+{"doc_id": 9045, "text": "Spike Lee directed Do the Right Thing in 1989 and BlacKkKlansman in 2018."}
+{"doc_id": 9046, "text": "Ridley Scott directed Alien in 1979 and Blade Runner in 1982."}
+{"doc_id": 9047, "text": "Sidney Poitier was the first African American to win the Best Actor Oscar in 1964."}
+{"doc_id": 9048, "text": "Halle Berry was the first African American woman to win the Best Actress Oscar in 2002."}
+{"doc_id": 9049, "text": "Tom Hanks won consecutive Best Actor Oscars for Philadelphia in 1993 and Forrest Gump in 1994."}
+{"doc_id": 9050, "text": "Meryl Streep has been nominated for 21 Academy Awards, winning three."}
+{"doc_id": 1051, "text": "Yukihiro Matsumoto created the Ruby programming language in Japan in 1995."}
+{"doc_id": 1052, "text": "Andrew Tanenbaum created MINIX, an educational Unix-like operating system, in 1987."}
+{"doc_id": 1053, "text": "Richard Stallman founded the GNU Project in 1983 and the Free Software Foundation in 1985."}
+{"doc_id": 1054, "text": "Linus Torvalds and Junio Hamano have served as maintainers of the Git version control system."}
+{"doc_id": 1055, "text": "Bram Cohen invented BitTorrent and released the protocol in 2001."}
+{"doc_id": 1056, "text": "Jim Gray won the 1998 Turing Award for contributions to database systems."}
+{"doc_id": 1057, "text": "Edgar F. Codd developed the relational database model at IBM in 1970."}
+{"doc_id": 1058, "text": "Niklaus Wirth designed the Pascal programming language in 1970."}
+{"doc_id": 1059, "text": "John Backus designed the FORTRAN programming language at IBM in 1957."}
+{"doc_id": 1060, "text": "Grace Hopper invented the first compiler and helped create COBOL in the late 1950s."}
+{"doc_id": 1061, "text": "Vinton Cerf is often called the Father of the Internet for his work on TCP/IP."}
+{"doc_id": 1062, "text": "Sergey Brin and Larry Page filed the PageRank patent in 1998."}
+{"doc_id": 1063, "text": "Larry Wall created the Perl programming language in 1987."}
+{"doc_id": 1064, "text": "James Gosling led the design of Java at Sun Microsystems in the 1990s."}
+{"doc_id": 1065, "text": "Steve Jobs returned to Apple in 1997 and led the launch of the iPod in 2001."}
+{"doc_id": 1066, "text": "Steve Jobs unveiled the iPhone at Macworld 2007."}
+{"doc_id": 1067, "text": "Steve Jobs introduced the iPad in January 2010."}
+{"doc_id": 1068, "text": "Tim Cook expanded Apple services revenue significantly after taking over in 2011."}
+{"doc_id": 1069, "text": "Wozniak left Apple full-time in 1985 and started CL 9 to build remote controls."}
+{"doc_id": 1070, "text": "Mitchell Baker has led the Mozilla Foundation since its inception in 2003."}
+{"doc_id": 1071, "text": "Sheryl Sandberg served as Facebook COO from 2008 to 2022."}
+{"doc_id": 1072, "text": "Marissa Mayer was the 20th employee at Google and later became CEO of Yahoo from 2012 to 2017."}
+{"doc_id": 1073, "text": "Susan Wojcicki served as CEO of YouTube from 2014 to 2023."}
+{"doc_id": 1074, "text": "Anne Wojcicki co-founded 23andMe in 2006, the personal genomics company."}
+{"doc_id": 1075, "text": "Cher Wang co-founded HTC in 1997 and VIA Technologies."}
+{"doc_id": 2051, "text": "Linus Pauling proposed the alpha helix structure of proteins in 1951."}
+{"doc_id": 2052, "text": "Rosalind Franklin died of ovarian cancer in 1958 at the age of 37."}
+{"doc_id": 2053, "text": "Maurice Wilkins shared the 1962 Nobel Prize with Watson and Crick for DNA structure work."}
+{"doc_id": 2054, "text": "Erwin Chargaff established that DNA base pairing follows specific rules in 1950."}
+{"doc_id": 2055, "text": "Frederick Banting co-discovered insulin in 1921 and won the Nobel Prize in 1923."}
+{"doc_id": 2056, "text": "Salvador Luria shared the 1969 Nobel Prize for discoveries about viruses."}
+{"doc_id": 2057, "text": "Max Delbruck shared the 1969 Nobel Prize with Luria and Hershey."}
+{"doc_id": 2058, "text": "Selman Waksman discovered streptomycin in 1943 and won the 1952 Nobel Prize."}
+{"doc_id": 2059, "text": "Carl Sagan hosted the original Cosmos television series in 1980."}
+{"doc_id": 2060, "text": "Neil deGrasse Tyson hosted the 2014 reboot of Cosmos television series."}
+{"doc_id": 2061, "text": "Brian Greene popularized string theory with his book The Elegant Universe in 1999."}
+{"doc_id": 2062, "text": "Roger Penrose shared the 2020 Nobel Prize in Physics for black hole singularity work."}
+{"doc_id": 2063, "text": "Reinhard Genzel shared the 2020 Nobel Prize for discoveries about the Milky Way black hole."}
+{"doc_id": 2064, "text": "Kip Thorne shared the 2017 Nobel Prize in Physics for LIGO gravitational wave detection."}
+{"doc_id": 2065, "text": "Rainer Weiss shared the 2017 Nobel Prize for the LIGO detector design."}
+{"doc_id": 2066, "text": "Barry Barish shared the 2017 Nobel Prize for the LIGO experimental work."}
+{"doc_id": 2067, "text": "Saul Perlmutter shared the 2011 Nobel Prize for accelerating universe discovery."}
+{"doc_id": 2068, "text": "Adam Riess shared the 2011 Nobel Prize for discovering cosmic acceleration."}
+{"doc_id": 2069, "text": "Brian Schmidt shared the 2011 Nobel Prize for accelerating universe observations."}
+{"doc_id": 2070, "text": "Peter Higgs shared the 2013 Nobel Prize for predicting the Higgs boson in 1964."}
+{"doc_id": 2071, "text": "Francois Englert shared the 2013 Nobel Prize for theoretical work on the Higgs mechanism."}
+{"doc_id": 2072, "text": "John Bardeen won two Nobel Prizes in Physics, first in 1956 for the transistor."}
+{"doc_id": 2073, "text": "Walter Brattain co-invented the point-contact transistor at Bell Labs in 1947."}
+{"doc_id": 2074, "text": "William Shockley led the team that invented the transistor at Bell Labs."}
+{"doc_id": 2075, "text": "Robert Noyce co-invented the integrated circuit and co-founded Intel in 1968."}
+{"doc_id": 3051, "text": "Cyrus the Great founded the Persian Achaemenid Empire around 559 BC."}
+{"doc_id": 3052, "text": "Augustus became the first Roman Emperor in 27 BC."}
+{"doc_id": 3053, "text": "Hannibal led Carthaginian forces across the Alps to attack Rome in 218 BC."}
+{"doc_id": 3054, "text": "Spartacus led a major slave revolt against Rome from 73 to 71 BC."}
+{"doc_id": 3055, "text": "Marcus Aurelius wrote Meditations as Roman Emperor from 161 to 180 AD."}
+{"doc_id": 3056, "text": "Justinian I codified Roman law in the Corpus Juris Civilis around 534 AD."}
+{"doc_id": 3057, "text": "William the Conqueror invaded England and won the Battle of Hastings in 1066."}
+{"doc_id": 3058, "text": "Saladin recaptured Jerusalem from Crusaders in 1187."}
+{"doc_id": 3059, "text": "Richard the Lionheart led the Third Crusade against Saladin from 1189 to 1192."}
+{"doc_id": 3060, "text": "Ferdinand and Isabella unified Spain and funded Columbus voyage in 1492."}
+{"doc_id": 3061, "text": "Martin Luther posted his 95 Theses in Wittenberg in 1517, sparking the Reformation."}
+{"doc_id": 3062, "text": "Henry VIII broke with the Roman Catholic Church and founded the Church of England in 1534."}
+{"doc_id": 3063, "text": "Galileo was tried by the Roman Inquisition in 1633 for supporting heliocentrism."}
+{"doc_id": 3064, "text": "Isaac Newton served as President of the Royal Society from 1703 to his death in 1727."}
+{"doc_id": 3065, "text": "Benjamin Franklin discovered electrical principles and helped draft the US Constitution."}
+{"doc_id": 3066, "text": "Thomas Jefferson drafted the Declaration of Independence in 1776."}
+{"doc_id": 3067, "text": "John Adams served as the second US President from 1797 to 1801."}
+{"doc_id": 3068, "text": "Alexander Hamilton founded the US financial system as first Treasury Secretary."}
+{"doc_id": 3069, "text": "Sojourner Truth delivered the Aint I a Woman speech in 1851."}
+{"doc_id": 3070, "text": "Theodore Roosevelt became US President in 1901 after McKinleys assassination."}
+{"doc_id": 3071, "text": "Woodrow Wilson led the US through World War One and proposed the League of Nations."}
+{"doc_id": 3072, "text": "John F. Kennedy was assassinated in Dallas on November 22, 1963."}
+{"doc_id": 3073, "text": "Lyndon B. Johnson signed the Civil Rights Act of 1964 into law."}
+{"doc_id": 3074, "text": "Ronald Reagan served as US President from 1981 to 1989."}
+{"doc_id": 3075, "text": "Barack Obama became the first African American US President in 2009."}
+{"doc_id": 4051, "text": "Pablo Neruda won the 1971 Nobel Prize in Literature."}
+{"doc_id": 4052, "text": "Maya Angelou published I Know Why the Caged Bird Sings in 1969."}
+{"doc_id": 4053, "text": "Jorge Luis Borges wrote influential short fiction including The Library of Babel in 1941."}
+{"doc_id": 4054, "text": "Marcel Proust wrote In Search of Lost Time published from 1913 to 1927."}
+{"doc_id": 4055, "text": "T.S. Eliot wrote The Waste Land in 1922 and won the 1948 Nobel Prize."}
+{"doc_id": 4056, "text": "Ernest Hemingway won the 1954 Nobel Prize for Literature."}
+{"doc_id": 4057, "text": "Toni Morrison won the 1993 Nobel Prize, the first African American woman to do so."}
+{"doc_id": 4058, "text": "Doris Lessing won the 2007 Nobel Prize in Literature at age 87."}
+{"doc_id": 4059, "text": "Patrick White won the 1973 Nobel Prize, the first Australian to do so."}
+{"doc_id": 4060, "text": "Wole Soyinka became the first African Nobel laureate in Literature in 1986."}
+{"doc_id": 4061, "text": "Naguib Mahfouz became the first Arab Nobel laureate in Literature in 1988."}
+{"doc_id": 4062, "text": "Yasunari Kawabata won the 1968 Nobel Prize in Literature, the first Japanese laureate."}
+{"doc_id": 4063, "text": "Kenzaburo Oe won the 1994 Nobel Prize in Literature."}
+{"doc_id": 4064, "text": "Mo Yan won the 2012 Nobel Prize in Literature, the first Chinese citizen Nobel laureate in Lit."}
+{"doc_id": 4065, "text": "Han Kang won the 2024 Nobel Prize in Literature, the first South Korean to do so."}
+{"doc_id": 4066, "text": "Gustav Klimt painted The Kiss between 1907 and 1908 in Vienna."}
+{"doc_id": 4067, "text": "Edvard Munch painted The Scream in 1893 in Norway."}
+{"doc_id": 4068, "text": "Andy Warhol popularized Pop Art in the 1960s with works like Campbells Soup Cans."}
+{"doc_id": 4069, "text": "Jackson Pollock developed his drip painting technique in the late 1940s."}
+{"doc_id": 4070, "text": "Mark Rothko painted large color field works in the 1950s and 1960s."}
+{"doc_id": 4071, "text": "Yayoi Kusama is known for her polka dot installations and infinity rooms."}
+{"doc_id": 4072, "text": "Banksy is a pseudonymous English street artist active since the 1990s."}
+{"doc_id": 4073, "text": "Jean-Michel Basquiat painted Neo-expressionist works in 1980s New York."}
+{"doc_id": 4074, "text": "Damien Hirst became the wealthiest living artist with works like The Physical Impossibility of Death."}
+{"doc_id": 4075, "text": "Marina Abramovic pioneered performance art with works spanning decades."}
+{"doc_id": 10001, "text": "Blue whales are the largest animals known to have ever existed."}
+{"doc_id": 10002, "text": "African elephants are the largest land animals alive today."}
+{"doc_id": 10003, "text": "Cheetahs are the fastest land animals, reaching speeds over 100 kilometers per hour."}
+{"doc_id": 10004, "text": "Peregrine falcons dive at speeds exceeding 320 kilometers per hour, the fastest of any bird."}
+{"doc_id": 10005, "text": "Giant pandas live primarily in temperate forests in southwestern China."}
+{"doc_id": 10006, "text": "Polar bears are the largest land carnivores, native to the Arctic."}
+{"doc_id": 10007, "text": "Komodo dragons are the largest living lizards, found on Indonesian islands."}
+{"doc_id": 10008, "text": "Saltwater crocodiles are the largest living reptiles, found in Australia and Southeast Asia."}
+{"doc_id": 10009, "text": "Bald eagles became the US national symbol in 1782."}
+{"doc_id": 10010, "text": "Octopuses have three hearts and blue blood due to copper-based hemocyanin."}
+{"doc_id": 10011, "text": "Honeybees communicate flower locations via a figure-eight waggle dance."}
+{"doc_id": 10012, "text": "Monarch butterflies migrate thousands of kilometers from Canada to Mexico annually."}
+{"doc_id": 10013, "text": "Emperor penguins breed during the Antarctic winter, the only species that does so."}
+{"doc_id": 10014, "text": "Hummingbirds can hover and fly backwards thanks to their figure-eight wing motion."}
+{"doc_id": 10015, "text": "Axolotls can regenerate entire limbs, jaws, and parts of their spinal cord."}
+{"doc_id": 10016, "text": "Octopus vulgaris can solve complex puzzles and use tools."}
+{"doc_id": 10017, "text": "Tardigrades survive vacuum, radiation, and extreme temperatures."}
+{"doc_id": 10018, "text": "Domestic dogs descended from gray wolves at least 15000 years ago."}
+{"doc_id": 10019, "text": "Cats were domesticated around 9500 years ago in the Near East."}
+{"doc_id": 10020, "text": "Horses were first domesticated on the Eurasian steppes around 5500 years ago."}
+{"doc_id": 10021, "text": "Honey never spoils due to its low water content and acidic pH."}
+{"doc_id": 10022, "text": "Wolves live in family packs led by a breeding pair."}
+{"doc_id": 10023, "text": "Chimpanzees share about 98 percent of their DNA with humans."}
+{"doc_id": 10024, "text": "Bonobos and chimpanzees are humans closest living relatives."}
+{"doc_id": 10025, "text": "Gorillas live in groups led by a dominant silverback male."}
+{"doc_id": 10026, "text": "Lions live in social prides typically led by related females."}
+{"doc_id": 10027, "text": "Tigers are the largest cat species, native to Asia."}
+{"doc_id": 10028, "text": "Snow leopards inhabit the mountain ranges of Central and South Asia."}
+{"doc_id": 10029, "text": "African gray parrots can match the cognitive abilities of young human children in certain tasks."}
+{"doc_id": 10030, "text": "Crows in the Caledonian species craft tools to extract insects from logs."}
+{"doc_id": 10031, "text": "Coral reefs cover less than one percent of the ocean floor but host 25 percent of marine species."}
+{"doc_id": 10032, "text": "Mantis shrimp have the most complex eyes in the animal kingdom with 16 photoreceptor types."}
+{"doc_id": 10033, "text": "Giant squid live in deep oceans and grow to 13 meters long."}
+{"doc_id": 10034, "text": "Whale sharks are the largest fish species, growing to 18 meters long."}
+{"doc_id": 10035, "text": "Coelacanths were thought extinct for 65 million years until rediscovered in 1938."}
+{"doc_id": 10036, "text": "Dodos went extinct in the late 17th century after humans arrived on Mauritius."}
+{"doc_id": 10037, "text": "Passenger pigeons were once the most abundant North American bird but went extinct in 1914."}
+{"doc_id": 10038, "text": "The thylacine or Tasmanian tiger went extinct in 1936."}
+{"doc_id": 10039, "text": "The Northern white rhinoceros functionally went extinct in 2018 with only females remaining."}
+{"doc_id": 10040, "text": "Vaquitas are the smallest cetacean species and critically endangered."}
+{"doc_id": 10041, "text": "Bonobos are matriarchal great apes living south of the Congo River."}
+{"doc_id": 10042, "text": "Naked mole rats live in eusocial colonies similar to bees."}
+{"doc_id": 10043, "text": "Bombardier beetles spray hot defensive chemicals from their abdomen."}
+{"doc_id": 10044, "text": "Electric eels generate up to 860 volts to stun prey."}
+{"doc_id": 10045, "text": "Pistol shrimp create cavitation bubbles hotter than the sun surface for a microsecond."}
+{"doc_id": 10046, "text": "Cuttlefish change skin color and texture for camouflage and communication."}
+{"doc_id": 10047, "text": "Honey badgers prey on venomous snakes and have remarkable resistance to venom."}
+{"doc_id": 10048, "text": "Sloths host symbiotic algae in their fur, giving them a greenish tint."}
+{"doc_id": 10049, "text": "Star-nosed moles can identify and consume prey in under 200 milliseconds."}
+{"doc_id": 10050, "text": "Platypus is one of few mammals that lay eggs and the males have venomous spurs."}
+{"doc_id": 11001, "text": "Pizza Margherita was created in Naples in 1889 to honor Queen Margherita."}
+{"doc_id": 11002, "text": "Sushi originated in Japan as a method of preserving fish in fermented rice."}
+{"doc_id": 11003, "text": "Tacos al pastor blend Lebanese shawarma technique with Mexican pork preparation."}
+{"doc_id": 11004, "text": "Pad Thai became Thailands national dish in the 1930s under nationalist promotion."}
+{"doc_id": 11004, "text": "Chocolate originated in Mesoamerica from the cacao plant cultivated by the Olmec."}
+{"doc_id": 11005, "text": "Coffee originated in Ethiopia and spread globally through Yemeni Sufi monasteries."}
+{"doc_id": 11006, "text": "Champagne can only be called such if produced in the Champagne region of France."}
+{"doc_id": 11007, "text": "Whiskey originated in Scotland and Ireland, with distinct distillation traditions."}
+{"doc_id": 11008, "text": "Sake is the traditional Japanese alcoholic beverage brewed from fermented rice."}
+{"doc_id": 11009, "text": "Tea originated in China and was introduced to Britain in the 17th century."}
+{"doc_id": 11010, "text": "Cheese can be traced back at least 7000 years in the Middle East."}
+{"doc_id": 11011, "text": "Croissants became associated with France although the recipe likely originated in Austria."}
+{"doc_id": 11012, "text": "Bagels became popular in Jewish communities in Eastern Europe in the 17th century."}
+{"doc_id": 11013, "text": "Kimchi is the traditional Korean fermented vegetable dish."}
+{"doc_id": 11014, "text": "Curry refers to a wide variety of dishes originating in South Asia."}
+{"doc_id": 11015, "text": "Dim sum originated in Cantonese teahouses serving small dishes alongside tea."}
+{"doc_id": 11016, "text": "Ramen noodles became popular Japanese street food in the early 20th century."}
+{"doc_id": 11017, "text": "Pho is the national soup of Vietnam, traditionally made with beef bones."}
+{"doc_id": 11018, "text": "Couscous is a North African staple made from steamed semolina granules."}
+{"doc_id": 11019, "text": "Tagine cooking originated in North Africa using earthenware pots with conical lids."}
+{"doc_id": 11020, "text": "Paella originated in the Valencia region of Spain in the 19th century."}
+{"doc_id": 11021, "text": "Risotto is a northern Italian rice dish cooked in broth to creamy consistency."}
+{"doc_id": 11022, "text": "Carbonara is a Roman pasta dish made with eggs, cheese, guanciale, and pepper."}
+{"doc_id": 11023, "text": "Hummus is a Levantine dip made from chickpeas, tahini, lemon juice, and garlic."}
+{"doc_id": 11024, "text": "Falafel are deep-fried chickpea or fava bean balls common across the Middle East."}
+{"doc_id": 11025, "text": "Pho originated in northern Vietnam in the early 20th century."}
+{"doc_id": 12001, "text": "Super Mario Bros launched on the Nintendo Entertainment System in 1985."}
+{"doc_id": 12002, "text": "Tetris was created by Alexey Pajitnov in the Soviet Union in 1984."}
+{"doc_id": 12003, "text": "The Legend of Zelda series began with the 1986 Nintendo Entertainment System release."}
+{"doc_id": 12004, "text": "Pokemon Red and Green released in Japan in 1996, launching a global phenomenon."}
+{"doc_id": 12005, "text": "Minecraft was created by Markus Persson and released in 2011."}
+{"doc_id": 12006, "text": "Grand Theft Auto V released in 2013 became one of the best-selling games ever."}
+{"doc_id": 12007, "text": "World of Warcraft launched in 2004 by Blizzard Entertainment."}
+{"doc_id": 12008, "text": "League of Legends released in 2009 by Riot Games."}
+{"doc_id": 12009, "text": "Fortnite Battle Royale launched in 2017 by Epic Games."}
+{"doc_id": 12010, "text": "Sid Meiers Civilization series began in 1991 and continues today."}
+{"doc_id": 12011, "text": "Doom by id Software released in 1993 popularized the first-person shooter genre."}
+{"doc_id": 12012, "text": "Half-Life by Valve released in 1998, revolutionizing single-player shooters."}
+{"doc_id": 12013, "text": "Counter-Strike began as a Half-Life mod in 1999."}
+{"doc_id": 12014, "text": "Portal by Valve released in 2007, popularizing puzzle gameplay."}
+{"doc_id": 12015, "text": "Dark Souls by FromSoftware released in 2011, originating the soulslike genre."}
+{"doc_id": 12016, "text": "Elden Ring by FromSoftware released in 2022 and won Game of the Year."}
+{"doc_id": 12017, "text": "The Witcher 3 by CD Projekt Red released in 2015."}
+{"doc_id": 12018, "text": "Cyberpunk 2077 launched in December 2020 by CD Projekt Red."}
+{"doc_id": 12019, "text": "Mass Effect trilogy by BioWare released between 2007 and 2012."}
+{"doc_id": 12020, "text": "Final Fantasy VII released in 1997 by Square on the original PlayStation."}
+{"doc_id": 12021, "text": "Sega Genesis launched in North America in 1989 as competition to the NES."}
+{"doc_id": 12022, "text": "PlayStation 5 launched globally on November 12, 2020."}
+{"doc_id": 12023, "text": "Xbox Series X launched on November 10, 2020 by Microsoft."}
+{"doc_id": 12024, "text": "Nintendo Switch launched in March 2017 as a hybrid console."}
+{"doc_id": 12025, "text": "Steam was launched by Valve in September 2003 as a game distribution platform."}
+{"doc_id": 13001, "text": "Henry Ford founded the Ford Motor Company in 1903 in Detroit."}
+{"doc_id": 13002, "text": "Karl Benz patented the first automobile in 1886 in Germany."}
+{"doc_id": 13003, "text": "Toyota was founded in 1937 in Japan, growing into the worlds largest automaker."}
+{"doc_id": 13004, "text": "Volkswagen was founded in 1937 in Germany; Beetle became one of the best-selling cars ever."}
+{"doc_id": 13005, "text": "Tesla Model S launched in 2012 as the first mass-market electric luxury sedan."}
+{"doc_id": 13006, "text": "Porsche was founded by Ferdinand Porsche in 1931."}
+{"doc_id": 13007, "text": "BMW originated from aircraft engine manufacturing in 1916 in Munich."}
+{"doc_id": 13008, "text": "Mercedes-Benz traces back to Karl Benz 1886 patent and Gottlieb Daimlers 1885 engine."}
+{"doc_id": 13009, "text": "Honda was founded by Soichiro Honda in 1948 starting with motorcycles."}
+{"doc_id": 13010, "text": "Ferrari was founded by Enzo Ferrari in 1939 and began making cars in 1947."}
+{"doc_id": 13011, "text": "Lamborghini was founded by Ferruccio Lamborghini in 1963 to compete with Ferrari."}
+{"doc_id": 13012, "text": "Rolls-Royce Motor Cars was founded in 1904 by Henry Royce and Charles Rolls."}
+{"doc_id": 13013, "text": "Aston Martin was founded in 1913 in London."}
+{"doc_id": 13014, "text": "Bugatti was founded by Ettore Bugatti in 1909 in Molsheim, Alsace."}
+{"doc_id": 13015, "text": "Hyundai Motor Company was founded in 1967 in South Korea."}
+{"doc_id": 13016, "text": "Kia Corporation founded in 1944 is the oldest Korean automaker."}
+{"doc_id": 13017, "text": "Nissan was founded in 1933 in Japan as Jidosha-Seizo."}
+{"doc_id": 13018, "text": "Subaru began as Fuji Heavy Industries with the first Subaru 360 launched in 1958."}
+{"doc_id": 13019, "text": "Mazda was founded in 1920 in Hiroshima, Japan."}
+{"doc_id": 13020, "text": "Volvo was founded in 1927 in Gothenburg, Sweden."}
+{"doc_id": 13021, "text": "Citroen was founded by Andre Citroen in 1919 in France."}
+{"doc_id": 13022, "text": "Peugeot is one of the oldest car brands, dating back to 1810."}
+{"doc_id": 13023, "text": "Fiat was founded in 1899 in Turin, Italy."}
+{"doc_id": 13024, "text": "General Motors was founded in 1908 by William C. Durant."}
+{"doc_id": 13025, "text": "Chrysler was founded in 1925 by Walter Chrysler."}
+{"doc_id": 14001, "text": "Friends sitcom ran on NBC from 1994 to 2004 across 10 seasons."}
+{"doc_id": 14002, "text": "Seinfeld ran from 1989 to 1998 on NBC, becoming the highest-rated sitcom of its time."}
+{"doc_id": 14003, "text": "The Simpsons premiered in 1989 as the longest-running American scripted primetime series."}
+{"doc_id": 14004, "text": "Breaking Bad aired from 2008 to 2013 on AMC across five seasons."}
+{"doc_id": 14005, "text": "The Sopranos aired from 1999 to 2007 on HBO across six seasons."}
+{"doc_id": 14006, "text": "The Wire aired from 2002 to 2008 on HBO across five seasons."}
+{"doc_id": 14007, "text": "Game of Thrones aired from 2011 to 2019 on HBO across eight seasons."}
+{"doc_id": 14008, "text": "Stranger Things premiered on Netflix in 2016."}
+{"doc_id": 14009, "text": "The Mandalorian premiered on Disney Plus in November 2019."}
+{"doc_id": 14010, "text": "The Office US ran from 2005 to 2013 on NBC across nine seasons."}
+{"doc_id": 14011, "text": "Mad Men aired from 2007 to 2015 on AMC across seven seasons."}
+{"doc_id": 14012, "text": "Lost ran from 2004 to 2010 on ABC across six seasons."}
+{"doc_id": 14013, "text": "South Park premiered in 1997 on Comedy Central."}
+{"doc_id": 14014, "text": "Doctor Who originally ran from 1963 to 1989 on BBC and was revived in 2005."}
+{"doc_id": 14015, "text": "Star Trek The Original Series ran from 1966 to 1969 on NBC."}
+{"doc_id": 14016, "text": "Star Wars episode IV premiered in 1977, the first installment of the Lucas saga."}
+{"doc_id": 14017, "text": "Twin Peaks premiered in 1990 on ABC, created by David Lynch and Mark Frost."}
+{"doc_id": 14018, "text": "The X-Files ran from 1993 to 2002 on Fox across nine seasons."}
+{"doc_id": 14019, "text": "ER ran from 1994 to 2009 on NBC across 15 seasons."}
+{"doc_id": 14020, "text": "Grays Anatomy premiered on ABC in 2005 and continues into its 20th season."}
+{"doc_id": 14021, "text": "The West Wing ran from 1999 to 2006 on NBC across seven seasons."}
+{"doc_id": 14022, "text": "Mr. Robot aired from 2015 to 2019 on USA Network."}
+{"doc_id": 14023, "text": "Better Call Saul aired from 2015 to 2022 on AMC as a Breaking Bad spinoff."}
+{"doc_id": 14024, "text": "House MD ran from 2004 to 2012 on Fox across eight seasons."}
+{"doc_id": 14025, "text": "True Detective premiered on HBO in 2014 as an anthology crime series."}
+{"doc_id": 1076, "text": "Sergey Brin co-founded Google in 1998 with Larry Page at Stanford."}
+{"doc_id": 1077, "text": "Larry Page served as Google CEO from 1998 to 2001 and again from 2011 to 2015."}
+{"doc_id": 1078, "text": "Eric Schmidt served as Google CEO from 2001 to 2011."}
+{"doc_id": 1079, "text": "Steve Ballmer was Microsoft CEO from 2000 to 2014."}
+{"doc_id": 1080, "text": "Jensen Huang co-founded Nvidia with Chris Malachowsky and Curtis Priem in 1993."}
+{"doc_id": 1081, "text": "Reed Hastings co-founded Netflix in 1997 with Marc Randolph."}
+{"doc_id": 1082, "text": "Marc Andreessen co-founded Netscape Communications in 1994."}
+{"doc_id": 1083, "text": "Steve Case co-founded America Online in 1985."}
+{"doc_id": 1084, "text": "Susan Wojcicki was the 16th employee at Google before leading YouTube."}
+{"doc_id": 1085, "text": "Eric Yuan founded Zoom Video Communications in 2011."}
+{"doc_id": 1086, "text": "Stewart Butterfield co-founded Slack in 2009 and Flickr in 2004."}
+{"doc_id": 1087, "text": "Brian Acton and Jan Koum co-founded WhatsApp in 2009."}
+{"doc_id": 1088, "text": "Kevin Systrom and Mike Krieger co-founded Instagram in 2010, sold to Facebook 2012."}
+{"doc_id": 1089, "text": "Dustin Moskovitz co-founded Facebook with Mark Zuckerberg in 2004."}
+{"doc_id": 1090, "text": "Sean Parker became Facebooks first president in 2004."}
+{"doc_id": 1091, "text": "Peter Thiel co-founded PayPal in 1998 and was the first outside investor in Facebook."}
+{"doc_id": 1092, "text": "Max Levchin co-founded PayPal in 1998 and later founded Affirm."}
+{"doc_id": 1093, "text": "Reid Hoffman is a member of the PayPal Mafia along with Musk and Thiel."}
+{"doc_id": 1094, "text": "David Sacks was COO of PayPal and later founded Yammer."}
+{"doc_id": 1095, "text": "Stripe acquired by Square... no, Stripe was acquired by no one and is still private."}
+{"doc_id": 1096, "text": "Jack Dorsey co-founded Square in 2009 to handle payments via smartphones."}
+{"doc_id": 1097, "text": "Drew Houston co-founded Dropbox with Arash Ferdowsi in 2007."}
+{"doc_id": 1098, "text": "Daniel Ek co-founded Spotify in 2006 in Stockholm, Sweden."}
+{"doc_id": 1099, "text": "Garrett Camp co-founded both Uber and StumbleUpon."}
+{"doc_id": 1100, "text": "Travis Kalanick stepped down as Uber CEO in 2017."}
+{"doc_id": 2076, "text": "Marie Curie was the first woman to win a Nobel Prize, in Physics in 1903."}
+{"doc_id": 2077, "text": "Pierre Curie shared the 1903 Nobel Prize in Physics with Marie Curie."}
+{"doc_id": 2078, "text": "Henri Becquerel discovered radioactivity in 1896 and shared the 1903 Nobel Prize."}
+{"doc_id": 2079, "text": "Ernest Rutherford established the nuclear model of the atom in 1911."}
+{"doc_id": 2080, "text": "Max Planck founded quantum theory with his 1900 black body radiation paper."}
+{"doc_id": 2081, "text": "J Robert Oppenheimer led the Manhattan Projects Los Alamos laboratory from 1943."}
+{"doc_id": 2082, "text": "Enrico Fermi led the team that produced the first artificial nuclear chain reaction in 1942."}
+{"doc_id": 2083, "text": "Richard Feynman won the 1965 Nobel Prize for quantum electrodynamics work."}
+{"doc_id": 2084, "text": "Murray Gell-Mann proposed the quark model in 1964 and won the 1969 Nobel Prize."}
+{"doc_id": 2085, "text": "Stephen Hawking proposed cosmic inflation contributions and Hawking radiation."}
+{"doc_id": 2086, "text": "Brian Cox is a British physicist popularizing science via television and books."}
+{"doc_id": 2087, "text": "Lawrence Krauss authored A Universe from Nothing in 2012."}
+{"doc_id": 2088, "text": "Brian Greene wrote The Elegant Universe and hosts science programs."}
+{"doc_id": 2089, "text": "Michio Kaku is a theoretical physicist known for popular science books and broadcasts."}
+{"doc_id": 2090, "text": "Edward Witten is a leading theoretical physicist who won the 1990 Fields Medal."}
+{"doc_id": 3076, "text": "King Tutankhamun reigned over ancient Egypt from approximately 1332 BC."}
+{"doc_id": 3077, "text": "Ramesses II reigned over the New Kingdom of Egypt for 66 years starting 1279 BC."}
+{"doc_id": 3078, "text": "Queen Nefertiti was the chief wife of Pharaoh Akhenaten in the 14th century BC."}
+{"doc_id": 3079, "text": "Hatshepsut became one of the few female pharaohs of ancient Egypt around 1479 BC."}
+{"doc_id": 3080, "text": "Thutmose III expanded Egypts empire during his reign from 1479 to 1425 BC."}
+{"doc_id": 3081, "text": "Pythagoras founded a philosophical and religious school in Croton in southern Italy."}
+{"doc_id": 3082, "text": "Heraclitus proposed that change is the fundamental essence of the universe."}
+{"doc_id": 3083, "text": "Democritus proposed an early atomic theory of matter in the 5th century BC."}
+{"doc_id": 3084, "text": "Epicurus founded the Epicurean school of philosophy in Athens around 307 BC."}
+{"doc_id": 3085, "text": "Zeno of Citium founded Stoic philosophy in Athens around 301 BC."}
+{"doc_id": 3086, "text": "Diogenes of Sinope was a Cynic philosopher known for his unconventional lifestyle in Athens."}
+{"doc_id": 3087, "text": "Aristarchus of Samos proposed a heliocentric model of the universe in the 3rd century BC."}
+{"doc_id": 3088, "text": "Archimedes formulated principles of hydrostatics and engineering in Syracuse."}
+{"doc_id": 3089, "text": "Euclid wrote the Elements around 300 BC, founding axiomatic geometry."}
+{"doc_id": 3090, "text": "Ptolemy proposed a geocentric model of the universe in his Almagest in the 2nd century AD."}
+{"doc_id": 3091, "text": "Avicenna wrote The Canon of Medicine in 1025, foundational to medieval medical practice."}
+{"doc_id": 3092, "text": "Averroes wrote influential commentaries on Aristotle in 12th-century Andalusia."}
+{"doc_id": 3093, "text": "Al-Khwarizmi developed algebra in 9th-century Baghdad."}
+{"doc_id": 3094, "text": "Al-Biruni was an 11th-century polymath who measured the Earths radius."}
+{"doc_id": 3095, "text": "Ibn Battuta traveled 117000 kilometers across the 14th-century Islamic world."}
+{"doc_id": 3096, "text": "Zheng He led seven naval expeditions for Ming China between 1405 and 1433."}
+{"doc_id": 3097, "text": "Marco Polo traveled the Silk Road to Yuan dynasty China in the late 13th century."}
+{"doc_id": 3098, "text": "Ibn Khaldun pioneered the philosophy of history in his 1377 Muqaddimah."}
+{"doc_id": 3099, "text": "Catherine of Aragon was the first wife of Henry VIII and mother of Mary I."}
+{"doc_id": 3100, "text": "Anne Boleyn was the second wife of Henry VIII and mother of Elizabeth I."}
+{"doc_id": 4076, "text": "Vincent van Gogh painted Sunflowers series in 1888 and 1889."}
+{"doc_id": 4077, "text": "Van Gogh painted The Bedroom in 1888 while staying in Arles."}
+{"doc_id": 4078, "text": "Picasso painted Les Demoiselles dAvignon in 1907, prefiguring Cubism."}
+{"doc_id": 4079, "text": "Picasso painted Guernica in 1937 in response to the bombing during the Spanish Civil War."}
+{"doc_id": 4080, "text": "Matisse painted The Dance in 1909 and 1910, both versions."}
+{"doc_id": 4081, "text": "Cezanne painted his Mont Sainte-Victoire series between 1882 and 1906."}
+{"doc_id": 4082, "text": "Manet painted Le Dejeuner sur lherbe in 1863, scandalizing the Paris Salon."}
+{"doc_id": 4083, "text": "Caravaggio pioneered tenebrism in early-17th-century Italian Baroque painting."}
+{"doc_id": 4084, "text": "Rembrandt painted The Night Watch in 1642 in Amsterdam."}
+{"doc_id": 4085, "text": "Vermeer painted Girl with a Pearl Earring around 1665 in Delft."}
+{"doc_id": 4086, "text": "Goya painted Saturn Devouring His Son between 1819 and 1823 as one of his Black Paintings."}
+{"doc_id": 4087, "text": "Turner painted Rain Steam and Speed in 1844 capturing the early railroad era."}
+{"doc_id": 4088, "text": "Constable painted The Hay Wain in 1821 capturing English rural life."}
+{"doc_id": 4089, "text": "Hokusai created The Great Wave off Kanagawa around 1831."}
+{"doc_id": 4090, "text": "Hiroshige painted the One Hundred Famous Views of Edo series in the 1850s."}
+{"doc_id": 4091, "text": "Edward Hopper painted Nighthawks in 1942 capturing American urban loneliness."}
+{"doc_id": 4092, "text": "Grant Wood painted American Gothic in 1930 depicting a farmer and his daughter."}
+{"doc_id": 4093, "text": "Wassily Kandinsky pioneered abstract art with works starting around 1910."}
+{"doc_id": 4094, "text": "Piet Mondrian developed Neoplasticism with geometric grids of primary colors."}
+{"doc_id": 4095, "text": "Henri Rousseau painted The Dream in 1910 in a naive style."}
+{"doc_id": 4096, "text": "Marcel Duchamp introduced ready-mades like Fountain in 1917."}
+{"doc_id": 4097, "text": "Roy Lichtenstein created Pop Art comic-style paintings like Whaam! in 1963."}
+{"doc_id": 4098, "text": "David Hockney painted A Bigger Splash in 1967."}
+{"doc_id": 4099, "text": "Lucian Freud painted intense psychological portraits across his long career."}
+{"doc_id": 4100, "text": "Francis Bacon painted three studies for figures at the base of a crucifixion in 1944."}
+{"doc_id": 5051, "text": "Babe Didrikson Zaharias won two Olympic golds in 1932 and 10 LPGA major titles."}
+{"doc_id": 5052, "text": "Jim Thorpe won the 1912 Olympic pentathlon and decathlon gold medals."}
+{"doc_id": 5053, "text": "Wilma Rudolph won three gold medals at the 1960 Rome Olympics in sprinting."}
+{"doc_id": 5054, "text": "Edwin Moses won 122 consecutive 400 meter hurdles races over nine years."}
+{"doc_id": 5055, "text": "Sebastian Coe set the 800m world record in 1981 that stood for 16 years."}
+{"doc_id": 5056, "text": "Haile Gebrselassie set 27 long-distance world records during his career."}
+{"doc_id": 5057, "text": "Cathy Freeman won the 400m gold at the 2000 Sydney Olympics for Australia."}
+{"doc_id": 5058, "text": "Greg LeMond won three Tour de France titles in 1986, 1989, and 1990."}
+{"doc_id": 5059, "text": "Lance Armstrong was stripped of his seven Tour de France titles for doping."}
+{"doc_id": 5060, "text": "Chris Froome won the Tour de France four times between 2013 and 2017."}
+{"doc_id": 5061, "text": "Mary Lou Retton became the first American to win the Olympic all-around gymnastics gold in 1984."}
+{"doc_id": 5062, "text": "Olga Korbut introduced Olympic gymnastics audiences to high-difficulty acrobatics in 1972."}
+{"doc_id": 5063, "text": "Greg Louganis won four Olympic diving gold medals across the 1984 and 1988 Games."}
+{"doc_id": 5064, "text": "Picabo Street won Olympic gold in super-G skiing at the 1998 Nagano Games."}
+{"doc_id": 5065, "text": "Hideki Matsui hit 332 home runs in Japan and 175 more in MLB."}
+{"doc_id": 5066, "text": "Ichiro Suzuki had 4367 total hits between Japan and Major League Baseball."}
+{"doc_id": 5067, "text": "Sandy Koufax pitched four no-hitters including a perfect game in 1965."}
+{"doc_id": 5068, "text": "Cy Young won 511 games in his MLB career, the all-time record."}
+{"doc_id": 5069, "text": "Hank Aaron broke Babe Ruths career home run record in 1974 with 715."}
+{"doc_id": 5070, "text": "Barry Bonds set the career home run record at 762 in 2007."}
+{"doc_id": 5071, "text": "Babe Didrikson Zaharias won the Associated Press Female Athlete of the Year six times."}
+{"doc_id": 5072, "text": "Martina Navratilova won 18 Grand Slam singles titles in tennis."}
+{"doc_id": 5073, "text": "Steffi Graf won 22 Grand Slam singles titles including the 1988 Golden Slam."}
+{"doc_id": 5074, "text": "Chris Evert won 18 Grand Slam singles titles during her tennis career."}
+{"doc_id": 5075, "text": "Margaret Court won 24 Grand Slam singles titles, a womens record."}
+{"doc_id": 6051, "text": "Mount McKinley also known as Denali is North Americas tallest peak at 6190 meters."}
+{"doc_id": 6052, "text": "Aconcagua in Argentina is the tallest peak in the Americas at 6960 meters."}
+{"doc_id": 6053, "text": "Mount Elbrus in the Caucasus is Europes highest peak at 5642 meters."}
+{"doc_id": 6054, "text": "Mount Vinson in Antarctica is the continents highest peak at 4892 meters."}
+{"doc_id": 6055, "text": "Mount Kosciuszko at 2228 meters is the highest mountain on the Australian mainland."}
+{"doc_id": 6056, "text": "Lake Superior is the largest of the Great Lakes by surface area."}
+{"doc_id": 6057, "text": "Lake Tanganyika in Africa is the worlds longest freshwater lake."}
+{"doc_id": 6058, "text": "Lake Titicaca is the highest commercially navigable lake at 3812 meters above sea level."}
+{"doc_id": 6059, "text": "The Caspian Sea is the worlds largest inland body of water."}
+{"doc_id": 6060, "text": "The Pacific Ocean covers about one-third of Earths surface."}
+{"doc_id": 6061, "text": "The Atlantic Ocean is the second largest ocean covering about 20 percent of Earths surface."}
+{"doc_id": 6062, "text": "The Indian Ocean is the third largest ocean by area."}
+{"doc_id": 6063, "text": "The Arctic Ocean is the smallest of the worlds five oceans."}
+{"doc_id": 6064, "text": "The Southern Ocean surrounds Antarctica and was officially named in 2000."}
+{"doc_id": 6065, "text": "Greenwich Mean Time was established as the international time standard in 1884."}
+{"doc_id": 6066, "text": "The International Date Line generally follows 180 degrees longitude in the Pacific."}
+{"doc_id": 6067, "text": "Greenwich England gives its name to Greenwich Mean Time and the Greenwich Meridian."}
+{"doc_id": 6068, "text": "Cape Horn at the southern tip of South America has notoriously dangerous waters for ships."}
+{"doc_id": 6069, "text": "The Cape of Good Hope at the southern tip of Africa was a key landmark for early explorers."}
+{"doc_id": 6070, "text": "The Bering Strait separates Russia and Alaska across the Arctic Pacific."}
+{"doc_id": 6071, "text": "The Strait of Gibraltar separates Spain from Morocco linking the Mediterranean to the Atlantic."}
+{"doc_id": 6072, "text": "The Strait of Hormuz between Iran and Oman is a critical chokepoint for global oil trade."}
+{"doc_id": 6073, "text": "The Strait of Malacca between Malaysia and Indonesia is one of the busiest shipping lanes."}
+{"doc_id": 6074, "text": "The English Channel separates Britain from continental Europe."}
+{"doc_id": 6075, "text": "The Channel Tunnel opened in 1994 connecting England and France beneath the English Channel."}
+{"doc_id": 11026, "text": "Sushi rice is seasoned with vinegar, sugar, and salt to give it its characteristic flavor."}
+{"doc_id": 11027, "text": "Sashimi consists of thin slices of raw fish served without rice."}
+{"doc_id": 11028, "text": "Tempura is a Japanese dish of deep-fried battered seafood and vegetables."}
+{"doc_id": 11029, "text": "Wagyu cattle are bred in Japan for their highly marbled meat."}
+{"doc_id": 11030, "text": "Kobe beef is a strictly defined subset of Wagyu beef from Hyogo Prefecture."}
+{"doc_id": 11031, "text": "Matcha is a finely ground powder of specially grown green tea leaves."}
+{"doc_id": 11032, "text": "Espresso originated in Italy in the early 20th century as a faster way to brew coffee."}
+{"doc_id": 11033, "text": "Cappuccino combines espresso with steamed milk and milk foam in equal parts."}
+{"doc_id": 11034, "text": "Tiramisu is an Italian coffee-flavored dessert traditionally from Treviso."}
+{"doc_id": 11035, "text": "Gelato has a lower fat content than American ice cream and a denser texture."}
+{"doc_id": 11036, "text": "Baklava is a layered phyllo pastry filled with nuts and sweetened with syrup or honey."}
+{"doc_id": 11037, "text": "Mochi is a Japanese rice cake made from glutinous rice pounded into paste."}
+{"doc_id": 11038, "text": "Dumplings are a global food category with regional variants like jiaozi, gyoza, pierogi, ravioli."}
+{"doc_id": 11039, "text": "Sourdough bread relies on naturally occurring yeast and lactic acid bacteria for leavening."}
+{"doc_id": 11040, "text": "Indian curry uses spice blends called masala including turmeric, cumin, and coriander."}
+{"doc_id": 11041, "text": "Mole poblano is a complex Mexican sauce from Puebla containing chocolate and chilies."}
+{"doc_id": 11042, "text": "Bouillabaisse is a Provencal fish stew originating from the Marseille area of France."}
+{"doc_id": 11043, "text": "Pho originated in Hanoi during the early 20th century blending Vietnamese and French influences."}
+{"doc_id": 11044, "text": "Banh mi sandwiches combine French baguettes with Vietnamese fillings."}
+{"doc_id": 11045, "text": "Ceviche is a Latin American dish of raw fish cured in citrus juices."}
+{"doc_id": 11046, "text": "Empanadas are stuffed pastries found across Spanish and Latin American cuisine."}
+{"doc_id": 11047, "text": "Bibimbap is a Korean dish of mixed rice with vegetables, gochujang, and often beef and egg."}
+{"doc_id": 11048, "text": "Bulgogi is a Korean grilled marinated beef dish with sweet and savory flavors."}
+{"doc_id": 11049, "text": "Tom Yum is a Thai hot and sour soup commonly made with shrimp, lemongrass, and lime."}
+{"doc_id": 11050, "text": "Massaman curry is a Thai curry of Persian origin featuring peanuts and cinnamon."}
+{"doc_id": 12026, "text": "Pac-Man released in 1980 by Namco became a cultural icon of arcade gaming."}
+{"doc_id": 12027, "text": "Space Invaders released in 1978 by Taito popularized the fixed shooter genre."}
+{"doc_id": 12028, "text": "Donkey Kong released in 1981 by Nintendo introduced Mario as Jumpman."}
+{"doc_id": 12029, "text": "Street Fighter II released in 1991 by Capcom defined the fighting game genre."}
+{"doc_id": 12030, "text": "Mortal Kombat released in 1992 introduced controversial fatalities to fighting games."}
+{"doc_id": 12031, "text": "Sonic the Hedgehog launched in 1991 as Segas mascot to compete with Mario."}
+{"doc_id": 12032, "text": "Chrono Trigger released in 1995 by Square is widely regarded as one of the greatest RPGs."}
+{"doc_id": 12033, "text": "Resident Evil released in 1996 by Capcom defined the survival horror genre."}
+{"doc_id": 12034, "text": "Metal Gear Solid by Hideo Kojima released in 1998 advanced stealth gameplay."}
+{"doc_id": 12035, "text": "Halo Combat Evolved released in 2001 as the launch title for Xbox."}
+{"doc_id": 12036, "text": "The Elder Scrolls V Skyrim released in 2011 by Bethesda."}
+{"doc_id": 12037, "text": "Diablo II released in 2000 by Blizzard popularized action role-playing."}
+{"doc_id": 12038, "text": "StarCraft released in 1998 by Blizzard remained an esports staple for decades."}
+{"doc_id": 12039, "text": "Quake released in 1996 by id Software pioneered 3D gaming engines."}
+{"doc_id": 12040, "text": "Wolfenstein 3D released in 1992 helped establish the first-person shooter genre."}
+{"doc_id": 12041, "text": "BioShock released in 2007 by Irrational Games explored objectivist philosophy."}
+{"doc_id": 12042, "text": "Mass Effect released in 2007 was the first installment of BioWares space opera trilogy."}
+{"doc_id": 12043, "text": "Dragon Age Origins released in 2009 by BioWare."}
+{"doc_id": 12044, "text": "Fallout 3 released in 2008 brought Bethesdas open-world style to the post-apocalyptic franchise."}
+{"doc_id": 12045, "text": "Animal Crossing New Horizons released March 2020 became a pandemic phenomenon."}
+{"doc_id": 12046, "text": "Among Us released in 2018 surged in popularity in 2020 during COVID lockdowns."}
+{"doc_id": 12047, "text": "Stardew Valley released in 2016 was developed solo by Eric Barone over four years."}
+{"doc_id": 12048, "text": "Hollow Knight by Team Cherry released in 2017 as an acclaimed metroidvania."}
+{"doc_id": 12049, "text": "Celeste released in 2018 won Best Independent Game at The Game Awards."}
+{"doc_id": 12050, "text": "Hades by Supergiant Games released in 2020 winning numerous game of the year awards."}
+{"doc_id": 14026, "text": "The Crown premiered on Netflix in 2016 dramatizing the reign of Queen Elizabeth II."}
+{"doc_id": 14027, "text": "Westworld premiered on HBO in 2016 created by Jonathan Nolan and Lisa Joy."}
+{"doc_id": 14028, "text": "Black Mirror premiered on Channel 4 in 2011 created by Charlie Brooker."}
+{"doc_id": 14029, "text": "House of Cards US version premiered on Netflix in 2013."}
+{"doc_id": 14030, "text": "Squid Game premiered on Netflix in 2021 becoming Netflixs most-watched series."}
+{"doc_id": 14031, "text": "Money Heist or La Casa de Papel premiered in 2017 on Spanish TV before Netflix worldwide."}
+{"doc_id": 14032, "text": "Narcos premiered on Netflix in 2015 chronicling Colombian drug cartels."}
+{"doc_id": 14033, "text": "Ozark premiered on Netflix in 2017 starring Jason Bateman and Laura Linney."}
+{"doc_id": 14034, "text": "Succession premiered on HBO in 2018 about the Roy family media dynasty."}
+{"doc_id": 14035, "text": "Atlanta premiered on FX in 2016 created by and starring Donald Glover."}
+{"doc_id": 14036, "text": "Fleabag created by Phoebe Waller-Bridge premiered on BBC Three in 2016."}
+{"doc_id": 14037, "text": "The Bear premiered on FX on Hulu in 2022 about a Chicago Italian beef restaurant."}
+{"doc_id": 14038, "text": "Severance premiered on Apple TV Plus in 2022 about work-life separation surgery."}
+{"doc_id": 14039, "text": "Ted Lasso premiered on Apple TV Plus in 2020 about an American football coach in England."}
+{"doc_id": 14040, "text": "Yellowjackets premiered on Showtime in 2021 about a girls soccer team plane crash."}
+{"doc_id": 14041, "text": "Better Things created by and starring Pamela Adlon ran on FX from 2016 to 2022."}
+{"doc_id": 14042, "text": "Reservation Dogs premiered on FX in 2021 set on a Native American reservation."}
+{"doc_id": 14043, "text": "Pose premiered on FX in 2018 set in 1980s and 90s New York Ball culture."}
+{"doc_id": 14044, "text": "The Marvelous Mrs Maisel premiered on Prime Video in 2017."}
+{"doc_id": 14045, "text": "Bojack Horseman premiered on Netflix in 2014 as an adult animated series."}
+{"doc_id": 14046, "text": "Rick and Morty premiered on Adult Swim in 2013 created by Justin Roiland and Dan Harmon."}
+{"doc_id": 14047, "text": "Avatar The Last Airbender aired on Nickelodeon from 2005 to 2008."}
+{"doc_id": 14048, "text": "Avatar The Way of Water by James Cameron released December 2022."}
+{"doc_id": 14049, "text": "Top Gun Maverick released in 2022 starring Tom Cruise reprising his 1986 role."}
+{"doc_id": 14050, "text": "Everything Everywhere All at Once won Best Picture at the 2023 Academy Awards."}
+{"doc_id": 9051, "text": "Frank Sinatra recorded My Way written by Paul Anka in 1969."}
+{"doc_id": 9052, "text": "Elvis Presley starred in 31 feature films during his music career."}
+{"doc_id": 9053, "text": "Stevie Wonder won three consecutive Album of the Year Grammys in the 1970s."}
+{"doc_id": 9054, "text": "Aretha Franklin recorded Respect originally written by Otis Redding in 1967."}
+{"doc_id": 9055, "text": "Ray Charles fused gospel with rhythm and blues creating soul music."}
+{"doc_id": 9056, "text": "James Brown was nicknamed the Godfather of Soul and recorded countless funk hits."}
+{"doc_id": 9057, "text": "Sam Cooke recorded A Change Is Gonna Come in 1964 inspired by civil rights protests."}
+{"doc_id": 9058, "text": "Marvin Gaye recorded Whats Going On in 1971 addressing political and social issues."}
+{"doc_id": 9059, "text": "Curtis Mayfield recorded Superfly soundtrack in 1972 about urban Black life."}
+{"doc_id": 9060, "text": "Patti Smith released Horses in 1975 a punk rock landmark album."}
+{"doc_id": 9061, "text": "The Ramones formed in Queens NY in 1974 and helped found punk rock."}
+{"doc_id": 9062, "text": "Sex Pistols released Never Mind the Bollocks in 1977."}
+{"doc_id": 9063, "text": "The Clash released London Calling in 1979 blending punk reggae and rock."}
+{"doc_id": 9064, "text": "Talking Heads released Remain in Light in 1980 fusing rock with African polyrhythms."}
+{"doc_id": 9065, "text": "Bruce Springsteen released Born in the USA in 1984 selling over 30 million copies."}
+{"doc_id": 9066, "text": "Bob Dylan released Highway 61 Revisited in 1965."}
+{"doc_id": 9067, "text": "Joni Mitchell released Blue in 1971 a confessional folk landmark."}
+{"doc_id": 9068, "text": "Neil Young released After the Gold Rush in 1970."}
+{"doc_id": 9069, "text": "Crosby Stills Nash and Young released Deja Vu in 1970."}
+{"doc_id": 9070, "text": "Eagles released Hotel California in 1976 selling over 32 million copies."}
+{"doc_id": 9071, "text": "Fleetwood Mac released Rumours in 1977 selling over 40 million copies."}
+{"doc_id": 9072, "text": "Stevie Nicks of Fleetwood Mac was inducted into the Rock and Roll Hall of Fame twice."}
+{"doc_id": 9073, "text": "Carole King released Tapestry in 1971 winning four Grammy Awards including Album of the Year."}
+{"doc_id": 9074, "text": "Joan Baez popularized folk music in the 1960s with songs like We Shall Overcome."}
+{"doc_id": 9075, "text": "Bob Marley and the Wailers released Exodus in 1977 establishing reggae globally."}
+{"doc_id": 7051, "text": "Andrew Yang ran for US President in 2020 advocating universal basic income."}
+{"doc_id": 7052, "text": "Pete Buttigieg became US Transportation Secretary in 2021."}
+{"doc_id": 7053, "text": "Kamala Harris became the first female US Vice President in 2021."}
+{"doc_id": 7054, "text": "Joe Biden became the 46th US President in January 2021."}
+{"doc_id": 7055, "text": "Donald Trump served as the 45th US President from 2017 to 2021."}
+{"doc_id": 7056, "text": "George W Bush served as the 43rd US President from 2001 to 2009."}
+{"doc_id": 7057, "text": "Bill Clinton served as the 42nd US President from 1993 to 2001."}
+{"doc_id": 7058, "text": "Hillary Clinton served as US Secretary of State from 2009 to 2013."}
+{"doc_id": 7059, "text": "Bernie Sanders served as US Senator from Vermont and ran for President in 2016 and 2020."}
+{"doc_id": 7060, "text": "Elizabeth Warren has served as US Senator from Massachusetts since 2013."}
+{"doc_id": 7061, "text": "Alexandria Ocasio-Cortez became the youngest woman elected to Congress in 2018."}
+{"doc_id": 7062, "text": "Justin Trudeau became Prime Minister of Canada in 2015."}
+{"doc_id": 7063, "text": "Emmanuel Macron became President of France in 2017."}
+{"doc_id": 7064, "text": "Olaf Scholz became Chancellor of Germany in December 2021."}
+{"doc_id": 7065, "text": "Giorgia Meloni became Italys first female Prime Minister in October 2022."}
+{"doc_id": 7066, "text": "Pedro Sanchez became Prime Minister of Spain in 2018."}
+{"doc_id": 7067, "text": "Mette Frederiksen became Prime Minister of Denmark in 2019."}
+{"doc_id": 7068, "text": "Sanna Marin served as Prime Minister of Finland from 2019 to 2023."}
+{"doc_id": 7069, "text": "Magdalena Andersson became Swedens first female Prime Minister in 2021."}
+{"doc_id": 7070, "text": "Erna Solberg served as Prime Minister of Norway from 2013 to 2021."}
+{"doc_id": 7071, "text": "Sebastian Pinera served as President of Chile twice across the 2010s."}
+{"doc_id": 7072, "text": "Lula da Silva became President of Brazil three times beginning in 2003."}
+{"doc_id": 7073, "text": "Andres Manuel Lopez Obrador became President of Mexico in 2018."}
+{"doc_id": 7074, "text": "Cyril Ramaphosa became President of South Africa in 2018 succeeding Jacob Zuma."}
+{"doc_id": 7075, "text": "Recep Tayyip Erdogan has led Turkey as Prime Minister and President since 2003."}
+{"doc_id": 8051, "text": "The Curiosity rover discovered organic molecules on Mars in 2018."}
+{"doc_id": 8052, "text": "The Cassini mission orbited Saturn from 2004 to 2017 before ending in the planet."}
+{"doc_id": 8053, "text": "The Galileo spacecraft orbited Jupiter from 1995 to 2003."}
+{"doc_id": 8054, "text": "The Pioneer 10 spacecraft launched in 1972 became the first to leave the asteroid belt."}
+{"doc_id": 8055, "text": "Sputnik 1 launched October 4 1957 became the first artificial satellite."}
+{"doc_id": 8056, "text": "Vanguard 1 launched in 1958 is the oldest human-made object still in space."}
+{"doc_id": 8057, "text": "The Soyuz spacecraft has been the workhorse of Soviet and Russian crewed spaceflight since 1967."}
+{"doc_id": 8058, "text": "The Space Shuttle program ran from 1981 to 2011 conducting 135 missions."}
+{"doc_id": 8059, "text": "Challenger disintegrated 73 seconds after launch on January 28 1986."}
+{"doc_id": 8060, "text": "Columbia disintegrated during reentry on February 1 2003."}
+{"doc_id": 8061, "text": "Sally Ride became the first American woman in space in June 1983."}
+{"doc_id": 8062, "text": "Mae Jemison became the first African American woman in space in September 1992."}
+{"doc_id": 8063, "text": "Chris Hadfield became the first Canadian to walk in space in 2001."}
+{"doc_id": 8064, "text": "Scott Kelly spent 340 consecutive days aboard the International Space Station in 2015-2016."}
+{"doc_id": 8065, "text": "Peggy Whitson holds the record for most cumulative time in space by an American astronaut."}
+{"doc_id": 8066, "text": "Christina Koch completed the longest single spaceflight by a woman at 328 days."}
+{"doc_id": 8067, "text": "Jessica Meir and Christina Koch conducted the first all-female spacewalk in October 2019."}
+{"doc_id": 8068, "text": "Buzz Aldrin became the second person to walk on the Moon in July 1969."}
+{"doc_id": 8069, "text": "Michael Collins piloted the Apollo 11 command module while Armstrong and Aldrin walked on the Moon."}
+{"doc_id": 8070, "text": "Gene Cernan was the last person to walk on the Moon during Apollo 17 in December 1972."}
+{"doc_id": 8071, "text": "Harrison Schmitt was the first scientist astronaut to walk on the Moon during Apollo 17."}
+{"doc_id": 8072, "text": "Alan Shepard became the first American in space in May 1961."}
+{"doc_id": 8073, "text": "Alan Shepard later played golf on the Moon during Apollo 14 in 1971."}
+{"doc_id": 8074, "text": "John Glenn became the first American to orbit Earth in February 1962."}
+{"doc_id": 8075, "text": "John Glenn returned to space at age 77 aboard Space Shuttle Discovery in 1998."}
+{"doc_id": 9076, "text": "Bach is often considered the greatest Baroque composer."}
+{"doc_id": 9077, "text": "Beethovens Symphony No 5 features the famous four-note opening motif."}
+{"doc_id": 9078, "text": "Mozarts Requiem in D minor was unfinished at his death in 1791."}
+{"doc_id": 9079, "text": "Handel composed the Messiah oratorio in 1741 famous for its Hallelujah chorus."}
+{"doc_id": 9080, "text": "Vivaldi composed The Four Seasons concertos around 1720."}
+{"doc_id": 9081, "text": "Wagner composed the Ring Cycle of four operas over 26 years."}
+{"doc_id": 9082, "text": "Verdi composed Aida which premiered in Cairo in 1871."}
+{"doc_id": 9083, "text": "Puccini composed La Boheme in 1896 and Madame Butterfly in 1904."}
+{"doc_id": 9084, "text": "Rossini composed The Barber of Seville which premiered in 1816."}
+{"doc_id": 9085, "text": "Schubert composed the Unfinished Symphony Number 8 in 1822."}

@@ -103,6 +103,25 @@ fn strip_think(s: &str) -> String {
     out.trim().to_string()
 }
 
+/// MiniMax often wraps JSON in markdown fences (```json ... ``` or ``` ... ```).
+/// Peel exactly one fence pair if it brackets the entire trimmed payload —
+/// downstream JSON parsers don't accept fences.
+fn strip_markdown_fence(s: &str) -> String {
+    let t = s.trim();
+    if !t.starts_with("```") {
+        return t.to_string();
+    }
+    // Drop opening fence line (```lang or just ```)
+    let after_open = match t.find('\n') {
+        Some(i) => &t[i + 1..],
+        None => return t.to_string(),
+    };
+    // Drop trailing closing fence
+    let body = after_open.trim_end();
+    let body = body.strip_suffix("```").unwrap_or(body);
+    body.trim().to_string()
+}
+
 #[derive(Clone, Serialize)]
 struct WireMessage {
     role: String,
@@ -293,7 +312,9 @@ impl MinimaxLlm {
                         .next()
                         .map(|c| c.message.content)
                         .unwrap_or_default();
-                    return Ok(strip_think(&raw));
+                    // Two-pass cleanup: drop <think> reasoning, then peel any
+                    // markdown fence the model wrapped the JSON in.
+                    return Ok(strip_markdown_fence(&strip_think(&raw)));
                 }
                 last_status = Some(status);
                 last_body = resp.text().await.unwrap_or_default();
@@ -378,6 +399,23 @@ mod tests {
     fn strip_think_handles_unterminated() {
         let s = "good<think>bad with no close";
         assert_eq!(strip_think(s), "good");
+    }
+
+    #[test]
+    fn strip_markdown_fence_peels_json_block() {
+        let s = "```json\n{\"triples\":[]}\n```";
+        assert_eq!(strip_markdown_fence(s), "{\"triples\":[]}");
+    }
+
+    #[test]
+    fn strip_markdown_fence_peels_bare_block() {
+        let s = "```\n{\"x\":1}\n```";
+        assert_eq!(strip_markdown_fence(s), "{\"x\":1}");
+    }
+
+    #[test]
+    fn strip_markdown_fence_passes_through_when_no_fence() {
+        assert_eq!(strip_markdown_fence("{\"x\":1}"), "{\"x\":1}");
     }
 
     #[test]
