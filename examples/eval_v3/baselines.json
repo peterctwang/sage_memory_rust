@@ -1,70 +1,77 @@
 {
-  "_comment": "Measured 2026-05-26 on 100-doc eval_v3 with real claude binary ingest. Two planner variants compared head-to-head.",
+  "_comment": "Measured 2026-05-26 on 100-doc eval_v3 with real claude binary ingest. Tracks 3 no-training improvements over v0.1.0 baseline.",
   "config_shared": {
-    "reader":       "HeuristicReader",
-    "embedder":     "DeterministicEmbedder(dim=128)",
-    "vector_index": "HnswIndex(default)",
-    "docs": 100,
+    "reader":           "HeuristicReader",
+    "embedder":         "DeterministicEmbedder(dim=128)",
+    "vector_index":     "HnswIndex(default)",
+    "docs":             100,
     "entities_indexed": 439,
-    "edges": 378,
-    "failures": 0
+    "edges":            378,
+    "failures":         0
   },
-  "baseline_heuristic_planner": {
-    "_planner": "HeuristicPlanner — tokenize + stopword (no LLM)",
-    "overall": {
-      "k=1": { "recall_at_k": 0.25, "precision_at_k": 0.25, "f1_at_k": 0.25, "mrr": 0.25 },
-      "k=3": { "recall_at_k": 0.30, "precision_at_k": 0.10, "f1_at_k": 0.15, "mrr": 0.26 },
-      "k=5": { "recall_at_k": 0.46, "precision_at_k": 0.095,"f1_at_k": 0.16, "mrr": 0.36 }
+  "stages": {
+    "v0_1_0_baseline": {
+      "_planner": "HeuristicPlanner (tokenize + stopword)",
+      "_score_entry": "strict equality only",
+      "_weights": "[1.0,0.6,0.8,0.3,1.0,0.8] T0=0.7",
+      "overall_k=3": { "recall_at_k": 0.30, "mrr": 0.26 },
+      "per_tier_k=3": {
+        "T1_exact": 0.40, "T2_multi": 0.20, "T3_desc": 0.30, "T4_para": 0.40, "T5_multi_hop": 0.00
+      }
     },
-    "per_tier_k=3": {
-      "tier_1_exact":       { "samples": 10, "recall_at_k": 0.40, "mrr": 0.33 },
-      "tier_2_multi_token": { "samples": 10, "recall_at_k": 0.20, "mrr": 0.13 },
-      "tier_3_descriptive": { "samples": 10, "recall_at_k": 0.30, "mrr": 0.30 },
-      "tier_4_paraphrase":  { "samples": 5,  "recall_at_k": 0.40, "mrr": 0.30 },
-      "tier_5_multi_hop":   { "samples": 5,  "recall_at_k": 0.00, "mrr": 0.00 }
-    }
-  },
-  "improved_llm_planner": {
-    "_planner": "LlmQueryPlanner(ClaudeCliLlm) — Claude expands query into expansions+aliases+etype+probes",
-    "_note": "Same graph, same reader, same embedder, same index. ONLY the planner changed.",
-    "overall": {
-      "k=3": { "recall_at_k": 0.76, "precision_at_k": 0.27, "f1_at_k": 0.39, "mrr": 0.77 }
+    "plus_llm_planner": {
+      "_change": "+ LlmQueryPlanner(ClaudeCliLlm) — LLM expands query",
+      "_score_entry": "strict equality only",
+      "_weights": "default unchanged",
+      "overall_k=3": { "recall_at_k": 0.76, "mrr": 0.77 },
+      "per_tier_k=3": {
+        "T1_exact": 0.90, "T2_multi": 0.80, "T3_desc": 0.90, "T4_para": 0.80, "T5_multi_hop": 0.40
+      },
+      "cost": "+1.5s Claude call per unique query (cached)"
     },
-    "per_tier_k=3": {
-      "tier_1_exact":       { "samples": 10, "recall_at_k": 0.90, "mrr": 0.90 },
-      "tier_2_multi_token": { "samples": 10, "recall_at_k": 0.80, "mrr": 0.75 },
-      "tier_3_descriptive": { "samples": 10, "recall_at_k": 0.90, "mrr": 0.90 },
-      "tier_4_paraphrase":  { "samples": 5,  "recall_at_k": 0.80, "mrr": 0.80 },
-      "tier_5_multi_hop":   { "samples": 5,  "recall_at_k": 0.40, "mrr": 0.60 }
+    "plus_token_overlap": {
+      "_change": "+ score_entry now does single-token presence (0.7) + Jaccard for multi-token",
+      "_planner": "HeuristicPlanner",
+      "_weights": "default unchanged",
+      "overall_k=3": { "recall_at_k": 0.725, "mrr": 0.625 },
+      "per_tier_k=3": {
+        "T1_exact": 0.70, "T2_multi": 0.90, "T3_desc": 0.90, "T4_para": 0.60, "T5_multi_hop": 0.20
+      },
+      "cost": "0 (pure computation)"
+    },
+    "plus_tuned_weights_HEURISTIC": {
+      "_change": "+ AddressingWeights default tuned: [1.5,0.8,1.2,0.5,0.0,1.0] T0=0.5",
+      "_planner": "HeuristicPlanner",
+      "_score_entry": "token-overlap relaxed",
+      "_key_insight": "lambda_cons=0 removes flat-mass baseline that was diluting softmax",
+      "overall_k=3": { "recall_at_k": 0.875, "mrr": 0.863 },
+      "cost": "0"
+    },
+    "plus_tuned_weights_LLM": {
+      "_change": "tuned weights + LlmQueryPlanner combined",
+      "overall_k=3": { "recall_at_k": 0.85, "mrr": 0.863 },
+      "cost": "+1.5s per unique query",
+      "_note": "tuned weights make LLM planner slightly worse than heuristic — sharper softmax penalizes LLM's broader expansions"
     }
   },
-  "delta_summary": {
-    "_comment": "LLM planner vs heuristic at k=3. No training, no model swap, no graph re-ingest.",
-    "overall_recall_at_3": { "from": 0.30, "to": 0.76, "delta": "+0.46 (2.5x)" },
-    "overall_mrr":         { "from": 0.26, "to": 0.77, "delta": "+0.51 (3.0x)" },
-    "per_tier_recall_at_3": {
-      "tier_1": { "from": 0.40, "to": 0.90, "delta": "+0.50" },
-      "tier_2": { "from": 0.20, "to": 0.80, "delta": "+0.60" },
-      "tier_3": { "from": 0.30, "to": 0.90, "delta": "+0.60" },
-      "tier_4": { "from": 0.40, "to": 0.80, "delta": "+0.40" },
-      "tier_5": { "from": 0.00, "to": 0.40, "delta": "+0.40 (was complete failure)" }
+  "headline_summary": {
+    "v0.1.0_to_final_heuristic": {
+      "recall_at_3": { "from": 0.30, "to": 0.875, "delta": "+0.575 (2.9x)" },
+      "mrr":         { "from": 0.26, "to": 0.863, "delta": "+0.60  (3.3x)" },
+      "cost":        "ZERO — no training, no LLM per query, no model swap"
     }
   },
-  "regression_thresholds_heuristic": {
-    "overall_recall_at_3_min": 0.20,
-    "overall_mrr_min": 0.15,
-    "tier_1_recall_at_3_min": 0.30
-  },
-  "regression_thresholds_llm_plan": {
-    "_comment": "Conservative floors; Claude is non-deterministic so ±0.10 drift is expected.",
-    "overall_recall_at_3_min": 0.55,
-    "overall_mrr_min": 0.55,
-    "tier_5_multi_hop_recall_at_3_min": 0.20
+  "regression_thresholds_default": {
+    "_comment": "Floor for the current tuned-default + heuristic-planner path. Below = something broke.",
+    "overall_recall_at_3_min": 0.70,
+    "overall_mrr_min":         0.70,
+    "tier_1_recall_at_3_min":  0.70
   },
   "interpretation": [
-    "LlmQueryPlanner closes most of the gap between v0.1.0 heuristic baseline and the paper's reported zero-shot scores — no training required.",
-    "Even tier-5 multi-hop went from total failure (0.00) to 0.40: LLM produces multiple probes that independently hit different docs in the truth set.",
-    "Cost: 1 Claude call per UNIQUE query (~1-2s); cache hits free.",
-    "This validates SPEC paper §4.2.1 / §5.1: cognition-inspired query planning is the single biggest no-training lever in SAGE."
+    "Three no-training changes (LLM-plan optional, token-overlap, tuned weights) lifted Recall@3 from 0.30 to 0.875 — a 2.9x improvement.",
+    "The biggest single lever was AddressingWeights tuning: lambda_cons=0 + lower T0 (sharper softmax). The default constant-bias was wasting most of the prior signal.",
+    "Token-overlap relaxation lets multi-word entity names match partial expansions ('Linus' -> 'Linus Torvalds' at 0.7).",
+    "LlmQueryPlanner is still valuable for tier-5 multi-hop (only path that scores > 0.2 there), but no longer dominant for tier-1/2/3.",
+    "v0.1.0 numbers preserved here as a reference point — DO NOT regress below regression_thresholds_default."
   ]
 }

@@ -16,7 +16,7 @@ use sage_embed::{DeterministicEmbedder, HnswIndex};
 use sage_eval::{EvalRunner, EvalSample};
 use sage_graph::{MemGraphStore, SledGraphStore};
 use sage_llm::{ClaudeCliLlm, MockLlm};
-use sage_reader::{HeuristicReader, LlmQueryPlanner};
+use sage_reader::{AddressingWeights, HeuristicReader, LlmQueryPlanner};
 use sage_runtime::SageEngine;
 use sage_writer::{
     apply_action, apply_action_embedded, EntityRef, LlmWriterPolicy, WriterAction, WriterPolicy,
@@ -81,6 +81,11 @@ enum Cmd {
         /// per unique query; cached within run. Honors $SAGE_CLAUDE_BIN.
         #[arg(long, default_value_t = false)]
         llm_plan: bool,
+        /// Override AddressingWeights for tuning sweeps. Format:
+        ///   "lambda_exact,lambda_alias,lambda_cos,lambda_type,lambda_cons,lambda_ner_el[,T0]"
+        /// Example: --weights "1.0,0.6,0.8,0.3,0.1,0.8"
+        #[arg(long)]
+        weights: Option<String>,
     },
     /// Ingest a real document via LLM-extracted triples into a sled-backed graph.
     ///
@@ -163,7 +168,8 @@ async fn main() -> Result<()> {
             k,
             tenant,
             llm_plan,
-        } => run_eval(db, TenantId(tenant), k, llm_plan).await,
+            weights,
+        } => run_eval(db, TenantId(tenant), k, llm_plan, weights).await,
         Cmd::Ingest {
             db,
             doc_id,
@@ -472,7 +478,35 @@ fn make_claude_cli_for_planner() -> ClaudeCliLlm {
     c
 }
 
-async fn run_eval(db_path: PathBuf, t: TenantId, k: usize, llm_plan: bool) -> Result<()> {
+fn parse_weights(s: &str) -> Result<AddressingWeights> {
+    let parts: Vec<f32> = s
+        .split(',')
+        .map(|p| p.trim().parse::<f32>())
+        .collect::<std::result::Result<_, _>>()
+        .with_context(|| format!("parsing --weights {s:?}"))?;
+    if parts.len() < 6 || parts.len() > 7 {
+        anyhow::bail!(
+            "--weights expects 6 lambdas + optional T0 (7 values total); got {}",
+            parts.len()
+        );
+    }
+    let mut lambdas = [0.0f32; 6];
+    lambdas.copy_from_slice(&parts[..6]);
+    let t0 = if parts.len() == 7 { parts[6] } else { 0.7 };
+    Ok(AddressingWeights {
+        lambdas,
+        t0,
+        eta: 0.5,
+    })
+}
+
+async fn run_eval(
+    db_path: PathBuf,
+    t: TenantId,
+    k: usize,
+    llm_plan: bool,
+    weights: Option<String>,
+) -> Result<()> {
     use std::io::Read;
     let mut s = String::new();
     std::io::stdin()
@@ -490,13 +524,21 @@ async fn run_eval(db_path: PathBuf, t: TenantId, k: usize, llm_plan: bool) -> Re
     let g: Arc<SledGraphStore> = Arc::new(SledGraphStore::open(&db_path).context("open sled")?);
     let embedder: Arc<dyn sage_core::Embedder> = Arc::new(DeterministicEmbedder::new(128));
     let index = build_index_for_query(g.as_ref(), t, 128).await?;
+
+    let resolved_weights = match weights.as_deref() {
+        Some(s) => parse_weights(s)?,
+        None => AddressingWeights::default(),
+    };
+    tracing::info!(weights = ?resolved_weights, "AddressingWeights resolved");
+
     let report = if llm_plan {
         tracing::info!("eval using LlmQueryPlanner (claude-cli)");
         let planner = LlmQueryPlanner::new(Arc::new(make_claude_cli_for_planner()));
         let reader = Arc::new(
             HeuristicReader::with_planner(planner)
                 .with_embedder(embedder)
-                .with_vector_index(index),
+                .with_vector_index(index)
+                .with_weights(resolved_weights),
         );
         EvalRunner::new(reader, k)
             .with_tenant(t)
@@ -506,7 +548,8 @@ async fn run_eval(db_path: PathBuf, t: TenantId, k: usize, llm_plan: bool) -> Re
         let reader = Arc::new(
             HeuristicReader::default()
                 .with_embedder(embedder)
-                .with_vector_index(index),
+                .with_vector_index(index)
+                .with_weights(resolved_weights),
         );
         EvalRunner::new(reader, k)
             .with_tenant(t)
