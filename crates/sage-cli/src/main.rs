@@ -98,6 +98,21 @@ enum Cmd {
         #[arg(long)]
         mock_response: Option<String>,
     },
+    /// Batch ingest from a JSONL file.
+    ///
+    /// Each line: {"doc_id": N, "text": "..."}
+    /// Lines failing JSON parse or LLM extraction are recorded in the summary
+    /// but do not abort the batch.
+    IngestBatch {
+        #[arg(long)]
+        db: PathBuf,
+        #[arg(long)]
+        jsonl: PathBuf,
+        #[arg(long, default_value_t = 0)]
+        tenant: u64,
+        #[arg(long, default_value = "claude-cli")]
+        llm: String,
+    },
     /// List entities in a sled-backed graph.
     List {
         #[arg(long)]
@@ -147,6 +162,12 @@ async fn main() -> Result<()> {
             llm,
             mock_response,
         } => run_ingest(db, TenantId(tenant), doc_id, doc, &llm, mock_response).await,
+        Cmd::IngestBatch {
+            db,
+            jsonl,
+            tenant,
+            llm,
+        } => run_ingest_batch(db, jsonl, TenantId(tenant), &llm).await,
         Cmd::List {
             db,
             tenant,
@@ -233,6 +254,129 @@ async fn run_ingest(
         "embedded":         true,
     });
     println!("{}", serde_json::to_string_pretty(&json)?);
+    Ok(())
+}
+
+#[derive(Deserialize)]
+struct JsonlRow {
+    doc_id: u64,
+    text: String,
+}
+
+#[allow(clippy::too_many_lines)] // CLI handler — control flow stays linear on purpose
+async fn run_ingest_batch(
+    db_path: PathBuf,
+    jsonl: PathBuf,
+    t: TenantId,
+    llm_kind: &str,
+) -> Result<()> {
+    use std::io::BufRead;
+    let jsonl_display = jsonl.display().to_string();
+    let file =
+        std::fs::File::open(&jsonl).with_context(|| format!("open jsonl {jsonl_display}"))?;
+    let reader = std::io::BufReader::new(file);
+
+    let store = SledGraphStore::open(&db_path).context("open sled")?;
+    let embedder = DeterministicEmbedder::new(128);
+
+    // Build LLM client once (claude-cli) — reuse across all docs.
+    let claude_client = if llm_kind == "claude-cli" {
+        let mut c = ClaudeCliLlm::new();
+        if let Ok(p) = std::env::var("SAGE_CLAUDE_BIN") {
+            c = c.with_binary(p);
+        }
+        Some(Arc::new(c))
+    } else if llm_kind == "mock" {
+        anyhow::bail!(
+            "--llm mock not supported for ingest-batch; use per-doc 'sage ingest --llm mock'"
+        );
+    } else {
+        anyhow::bail!("unknown --llm '{llm_kind}'; use 'claude-cli'");
+    };
+    let policy = claude_client
+        .clone()
+        .map(LlmWriterPolicy::new)
+        .ok_or_else(|| anyhow::anyhow!("LLM client construction failed"))?;
+
+    let mut total_docs = 0usize;
+    let mut total_ok = 0usize;
+    let mut total_entities = 0usize;
+    let mut total_edges = 0usize;
+    let mut total_skipped = 0usize;
+    let mut failures: Vec<serde_json::Value> = Vec::new();
+
+    for (line_no, line) in reader.lines().enumerate() {
+        let line = line.with_context(|| format!("read line {}", line_no + 1))?;
+        let trimmed = line.trim();
+        if trimmed.is_empty() {
+            continue;
+        }
+        total_docs += 1;
+        let row: JsonlRow = match serde_json::from_str(trimmed) {
+            Ok(r) => r,
+            Err(e) => {
+                failures.push(serde_json::json!({
+                    "line": line_no + 1,
+                    "stage": "parse",
+                    "error": e.to_string(),
+                }));
+                continue;
+            }
+        };
+        let doc = sage_core::Document::new(row.doc_id, row.text);
+        let state = WriterState {
+            query: None,
+            candidates: &[],
+            processed: &[],
+            step: 0,
+        };
+        let action = match policy.step(&state, &doc).await {
+            Ok(a) => a,
+            Err(e) => {
+                failures.push(serde_json::json!({
+                    "line": line_no + 1,
+                    "doc_id": row.doc_id,
+                    "stage": "llm",
+                    "error": e.to_string(),
+                }));
+                continue;
+            }
+        };
+        match apply_action_embedded(&store, Some(&embedder), t, &action).await {
+            Ok(r) => {
+                total_ok += 1;
+                total_entities += r.entities_added;
+                total_edges += r.edges_added;
+                total_skipped += r.triples_skipped;
+                tracing::info!(
+                    doc_id = row.doc_id,
+                    entities = r.entities_added,
+                    edges = r.edges_added,
+                    "ingest-batch row applied"
+                );
+            }
+            Err(e) => {
+                failures.push(serde_json::json!({
+                    "line": line_no + 1,
+                    "doc_id": row.doc_id,
+                    "stage": "apply",
+                    "error": e.to_string(),
+                }));
+            }
+        }
+    }
+
+    let summary = serde_json::json!({
+        "tenant":           t.0,
+        "llm":              llm_kind,
+        "docs_seen":        total_docs,
+        "docs_ingested":    total_ok,
+        "entities_added":   total_entities,
+        "edges_added":      total_edges,
+        "triples_skipped":  total_skipped,
+        "failures":         failures,
+    });
+    println!("{}", serde_json::to_string_pretty(&summary)?);
     Ok(())
 }
 
