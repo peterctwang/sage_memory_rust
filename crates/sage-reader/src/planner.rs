@@ -88,6 +88,24 @@ fn is_stopword(t: &str) -> bool {
             | "were"
             | "be"
             | "been"
+            // Cardinal/ordinal quantifiers — multi-hop tier-5 queries open
+            // with "Two X who...", which poisoned scoring against any doc
+            // that lexically contained "two" (e.g. "won two Nobel Prizes").
+            // These are structural, never content carriers.
+            | "two"
+            | "three"
+            | "four"
+            | "five"
+            | "six"
+            | "seven"
+            | "eight"
+            | "nine"
+            | "ten"
+            | "both"
+            | "between"
+            | "either"
+            | "neither"
+            | "with"
     )
 }
 

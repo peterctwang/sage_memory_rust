@@ -35,6 +35,19 @@
         "k=1": { "recall_at_k": 0.361, "precision_at_k": 0.371, "f1_at_k": 0.364, "mrr": 0.371 },
         "k=3": { "recall_at_k": 0.701, "precision_at_k": 0.254, "f1_at_k": 0.367, "mrr": 0.553 },
         "k=5": { "recall_at_k": 0.718, "precision_at_k": 0.159, "f1_at_k": 0.256, "mrr": 0.559 }
+      },
+      "per_tier_k=3_after_quantifier_stopwords": {
+        "_comment": "Adding 'two/three/.../both/between/either' to HeuristicPlanner stopwords removed doc 2046 ('Sanger won two Nobel Prizes') as a phantom #1 hit for every multi-hop query.",
+        "tier_1_exact":       { "samples": 20, "recall_at_k": 0.800, "mrr": 0.775 },
+        "tier_2_multi_token": { "samples": 20, "recall_at_k": 0.850, "mrr": 0.650 },
+        "tier_3_descriptive": { "samples": 20, "recall_at_k": 0.750, "mrr": 0.542 },
+        "tier_4_paraphrase":  { "samples": 18, "recall_at_k": 0.889, "mrr": 0.574 },
+        "tier_5_multi_hop":   { "samples": 19, "recall_at_k": 0.306, "mrr": 0.518 }
+      },
+      "tier_5_diagnosis": {
+        "before_stopword_fix": { "recall_at_k=3": 0.244, "mrr": 0.360, "recall_at_k=10": 0.510 },
+        "after_stopword_fix":  { "recall_at_k=3": 0.306, "mrr": 0.518 },
+        "remaining_failures": "Multi-hop queries need 1 of N GT docs found; system rarely finds both. Limit is structural — entity aggregation collapses multiple co-mentions of the same entity (e.g. 'Apple') so per-doc disambiguation suffers."
       }
     }
   },
