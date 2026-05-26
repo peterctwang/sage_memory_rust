@@ -1624,6 +1624,7 @@ dependencies = [
  "ahash",
  "async-trait",
  "sage-core",
+ "sage-embed",
  "sage-graph",
  "sage-llm",
  "sage-writer",

@@ -5,10 +5,12 @@
 
 pub mod addressing;
 pub mod gfm;
+pub mod gfm_reader;
 pub mod heuristic;
 pub mod planner;
 
 pub use addressing::{score_entry, softmax_entry, AddressingWeights};
 pub use gfm::{GfmConfig, GfmGraphView, GfmLayer};
+pub use gfm_reader::GfmReader;
 pub use heuristic::HeuristicReader;
 pub use planner::{HeuristicPlanner, QueryPlanner};

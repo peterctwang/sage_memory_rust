@@ -13,6 +13,7 @@
 | `addressing.rs` | module | `score_entry`, `softmax_entry`, `AddressingWeights` |
 | `heuristic.rs` | module | `HeuristicReader<P>` — Reader trait 實作 |
 | `gfm.rs` | module | `GfmLayer` + `GfmConfig` + `GfmGraphView` — 單層 forward (M3 spike) |
+| `gfm_reader.rs` | module | `GfmReader` — Reader trait impl driven by GfmLayer.forward (隨機權重，需訓練) |
 
 ## Public Surface
 見父層 CLAUDE.md。

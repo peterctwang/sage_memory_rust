@@ -19,6 +19,7 @@ smallvec     = { workspace = true }
 tracing      = { workspace = true }
 
 [dev-dependencies]
+sage-embed    = { workspace = true }
 sage-graph    = { workspace = true }
 sage-llm      = { workspace = true }
 sage-writer   = { workspace = true }
