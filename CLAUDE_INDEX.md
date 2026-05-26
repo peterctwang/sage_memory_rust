@@ -18,6 +18,7 @@
     - [`crates/sage-graph/src/`](crates/sage-graph/src/CLAUDE.md) — 圖儲存後端模組。
     - [`crates/sage-graph/tests/`](crates/sage-graph/tests/CLAUDE.md) — 整合測試 — 透過 trait 公開介面驗證 `MemGraphStore` 行為。
   - [`crates/sage-llm/`](crates/sage-llm/CLAUDE.md) — LLM client trait 與測試用 mock；真實 backend (Anthropic / OpenAI) 留待 M1。
+    - [`crates/sage-llm/examples/`](crates/sage-llm/examples/CLAUDE.md) — 對外可執行的 smoke / demo 例子；非單元測試，不進 CI 計數。
     - [`crates/sage-llm/src/`](crates/sage-llm/src/CLAUDE.md) — LLM client 模組層。
   - [`crates/sage-reader/`](crates/sage-reader/CLAUDE.md) — 純 CPU 記憶讀取器：HeuristicPlanner + Soft Addressing + entity→doc 聚合。GFM 留 M3。
     - [`crates/sage-reader/src/`](crates/sage-reader/src/CLAUDE.md) — Reader 模組：planner / addressing / heuristic 三段管線。

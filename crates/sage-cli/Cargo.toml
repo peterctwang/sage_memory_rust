@@ -17,7 +17,7 @@ path = "src/main.rs"
 [dependencies]
 sage-core    = { workspace = true }
 sage-graph   = { workspace = true }
-sage-llm     = { workspace = true }
+sage-llm     = { workspace = true, features = ["claude-cli"] }
 sage-reader  = { workspace = true }
 sage-runtime = { workspace = true }
 sage-writer  = { workspace = true }

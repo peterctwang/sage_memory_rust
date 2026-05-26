@@ -14,10 +14,13 @@ use sage_core::{EntityScan, EntityType, GraphStore, Query, Reader, ReaderGraph, 
 use sage_embed::DeterministicEmbedder;
 use sage_eval::{EvalRunner, EvalSample};
 use sage_graph::{MemGraphStore, SledGraphStore};
-use sage_llm::MockLlm;
+use sage_llm::{ClaudeCliLlm, MockLlm};
 use sage_reader::HeuristicReader;
 use sage_runtime::SageEngine;
-use sage_writer::{apply_action, EntityRef, LlmWriterPolicy, WriterAction};
+use sage_writer::{
+    apply_action, apply_action_embedded, EntityRef, LlmWriterPolicy, WriterAction, WriterPolicy,
+    WriterState,
+};
 use serde::Deserialize;
 use smallvec::SmallVec;
 use smol_str::SmolStr;
@@ -74,6 +77,27 @@ enum Cmd {
         #[arg(long, default_value_t = 0)]
         tenant: u64,
     },
+    /// Ingest a real document via LLM-extracted triples into a sled-backed graph.
+    ///
+    /// Uses the local `claude` binary by default. Honors $SAGE_CLAUDE_BIN to
+    /// override the binary path (useful for Windows .cmd shims). Doc text is
+    /// taken from --doc; if omitted, stdin is read.
+    Ingest {
+        #[arg(long)]
+        db: PathBuf,
+        #[arg(long)]
+        doc_id: u64,
+        #[arg(long, default_value_t = 0)]
+        tenant: u64,
+        #[arg(long)]
+        doc: Option<String>,
+        /// LLM backend: claude-cli (default) or mock (testing only — requires --mock-response).
+        #[arg(long, default_value = "claude-cli")]
+        llm: String,
+        /// Pre-canned LLM response (only honored when --llm=mock).
+        #[arg(long)]
+        mock_response: Option<String>,
+    },
     /// List entities in a sled-backed graph.
     List {
         #[arg(long)]
@@ -115,6 +139,14 @@ async fn main() -> Result<()> {
             run_ingest_stub(db, TenantId(tenant), doc_id).await
         }
         Cmd::Eval { db, k, tenant } => run_eval(db, TenantId(tenant), k).await,
+        Cmd::Ingest {
+            db,
+            doc_id,
+            tenant,
+            doc,
+            llm,
+            mock_response,
+        } => run_ingest(db, TenantId(tenant), doc_id, doc, &llm, mock_response).await,
         Cmd::List {
             db,
             tenant,
@@ -122,6 +154,86 @@ async fn main() -> Result<()> {
             limit,
         } => run_list(db, TenantId(tenant), name, limit).await,
     }
+}
+
+async fn run_ingest(
+    db_path: PathBuf,
+    t: TenantId,
+    doc_id: u64,
+    doc: Option<String>,
+    llm_kind: &str,
+    mock_response: Option<String>,
+) -> Result<()> {
+    use std::io::Read;
+    let text = if let Some(s) = doc {
+        s
+    } else {
+        let mut buf = String::new();
+        std::io::stdin()
+            .read_to_string(&mut buf)
+            .context("read stdin")?;
+        if buf.trim().is_empty() {
+            anyhow::bail!("--doc not given and stdin is empty");
+        }
+        buf
+    };
+
+    let store = SledGraphStore::open(&db_path).context("open sled")?;
+    let document = sage_core::Document::new(doc_id, text);
+    let state = WriterState {
+        query: None,
+        candidates: &[],
+        processed: &[],
+        step: 0,
+    };
+
+    let action = match llm_kind {
+        "claude-cli" => {
+            let mut c = ClaudeCliLlm::new();
+            if let Ok(p) = std::env::var("SAGE_CLAUDE_BIN") {
+                c = c.with_binary(p);
+            }
+            tracing::info!(
+                binary = c.binary(),
+                model = c.model(),
+                doc_id,
+                "ingest via Claude CLI"
+            );
+            let policy = LlmWriterPolicy::new(Arc::new(c));
+            policy
+                .step(&state, &document)
+                .await
+                .context("LlmWriterPolicy step failed")?
+        }
+        "mock" => {
+            let resp = mock_response
+                .ok_or_else(|| anyhow::anyhow!("--llm=mock requires --mock-response"))?;
+            let m = Arc::new(MockLlm::new());
+            m.push(resp);
+            let policy = LlmWriterPolicy::new(m);
+            policy.step(&state, &document).await?
+        }
+        other => anyhow::bail!("unknown --llm '{other}'; use 'claude-cli' or 'mock'"),
+    };
+
+    // Use the same DeterministicEmbedder dim as `query` / `eval` so cos similarity
+    // can light up at retrieval time. Without this, all entities land with
+    // has_embedding=false and λ_cos collapses to 0.
+    let embedder = DeterministicEmbedder::new(128);
+    let report = apply_action_embedded(&store, Some(&embedder), t, &action).await?;
+    let json = serde_json::json!({
+        "doc_id":           doc_id,
+        "tenant":           t.0,
+        "llm":              llm_kind,
+        "triples_extracted": action.triples.len(),
+        "stop":             action.stop,
+        "entities_added":   report.entities_added,
+        "edges_added":      report.edges_added,
+        "triples_skipped":  report.triples_skipped,
+        "embedded":         true,
+    });
+    println!("{}", serde_json::to_string_pretty(&json)?);
+    Ok(())
 }
 
 async fn run_list(
