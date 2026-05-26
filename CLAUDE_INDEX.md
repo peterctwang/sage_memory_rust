@@ -31,6 +31,7 @@
     - [`crates/sage-writer/tests/`](crates/sage-writer/tests/CLAUDE.md) — 整合測試 — 把 LlmWriterPolicy + apply_action 串到真的 MemGraphStore。
   - [`crates/tests-support/`](crates/tests-support/CLAUDE.md) — 共用測試 fixture、mock、proptest 策略 — **test-only**，不得進入產品 dependency 樹。
     - [`crates/tests-support/src/`](crates/tests-support/src/CLAUDE.md) — Fixture 與 proptest 策略模組。
+- [`docs/`](docs/CLAUDE.md) — 設計文件、handoff 規格、跨 session 知識交接。SPEC/CONSTITUTION 仍在 repo root。
 - [`examples/`](examples/CLAUDE.md) — 對外可運行的端到端示例與資料集；CI 不跑，使用者手動觸發。
   - [`examples/eval_dataset/`](examples/eval_dataset/CLAUDE.md) — 8 篇合成 doc + 8 條 ground-truth query；smoke-grade retrieval baseline。
 - [`scripts/`](scripts/CLAUDE.md) — 開發輔助工具：CLAUDE.md 索引生成、未來的 CI 護欄與檢查腳本。
