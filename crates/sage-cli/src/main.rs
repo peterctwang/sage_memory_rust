@@ -370,6 +370,24 @@ async fn run_ingest_batch(
                     edges = r.edges_added,
                     "ingest-batch row applied"
                 );
+                // Per-row stderr heartbeat (defense against silent hangs —
+                // 2026-05-26 incident). Flushed immediately so the user can
+                // tell the pipeline is alive without enabling tracing.
+                let mut err = std::io::stderr().lock();
+                let _ = std::io::Write::write_all(
+                    &mut err,
+                    format!(
+                        "[ingest-batch] doc {} ok ({}/{}) entities+={} edges+={} totals e={} ed={}\n",
+                        row.doc_id,
+                        total_ok,
+                        total_docs,
+                        r.entities_added,
+                        r.edges_added,
+                        total_entities,
+                        total_edges
+                    ).as_bytes(),
+                );
+                let _ = std::io::Write::flush(&mut err);
             }
             Err(e) => {
                 failures.push(serde_json::json!({
