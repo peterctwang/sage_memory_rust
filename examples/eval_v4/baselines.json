@@ -1,0 +1,56 @@
+{
+  "_comment": "Measured 2026-05-26 on 200-doc eval_v4 with real claude binary ingest. Compares heuristic vs LLM planner at 2x scale of v3.",
+  "config_shared": {
+    "reader":           "HeuristicReader",
+    "embedder":         "DeterministicEmbedder(dim=128)",
+    "vector_index":     "HnswIndex(default)",
+    "weights":          "tuned defaults [1.5,0.8,1.2,0.5,0.0,1.0] T0=0.5",
+    "score_entry":      "token-overlap relaxed",
+    "docs":             200,
+    "entities_indexed": 805,
+    "edges":            729,
+    "failures":         0
+  },
+  "heuristic_planner": {
+    "overall": {
+      "k=3": { "recall_at_k": 0.758, "precision_at_k": 0.278, "f1_at_k": 0.402, "mrr": 0.669 },
+      "k=5": { "recall_at_k": 0.783, "precision_at_k": 0.173, "f1_at_k": 0.281, "mrr": 0.689 }
+    },
+    "per_tier_k=3": {
+      "tier_1_exact":       { "samples": 12, "recall_at_k": 0.75, "mrr": 0.75 },
+      "tier_2_multi_token": { "samples": 12, "recall_at_k": 1.00, "mrr": 0.82 },
+      "tier_3_descriptive": { "samples": 12, "recall_at_k": 0.92, "mrr": 0.78 },
+      "tier_4_paraphrase":  { "samples": 12, "recall_at_k": 0.83, "mrr": 0.75 },
+      "tier_5_multi_hop":   { "samples": 12, "recall_at_k": 0.33, "mrr": 0.40 }
+    }
+  },
+  "llm_planner": {
+    "overall_k=3": { "recall_at_k": 0.80, "mrr": 0.80, "f1_at_k": 0.42 },
+    "per_tier_k=3": {
+      "tier_1_exact":       { "recall_at_k": 0.83, "mrr": 0.79 },
+      "tier_2_multi_token": { "recall_at_k": 0.92, "mrr": 0.79 },
+      "tier_3_descriptive": { "recall_at_k": 1.00, "mrr": 0.92 },
+      "tier_4_paraphrase":  { "recall_at_k": 0.92, "mrr": 0.92 },
+      "tier_5_multi_hop":   { "recall_at_k": 0.29, "mrr": 0.44 }
+    }
+  },
+  "scale_degradation_vs_v3": {
+    "_comment": "v3 was 100 docs / 40 queries with same reader; v4 is 200 docs / 60 queries.",
+    "heuristic_recall_at_3": { "v3": 0.875, "v4": 0.758, "delta": "-0.12" },
+    "heuristic_mrr":         { "v3": 0.863, "v4": 0.669, "delta": "-0.20" },
+    "llm_recall_at_3":       { "v3": 0.85,  "v4": 0.80,  "delta": "-0.05" },
+    "llm_mrr":               { "v3": 0.863, "v4": 0.80,  "delta": "-0.06" }
+  },
+  "key_findings": [
+    "LLM planner degrades less under scale (-0.05) than heuristic (-0.12). With more competing entities, LLM disambiguation matters more.",
+    "Tier-1 EXACT DEGRADED from 0.95 (v3) to 0.75 (heuristic v4). Even single-word queries hit entity competition at 800 entities.",
+    "Tier-2/3 remain strong (>0.9) — relaxed token-overlap survives 2x scale.",
+    "Tier-5 multi-hop stays floor-locked around 0.30. Same architectural ceiling at any scale.",
+    "MRR drops more than Recall — system still finds truth docs in top-5 but ranks them lower (e.g. position 3 vs 1)."
+  ],
+  "regression_thresholds": {
+    "overall_recall_at_3_min": 0.65,
+    "overall_mrr_min":         0.55,
+    "tier_1_recall_at_3_min":  0.65
+  }
+}
