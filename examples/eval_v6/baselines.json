@@ -1,0 +1,56 @@
+{
+  "_comment": "v6 = 1001-doc / 97-query ultimate-scale benchmark. Measured live 2026-05-27 on HeuristicReader + DeterministicEmbedder(128) + HnswIndex. Two backends compared: Claude Opus 4.7 (subprocess) vs MiniMax-M2.5 (HTTP) + Claude fallback.",
+  "config": {
+    "reader": "HeuristicReader",
+    "embedder": "DeterministicEmbedder(dim=128)",
+    "vector_index": "HnswIndex(default)",
+    "weights": "default [1.5, 0.8, 1.2, 0.5, 0.0, 1.0], T0=0.5",
+    "docs": 1001,
+    "queries": 97
+  },
+  "backends": {
+    "claude_opus": {
+      "_note": "Pure Claude Opus 4.7 via local claude.cmd subprocess. Ingested 2026-05-26.",
+      "docs_ingested": 897,
+      "docs_failed": 104,
+      "ingest_success_pct": 89.6,
+      "entities_indexed": 2801,
+      "edges": 2706,
+      "ingest_wall_time_min": 140,
+      "fallback_invocations": null,
+      "overall": {
+        "k=3": { "recall_at_k": 0.744, "precision_at_k": 0.271, "f1_at_k": 0.391, "mrr": 0.636 }
+      }
+    },
+    "minimax_m25_with_claude_fallback": {
+      "_note": "MiniMax-M2.5 primary + Claude fallback on empty/error. Ingested 2026-05-27.",
+      "docs_ingested": 992,
+      "docs_failed": 9,
+      "ingest_success_pct": 99.1,
+      "entities_indexed": 2954,
+      "edges": 2810,
+      "ingest_wall_time_min": 40,
+      "fallback_invocations": 0,
+      "overall": {
+        "k=1": { "recall_at_k": 0.361, "precision_at_k": 0.371, "f1_at_k": 0.364, "mrr": 0.371 },
+        "k=3": { "recall_at_k": 0.701, "precision_at_k": 0.254, "f1_at_k": 0.367, "mrr": 0.553 },
+        "k=5": { "recall_at_k": 0.718, "precision_at_k": 0.159, "f1_at_k": 0.256, "mrr": 0.559 }
+      }
+    }
+  },
+  "summary": {
+    "_comment": "Switching default ingest backend from Claude to MiniMax+fallback for SAGE bulk-ingest workloads.",
+    "ingest_success_delta_pct":   "+10.6  (MiniMax 99.1% vs Claude 89.6%)",
+    "wall_time_speedup":          "3.5×   (MiniMax 40 min vs Claude 140 min)",
+    "cost_factor_estimate":       "~1/20  (M2.5 pricing vs Opus)",
+    "recall_at_3_delta":          "-5.8%  (0.701 vs 0.744 — small regression)",
+    "mrr_delta":                  "-13.1% (0.553 vs 0.636 — small regression)",
+    "verdict": "MiniMax wins on cost / speed / ingest robustness; Claude retains a small quality edge. Default to MiniMax for bulk ingest, reserve Claude for quality-critical eval / reasoning."
+  },
+  "regression_thresholds": {
+    "_comment": "If a future MiniMax run drops below these on the same query set, something broke.",
+    "overall_recall_at_3_min": 0.60,
+    "overall_mrr_min": 0.45,
+    "ingest_success_pct_min": 95.0
+  }
+}
