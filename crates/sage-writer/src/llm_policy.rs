@@ -35,13 +35,13 @@ struct LlmEnvelope {
 }
 
 #[derive(Debug)]
-pub struct LlmWriterPolicy<L: LlmClient> {
+pub struct LlmWriterPolicy<L: LlmClient + ?Sized> {
     llm: Arc<L>,
     sanitizer: TripleSanitizer,
     temperature: f32,
 }
 
-impl<L: LlmClient> LlmWriterPolicy<L> {
+impl<L: LlmClient + ?Sized> LlmWriterPolicy<L> {
     pub fn new(llm: Arc<L>) -> Self {
         Self {
             llm,
@@ -80,7 +80,7 @@ impl<L: LlmClient> LlmWriterPolicy<L> {
 }
 
 #[async_trait]
-impl<L: LlmClient> WriterPolicy for LlmWriterPolicy<L> {
+impl<L: LlmClient + ?Sized> WriterPolicy for LlmWriterPolicy<L> {
     async fn step(&self, _state: &WriterState<'_>, doc: &Document) -> Result<WriterAction> {
         let req = self.build_prompt(doc);
         let resp = self.llm.complete(req).await?;

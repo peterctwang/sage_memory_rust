@@ -15,7 +15,7 @@ use sage_core::{EntityScan, EntityType, GraphStore, Query, Reader, ReaderGraph, 
 use sage_embed::{DeterministicEmbedder, HnswIndex};
 use sage_eval::{EvalRunner, EvalSample};
 use sage_graph::{MemGraphStore, SledGraphStore};
-use sage_llm::{ClaudeCliLlm, MockLlm};
+use sage_llm::{ClaudeCliLlm, LlmClient, MinimaxLlm, MockLlm};
 use sage_reader::{AddressingWeights, HeuristicReader, LlmQueryPlanner};
 use sage_runtime::SageEngine;
 use sage_writer::{
@@ -295,24 +295,27 @@ async fn run_ingest_batch(
     let store = SledGraphStore::open(&db_path).context("open sled")?;
     let embedder = DeterministicEmbedder::new(128);
 
-    // Build LLM client once (claude-cli) — reuse across all docs.
-    let claude_client = if llm_kind == "claude-cli" {
-        let mut c = ClaudeCliLlm::new();
-        if let Ok(p) = std::env::var("SAGE_CLAUDE_BIN") {
-            c = c.with_binary(p);
+    // Build LLM client once — reuse across all docs. Boxed as a trait object
+    // so we can swap backends without monomorphizing the whole loop.
+    let llm_client: Arc<dyn LlmClient> = match llm_kind {
+        "claude-cli" => {
+            let mut c = ClaudeCliLlm::new();
+            if let Ok(p) = std::env::var("SAGE_CLAUDE_BIN") {
+                c = c.with_binary(p);
+            }
+            Arc::new(c)
         }
-        Some(Arc::new(c))
-    } else if llm_kind == "mock" {
-        anyhow::bail!(
+        "minimax" => {
+            let c =
+                MinimaxLlm::from_env().context("MinimaxLlm::from_env (need MINIMAX_API_KEY)")?;
+            Arc::new(c)
+        }
+        "mock" => anyhow::bail!(
             "--llm mock not supported for ingest-batch; use per-doc 'sage ingest --llm mock'"
-        );
-    } else {
-        anyhow::bail!("unknown --llm '{llm_kind}'; use 'claude-cli'");
+        ),
+        other => anyhow::bail!("unknown --llm '{other}'; use 'claude-cli' or 'minimax'"),
     };
-    let policy = claude_client
-        .clone()
-        .map(LlmWriterPolicy::new)
-        .ok_or_else(|| anyhow::anyhow!("LLM client construction failed"))?;
+    let policy = LlmWriterPolicy::new(llm_client.clone());
 
     let mut total_docs = 0usize;
     let mut total_ok = 0usize;

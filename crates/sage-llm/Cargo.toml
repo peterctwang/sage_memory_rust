@@ -14,6 +14,7 @@ workspace = true
 default    = []
 anthropic  = ["dep:reqwest", "dep:serde_json", "dep:tokio"]
 claude-cli = ["dep:serde_json", "dep:tokio"]
+minimax    = ["dep:reqwest", "dep:serde_json", "dep:tokio"]
 
 [dependencies]
 sage-core    = { workspace = true }

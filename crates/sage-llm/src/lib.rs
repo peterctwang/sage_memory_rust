@@ -6,6 +6,9 @@ pub mod anthropic;
 #[cfg(feature = "claude-cli")]
 pub mod claude_cli;
 
+#[cfg(feature = "minimax")]
+pub mod minimax;
+
 pub mod mock;
 
 use async_trait::async_trait;
@@ -17,6 +20,9 @@ pub use anthropic::{AnthropicLlm, RetryCfg};
 
 #[cfg(feature = "claude-cli")]
 pub use claude_cli::ClaudeCliLlm;
+
+#[cfg(feature = "minimax")]
+pub use minimax::MinimaxLlm;
 
 pub use mock::MockLlm;
 
