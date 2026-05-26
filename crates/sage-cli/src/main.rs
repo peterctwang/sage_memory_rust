@@ -10,8 +10,9 @@ use std::sync::Arc;
 
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
+use sage_core::VectorIndex;
 use sage_core::{EntityScan, EntityType, GraphStore, Query, Reader, ReaderGraph, TenantId};
-use sage_embed::DeterministicEmbedder;
+use sage_embed::{DeterministicEmbedder, HnswIndex};
 use sage_eval::{EvalRunner, EvalSample};
 use sage_graph::{MemGraphStore, SledGraphStore};
 use sage_llm::{ClaudeCliLlm, MockLlm};
@@ -427,6 +428,33 @@ struct EvalSampleJson {
     ground_truth: Vec<sage_core::DocId>,
 }
 
+/// Walk all entities in the sled store and rebuild an in-memory HnswIndex.
+/// Cost: O(N) inserts on startup, then O(log N) per search. For demo /
+/// dev-scale graphs (< 1M entities) the rebuild is negligible compared to
+/// LLM-driven ingest. Production should persist the index — see issue #TBD.
+async fn build_index_for_query(
+    store: &SledGraphStore,
+    t: TenantId,
+    dim: usize,
+) -> Result<Arc<dyn VectorIndex>> {
+    let idx = HnswIndex::new(dim);
+    let mut indexed = 0usize;
+    for entity in store.all_entities(t).await? {
+        if let Some(emb) = &entity.embedding {
+            if emb.len() == dim {
+                idx.insert(entity.id, emb)?;
+                indexed += 1;
+            }
+        }
+    }
+    tracing::info!(
+        indexed,
+        tenant = t.0,
+        "built in-memory HnswIndex for query path"
+    );
+    Ok(Arc::new(idx))
+}
+
 async fn run_eval(db_path: PathBuf, t: TenantId, k: usize) -> Result<()> {
     use std::io::Read;
     let mut s = String::new();
@@ -444,7 +472,12 @@ async fn run_eval(db_path: PathBuf, t: TenantId, k: usize) -> Result<()> {
 
     let g: Arc<SledGraphStore> = Arc::new(SledGraphStore::open(&db_path).context("open sled")?);
     let embedder: Arc<dyn sage_core::Embedder> = Arc::new(DeterministicEmbedder::new(128));
-    let reader = Arc::new(HeuristicReader::default().with_embedder(embedder));
+    let index = build_index_for_query(g.as_ref(), t, 128).await?;
+    let reader = Arc::new(
+        HeuristicReader::default()
+            .with_embedder(embedder)
+            .with_vector_index(index),
+    );
     let runner = EvalRunner::new(reader, k).with_tenant(t);
     let report = runner.run(g.as_ref(), &samples).await?;
     let out = serde_json::json!({
@@ -571,10 +604,13 @@ async fn run_stats(db_path: PathBuf, t: TenantId) -> Result<()> {
 }
 
 async fn run_query(db_path: PathBuf, t: TenantId, k: usize, text: String) -> Result<()> {
-    let g: Arc<dyn ReaderGraph + 'static> =
-        Arc::new(SledGraphStore::open(&db_path).context("open sled")?);
+    let store = Arc::new(SledGraphStore::open(&db_path).context("open sled")?);
     let embedder: Arc<dyn sage_core::Embedder> = Arc::new(DeterministicEmbedder::new(128));
-    let reader = HeuristicReader::default().with_embedder(embedder);
+    let index = build_index_for_query(store.as_ref(), t, 128).await?;
+    let reader = HeuristicReader::default()
+        .with_embedder(embedder)
+        .with_vector_index(index);
+    let g: Arc<dyn ReaderGraph + 'static> = store;
     let q = Query::ask(text).with_k(k);
     let out = reader.read(t, &q, g.as_ref()).await?;
     let json = serde_json::json!({
