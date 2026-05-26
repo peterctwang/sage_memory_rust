@@ -35,6 +35,7 @@
 - [`examples/`](examples/CLAUDE.md) — 對外可運行的端到端示例與資料集；CI 不跑，使用者手動觸發。
   - [`examples/eval_dataset/`](examples/eval_dataset/CLAUDE.md) — 8 篇合成 doc + 8 條 ground-truth query；smoke-grade retrieval baseline。
   - [`examples/eval_v2/`](examples/eval_v2/CLAUDE.md) — 30-doc / 20-query 分層有效性測試集，含 measured baseline 與 regression 閾值。
+  - [`examples/eval_v3/`](examples/eval_v3/CLAUDE.md) — 100-doc / 40-query 廣度測試集，含 multi-hop 與 paraphrase 題型。
 - [`scripts/`](scripts/CLAUDE.md) — 開發輔助工具：CLAUDE.md 索引生成、未來的 CI 護欄與檢查腳本。
   - [`scripts/gen-claude-index/`](scripts/gen-claude-index/CLAUDE.md) — 掃描 workspace、讀取每個 CLAUDE.md 的 one-liner，輸出根 `CLAUDE_INDEX.md`。
     - [`scripts/gen-claude-index/src/`](scripts/gen-claude-index/src/CLAUDE.md) — 索引生成器主程式 — 純標準函式庫，無外部依賴。

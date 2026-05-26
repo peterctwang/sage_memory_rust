@@ -1,0 +1,100 @@
+{"doc_id": 1001, "text": "Linus Torvalds created the Linux kernel in 1991 in Helsinki, Finland. He still maintains the project as benevolent dictator for life."}
+{"doc_id": 1002, "text": "Guido van Rossum released Python in 1991 in Amsterdam. He stepped down as Python's BDFL in 2018."}
+{"doc_id": 1003, "text": "Bjarne Stroustrup designed C++ at Bell Labs starting in 1979 as an extension of the C language."}
+{"doc_id": 1004, "text": "Dennis Ritchie created C at Bell Labs in 1972. He also co-authored the Unix operating system with Ken Thompson."}
+{"doc_id": 1005, "text": "James Gosling designed Java at Sun Microsystems, with the first public release in 1995."}
+{"doc_id": 1006, "text": "Brendan Eich wrote the first version of JavaScript in 10 days at Netscape in 1995."}
+{"doc_id": 1007, "text": "Anders Hejlsberg led the design of C# at Microsoft and previously created Turbo Pascal."}
+{"doc_id": 1008, "text": "Yukihiro Matsumoto, known as Matz, released Ruby in 1995 in Japan."}
+{"doc_id": 1009, "text": "Rasmus Lerdorf created PHP in 1994, originally for tracking visits to his online resume."}
+{"doc_id": 1010, "text": "John McCarthy designed Lisp at MIT in 1958 and coined the term artificial intelligence."}
+{"doc_id": 1011, "text": "Tim Berners-Lee invented the World Wide Web at CERN in 1989, including HTTP, HTML, and the first web browser."}
+{"doc_id": 1012, "text": "Vint Cerf and Bob Kahn designed the TCP/IP protocols in the 1970s, forming the foundation of the modern Internet."}
+{"doc_id": 1013, "text": "Larry Page and Sergey Brin founded Google at Stanford in 1998, building on their PageRank algorithm."}
+{"doc_id": 1014, "text": "Steve Wozniak designed the Apple I personal computer in Cupertino in 1976, which Steve Jobs sold."}
+{"doc_id": 1015, "text": "Bill Gates and Paul Allen founded Microsoft in 1975 in Albuquerque, New Mexico."}
+{"doc_id": 1016, "text": "Mark Zuckerberg launched Facebook from his Harvard dorm room in 2004."}
+{"doc_id": 1017, "text": "Jeff Bezos founded Amazon in 1994 in Seattle, initially as an online bookstore."}
+{"doc_id": 1018, "text": "Elon Musk founded SpaceX in 2002 with the goal of making humanity multi-planetary."}
+{"doc_id": 1019, "text": "Jack Dorsey co-founded Twitter in 2006 and later founded the payments company Square."}
+{"doc_id": 1020, "text": "Reed Hastings co-founded Netflix in 1997 in Scotts Valley, California."}
+{"doc_id": 1021, "text": "Linda Liukas created the children's coding book series Hello Ruby, inspired by Yukihiro Matsumoto's Ruby language."}
+{"doc_id": 1022, "text": "Margaret Hamilton led the team that wrote the on-board flight software for the Apollo missions at MIT in the 1960s."}
+{"doc_id": 1023, "text": "Grace Hopper developed the first compiler, A-0, at Remington Rand in 1952 and contributed to COBOL."}
+{"doc_id": 1024, "text": "Ada Lovelace wrote the first computer algorithm for Charles Babbage's Analytical Engine in 1843."}
+{"doc_id": 1025, "text": "Alan Turing proposed the universal computing machine in his 1936 paper at Cambridge, founding theoretical computer science."}
+{"doc_id": 2001, "text": "Marie Curie discovered polonium and radium in Paris in 1898 and won two Nobel Prizes in different sciences."}
+{"doc_id": 2002, "text": "Albert Einstein published the theory of special relativity in 1905 while working at the Swiss Patent Office in Bern."}
+{"doc_id": 2003, "text": "Isaac Newton formulated the laws of motion and universal gravitation at Cambridge in 1687."}
+{"doc_id": 2004, "text": "Charles Darwin published On the Origin of Species in 1859, proposing evolution by natural selection after his Beagle voyage."}
+{"doc_id": 2005, "text": "Rosalind Franklin produced the X-ray diffraction images that revealed DNA's structure at King's College London in 1952."}
+{"doc_id": 2006, "text": "Niels Bohr developed the model of atomic structure with quantized electron orbits in Copenhagen in 1913."}
+{"doc_id": 2007, "text": "Werner Heisenberg formulated the uncertainty principle in 1927, a cornerstone of quantum mechanics."}
+{"doc_id": 2008, "text": "Erwin Schrodinger published the wave equation that describes quantum systems in 1926 in Zurich."}
+{"doc_id": 2009, "text": "Richard Feynman developed quantum electrodynamics and shared the 1965 Nobel Prize for that work."}
+{"doc_id": 2010, "text": "Stephen Hawking proposed that black holes emit radiation, now called Hawking radiation, in 1974 at Cambridge."}
+{"doc_id": 2011, "text": "Galileo Galilei used a telescope to discover moons of Jupiter in 1610 and supported the heliocentric model."}
+{"doc_id": 2012, "text": "Johannes Kepler discovered the three laws of planetary motion in the early 17th century in Prague."}
+{"doc_id": 2013, "text": "Dmitri Mendeleev published the periodic table of elements in 1869 in Saint Petersburg."}
+{"doc_id": 2014, "text": "Linus Pauling won Nobel Prizes in both Chemistry and Peace, the only person to win two unshared Nobel Prizes."}
+{"doc_id": 2015, "text": "Gregor Mendel established the laws of inheritance through experiments with pea plants in the 1860s at his monastery in Brno."}
+{"doc_id": 2016, "text": "Louis Pasteur developed pasteurization and the first rabies vaccine in 19th-century France."}
+{"doc_id": 2017, "text": "Alexander Fleming discovered penicillin at St. Mary's Hospital in London in 1928, launching the antibiotic era."}
+{"doc_id": 2018, "text": "Jonas Salk developed the inactivated polio vaccine in 1955 at the University of Pittsburgh."}
+{"doc_id": 2019, "text": "Rachel Carson published Silent Spring in 1962, sparking the modern environmental movement."}
+{"doc_id": 2020, "text": "Jane Goodall began her landmark study of wild chimpanzees in Gombe, Tanzania in 1960."}
+{"doc_id": 2021, "text": "Stephen Jay Gould proposed the theory of punctuated equilibrium with Niles Eldredge in 1972."}
+{"doc_id": 2022, "text": "Carl Sagan popularized astronomy through the Cosmos TV series in 1980 and advised NASA on planetary missions."}
+{"doc_id": 2023, "text": "Katherine Johnson computed orbital mechanics for NASA's early space missions including John Glenn's first orbital flight in 1962."}
+{"doc_id": 2024, "text": "Vera Rubin's observations of galaxy rotation provided early evidence for dark matter in the 1970s."}
+{"doc_id": 2025, "text": "Barbara McClintock discovered genetic transposition in maize and won the Nobel Prize in 1983 for that work."}
+{"doc_id": 3001, "text": "Abraham Lincoln signed the Emancipation Proclamation in 1863, freeing slaves in Confederate states."}
+{"doc_id": 3002, "text": "George Washington commanded the Continental Army during the American Revolution and became the first U.S. president in 1789."}
+{"doc_id": 3003, "text": "Napoleon Bonaparte crowned himself Emperor of France in 1804 and was defeated at Waterloo in 1815."}
+{"doc_id": 3004, "text": "Winston Churchill served as British Prime Minister during most of World War II and won the Nobel Prize in Literature in 1953."}
+{"doc_id": 3005, "text": "Franklin D. Roosevelt was elected to four terms as U.S. president and led the country through the Great Depression and World War II."}
+{"doc_id": 3006, "text": "Mahatma Gandhi led India to independence from British rule in 1947 through nonviolent civil disobedience."}
+{"doc_id": 3007, "text": "Nelson Mandela was imprisoned for 27 years before becoming South Africa's first democratically elected president in 1994."}
+{"doc_id": 3008, "text": "Martin Luther King Jr. delivered his I Have a Dream speech at the 1963 March on Washington."}
+{"doc_id": 3009, "text": "Queen Elizabeth I reigned over England from 1558 to 1603, presiding over the Elizabethan era."}
+{"doc_id": 3010, "text": "Catherine the Great expanded the Russian Empire during her reign from 1762 to 1796."}
+{"doc_id": 3011, "text": "Julius Caesar crossed the Rubicon in 49 BC, triggering civil war and the end of the Roman Republic."}
+{"doc_id": 3012, "text": "Genghis Khan founded the Mongol Empire in 1206 and became the largest contiguous land empire in history."}
+{"doc_id": 3013, "text": "Cleopatra VII was the last active pharaoh of Ptolemaic Egypt and died in 30 BC."}
+{"doc_id": 3014, "text": "Joan of Arc led French troops to several victories during the Hundred Years' War before her execution in 1431."}
+{"doc_id": 3015, "text": "Christopher Columbus reached the Americas in 1492 while seeking a westward route to Asia."}
+{"doc_id": 3016, "text": "Ferdinand Magellan's expedition completed the first circumnavigation of Earth from 1519 to 1522, though Magellan died en route."}
+{"doc_id": 3017, "text": "Marco Polo traveled to China in the 13th century and described his journeys in The Travels of Marco Polo."}
+{"doc_id": 3018, "text": "Vasco da Gama led the first European maritime voyage to India in 1498."}
+{"doc_id": 3019, "text": "Eleanor Roosevelt chaired the UN committee that drafted the Universal Declaration of Human Rights, adopted in 1948."}
+{"doc_id": 3020, "text": "Susan B. Anthony was a leader of the U.S. women's suffrage movement in the 19th century."}
+{"doc_id": 3021, "text": "Frederick Douglass escaped slavery and became a leading abolitionist and statesman in 19th-century America."}
+{"doc_id": 3022, "text": "Harriet Tubman helped enslaved people escape via the Underground Railroad and served as a Union scout during the Civil War."}
+{"doc_id": 3023, "text": "Malala Yousafzai survived an attack by the Taliban and won the Nobel Peace Prize in 2014 at age 17."}
+{"doc_id": 3024, "text": "Mother Teresa founded the Missionaries of Charity in 1950 and won the Nobel Peace Prize in 1979."}
+{"doc_id": 3025, "text": "Lech Walesa led the Polish Solidarity movement in the 1980s and became Poland's first democratically elected president."}
+{"doc_id": 4001, "text": "William Shakespeare wrote Hamlet, Macbeth, and many other plays in late 16th-century and early 17th-century England."}
+{"doc_id": 4002, "text": "Jane Austen published Pride and Prejudice in 1813, one of several novels examining English gentry life."}
+{"doc_id": 4003, "text": "Leo Tolstoy wrote War and Peace and Anna Karenina in 19th-century Russia."}
+{"doc_id": 4004, "text": "Fyodor Dostoevsky wrote Crime and Punishment and The Brothers Karamazov, exploring moral and existential themes."}
+{"doc_id": 4005, "text": "Gabriel Garcia Marquez wrote One Hundred Years of Solitude in 1967, defining magical realism in Latin American literature."}
+{"doc_id": 4006, "text": "Toni Morrison won the Nobel Prize in Literature in 1993; her novel Beloved received the Pulitzer Prize."}
+{"doc_id": 4007, "text": "Virginia Woolf wrote Mrs Dalloway and To the Lighthouse, pioneering stream-of-consciousness narration."}
+{"doc_id": 4008, "text": "James Joyce wrote Ulysses in 1922, considered a landmark of modernist literature."}
+{"doc_id": 4009, "text": "Franz Kafka wrote The Metamorphosis in 1915; most of his work was published posthumously by Max Brod."}
+{"doc_id": 4010, "text": "Ernest Hemingway won the Nobel Prize in 1954 and is known for novels like The Old Man and the Sea."}
+{"doc_id": 4011, "text": "Pablo Picasso co-founded Cubism with Georges Braque and painted Guernica in 1937 in response to the Spanish Civil War."}
+{"doc_id": 4012, "text": "Vincent van Gogh painted The Starry Night in 1889 while staying at an asylum in Saint-Remy-de-Provence."}
+{"doc_id": 4013, "text": "Leonardo da Vinci painted the Mona Lisa around 1503 in Florence; he was also an inventor and anatomist."}
+{"doc_id": 4014, "text": "Michelangelo sculpted the David in 1504 and painted the Sistine Chapel ceiling between 1508 and 1512."}
+{"doc_id": 4015, "text": "Frida Kahlo painted intense self-portraits drawing on Mexican folk art in the early 20th century."}
+{"doc_id": 4016, "text": "Claude Monet led the Impressionist movement and painted the Water Lilies series at his Giverny garden."}
+{"doc_id": 4017, "text": "Georgia O'Keeffe painted large-scale flowers and New Mexico landscapes in the 20th century."}
+{"doc_id": 4018, "text": "Salvador Dali was a key figure in Surrealism; his painting The Persistence of Memory features melting clocks."}
+{"doc_id": 4019, "text": "Wolfgang Amadeus Mozart composed over 600 works including operas like The Magic Flute, dying young in 1791."}
+{"doc_id": 4020, "text": "Ludwig van Beethoven composed nine symphonies and continued composing despite progressive hearing loss."}
+{"doc_id": 4021, "text": "Johann Sebastian Bach composed the Brandenburg Concertos and Mass in B minor in 18th-century Germany."}
+{"doc_id": 4022, "text": "Bob Dylan won the Nobel Prize in Literature in 2016, the first songwriter to receive the award."}
+{"doc_id": 4023, "text": "The Beatles formed in Liverpool in 1960 and changed the course of popular music in the 1960s."}
+{"doc_id": 4024, "text": "Aretha Franklin was crowned the Queen of Soul and won 18 Grammy Awards over her career."}
+{"doc_id": 4025, "text": "Akira Kurosawa directed films like Seven Samurai and Rashomon, influencing global cinema in the 20th century."}
