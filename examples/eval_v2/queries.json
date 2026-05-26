@@ -1,0 +1,25 @@
+[
+  {"tier": 1, "query": "Who created Linux",                            "ground_truth": [101], "kind": "exact"},
+  {"tier": 1, "query": "Who invented the telephone",                   "ground_truth": [302], "kind": "exact"},
+  {"tier": 1, "query": "Who designed the Apple I",                     "ground_truth": [103], "kind": "exact"},
+  {"tier": 1, "query": "Who founded Google",                           "ground_truth": [104], "kind": "exact"},
+  {"tier": 1, "query": "Who proved the incompleteness theorems",       "ground_truth": [406], "kind": "exact"},
+
+  {"tier": 2, "query": "Who released the Python programming language", "ground_truth": [105], "kind": "multi-token"},
+  {"tier": 2, "query": "Who developed the C++ language at Bell Labs",  "ground_truth": [106], "kind": "multi-token"},
+  {"tier": 2, "query": "Who built the first compiler at Remington Rand","ground_truth": [502], "kind": "multi-token"},
+  {"tier": 2, "query": "Who designed the AC motor in the 1880s",       "ground_truth": [303], "kind": "abbrev"},
+  {"tier": 2, "query": "Who wrote the Apollo flight software at MIT",  "ground_truth": [501], "kind": "multi-token"},
+
+  {"tier": 3, "query": "Who won two Nobel Prizes in different sciences", "ground_truth": [201], "kind": "descriptive"},
+  {"tier": 3, "query": "Who imaged the DNA double helix with X-rays",    "ground_truth": [205], "kind": "descriptive"},
+  {"tier": 3, "query": "Who proposed the universal computing machine",   "ground_truth": [401], "kind": "descriptive"},
+  {"tier": 3, "query": "Who wrote the first computer algorithm",         "ground_truth": [402], "kind": "descriptive"},
+  {"tier": 3, "query": "Who is considered the first programmer",         "ground_truth": [402], "kind": "paraphrase"},
+
+  {"tier": 4, "query": "What protocols connect today's Internet",       "ground_truth": [504], "kind": "cross-domain"},
+  {"tier": 4, "query": "Who founded information theory",                "ground_truth": [506], "kind": "descriptive"},
+  {"tier": 4, "query": "Which mathematician solved the Konigsberg bridges","ground_truth": [403], "kind": "descriptive"},
+  {"tier": 4, "query": "Who invented the printing press in Mainz",      "ground_truth": [306], "kind": "exact-with-place"},
+  {"tier": 4, "query": "Whose theorem links symmetries and conservation laws", "ground_truth": [405], "kind": "descriptive"}
+]

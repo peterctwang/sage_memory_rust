@@ -1,0 +1,29 @@
+{
+  "_comment": "Measured 2026-05-26 on HeuristicReader + DeterministicEmbedder(128) + HnswIndex, ingest via real claude binary. Re-run will vary by ±0.05 depending on Claude's triple extraction.",
+  "config": {
+    "reader": "HeuristicReader",
+    "embedder": "DeterministicEmbedder(dim=128)",
+    "vector_index": "HnswIndex(default)",
+    "llm_ingest": "claude (live)",
+    "docs": 30,
+    "entities_indexed": 140,
+    "edges": 123
+  },
+  "overall": {
+    "k=1": { "recall_at_k": 0.50, "precision_at_k": 0.50, "f1_at_k": 0.50, "mrr": 0.50 },
+    "k=3": { "recall_at_k": 0.55, "precision_at_k": 0.18, "f1_at_k": 0.275, "mrr": 0.48 },
+    "k=5": { "recall_at_k": 0.65, "precision_at_k": 0.13, "f1_at_k": 0.22, "mrr": 0.54 }
+  },
+  "per_tier_k=3": {
+    "tier_1_exact":       { "samples": 5, "recall_at_k": 0.60, "mrr": 0.47 },
+    "tier_2_multi_token": { "samples": 5, "recall_at_k": 0.60, "mrr": 0.60 },
+    "tier_3_descriptive": { "samples": 5, "recall_at_k": 0.60, "mrr": 0.60 },
+    "tier_4_cross_domain":{ "samples": 5, "recall_at_k": 0.40, "mrr": 0.40 }
+  },
+  "regression_thresholds": {
+    "_comment": "If a future run drops below these on the same query set, something broke.",
+    "overall_recall_at_3_min": 0.45,
+    "overall_mrr_min": 0.40,
+    "tier_4_recall_at_3_min": 0.25
+  }
+}
