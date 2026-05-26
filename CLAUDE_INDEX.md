@@ -31,6 +31,8 @@
     - [`crates/sage-writer/tests/`](crates/sage-writer/tests/CLAUDE.md) — 整合測試 — 把 LlmWriterPolicy + apply_action 串到真的 MemGraphStore。
   - [`crates/tests-support/`](crates/tests-support/CLAUDE.md) — 共用測試 fixture、mock、proptest 策略 — **test-only**，不得進入產品 dependency 樹。
     - [`crates/tests-support/src/`](crates/tests-support/src/CLAUDE.md) — Fixture 與 proptest 策略模組。
+- [`examples/`](examples/CLAUDE.md) — 對外可運行的端到端示例與資料集；CI 不跑，使用者手動觸發。
+  - [`examples/eval_dataset/`](examples/eval_dataset/CLAUDE.md) — 8 篇合成 doc + 8 條 ground-truth query；smoke-grade retrieval baseline。
 - [`scripts/`](scripts/CLAUDE.md) — 開發輔助工具：CLAUDE.md 索引生成、未來的 CI 護欄與檢查腳本。
   - [`scripts/gen-claude-index/`](scripts/gen-claude-index/CLAUDE.md) — 掃描 workspace、讀取每個 CLAUDE.md 的 one-liner，輸出根 `CLAUDE_INDEX.md`。
     - [`scripts/gen-claude-index/src/`](scripts/gen-claude-index/src/CLAUDE.md) — 索引生成器主程式 — 純標準函式庫，無外部依賴。

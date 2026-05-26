@@ -1,0 +1,10 @@
+[
+  {"query": "Who invented the World Wide Web",                 "ground_truth": [1]},
+  {"query": "Who wrote the first compiler",                    "ground_truth": [2]},
+  {"query": "Who discovered radium",                           "ground_truth": [3]},
+  {"query": "Who released Linux",                              "ground_truth": [4]},
+  {"query": "Who wrote the first algorithm",                   "ground_truth": [5]},
+  {"query": "Who proposed the Turing machine",                 "ground_truth": [6]},
+  {"query": "Who designed the Apple I",                        "ground_truth": [7]},
+  {"query": "Who led the Apollo flight software team",         "ground_truth": [8]}
+]
