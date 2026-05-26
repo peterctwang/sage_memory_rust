@@ -5,6 +5,7 @@ use std::sync::Arc;
 
 use sage_core::{
     Document, Embedder, Query, ReadOutput, Reader, ReaderGraph, Result, SnapshotId, TenantId,
+    VectorIndex,
 };
 use sage_llm::LlmClient;
 use sage_writer::{apply_action_embedded, ApplyReport, WriterPolicy, WriterState};
@@ -45,6 +46,9 @@ where
     graph: Arc<G>,
     llm: Arc<L>,
     embedder: Option<Arc<dyn Embedder>>,
+    /// Optional ANN index. Engine auto-inserts newly-added entity embeddings
+    /// here on `ingest_*`; readers can use it as a retrieval accelerator.
+    vector_index: Option<Arc<dyn VectorIndex>>,
     tenant: TenantId,
 }
 
@@ -76,6 +80,7 @@ where
             graph,
             llm,
             embedder: None,
+            vector_index: None,
             tenant: TenantId::DEFAULT,
         }
     }
@@ -87,6 +92,11 @@ where
 
     pub fn with_embedder(mut self, e: Arc<dyn Embedder>) -> Self {
         self.embedder = Some(e);
+        self
+    }
+
+    pub fn with_vector_index(mut self, idx: Arc<dyn VectorIndex>) -> Self {
+        self.vector_index = Some(idx);
         self
     }
 
@@ -102,6 +112,9 @@ where
     pub fn embedder(&self) -> Option<&Arc<dyn Embedder>> {
         self.embedder.as_ref()
     }
+    pub fn vector_index(&self) -> Option<&Arc<dyn VectorIndex>> {
+        self.vector_index.as_ref()
+    }
 
     pub async fn ingest_one(&self, doc: Document) -> Result<ApplyReport> {
         let state = WriterState {
@@ -111,13 +124,30 @@ where
             step: 0,
         };
         let action = self.writer.step(&state, &doc).await?;
-        apply_action_embedded(
+        let report = apply_action_embedded(
             self.graph.as_ref(),
             self.embedder.as_deref(),
             self.tenant,
             &action,
         )
-        .await
+        .await?;
+
+        // Auto-index newly-added entities so attached readers can use
+        // ANN narrowing without manual bookkeeping.
+        if let Some(idx) = &self.vector_index {
+            for &eid in &report.added_entity_ids {
+                if let Some(e) = self.graph.get_entity(self.tenant, eid).await? {
+                    if let Some(emb) = &e.embedding {
+                        // Best-effort — ignore dim/capacity errors per entity to
+                        // avoid aborting the ingest batch on a single bad row.
+                        if let Err(e) = idx.insert(eid, emb) {
+                            tracing::warn!(eid, error = %e, "vector_index insert failed");
+                        }
+                    }
+                }
+            }
+        }
+        Ok(report)
     }
 
     pub async fn ingest<I>(&self, docs: I) -> Result<IngestReport>

@@ -70,7 +70,7 @@ impl VectorIndex for HnswIndex {
         self.id_map.read().len()
     }
 
-    fn insert(&mut self, id: EntityId, vec: &[f32]) -> Result<()> {
+    fn insert(&self, id: EntityId, vec: &[f32]) -> Result<()> {
         if vec.len() != self.dim {
             return Err(SageError::Invalid(format!(
                 "HnswIndex: vec.len()={} != dim={}",
@@ -124,7 +124,7 @@ mod tests {
 
     #[test]
     fn dim_and_len_reported_correctly() {
-        let mut idx = HnswIndex::new(4);
+        let idx = HnswIndex::new(4);
         assert_eq!(idx.dim(), 4);
         assert_eq!(idx.len(), 0);
         assert!(idx.is_empty());
@@ -135,7 +135,7 @@ mod tests {
 
     #[test]
     fn search_finds_nearest_first() {
-        let mut idx = HnswIndex::new(4);
+        let idx = HnswIndex::new(4);
         idx.insert(10, &unit(vec![1.0, 0.0, 0.0, 0.0])).unwrap();
         idx.insert(20, &unit(vec![0.0, 1.0, 0.0, 0.0])).unwrap();
         idx.insert(30, &unit(vec![0.0, 0.0, 1.0, 0.0])).unwrap();
@@ -155,7 +155,7 @@ mod tests {
 
     #[test]
     fn dim_mismatch_errors_on_insert() {
-        let mut idx = HnswIndex::new(4);
+        let idx = HnswIndex::new(4);
         let r = idx.insert(1, &[1.0, 0.0]);
         assert!(matches!(r, Err(SageError::Invalid(_))));
     }
@@ -176,7 +176,7 @@ mod tests {
 
     #[test]
     fn identical_vector_has_high_similarity() {
-        let mut idx = HnswIndex::new(4);
+        let idx = HnswIndex::new(4);
         let v = unit(vec![1.0, 2.0, 3.0, 4.0]);
         idx.insert(42, &v).unwrap();
         let r = idx.search(&v, 1).unwrap();
