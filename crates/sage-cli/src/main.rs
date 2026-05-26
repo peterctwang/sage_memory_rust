@@ -16,7 +16,7 @@ use sage_embed::{DeterministicEmbedder, HnswIndex};
 use sage_eval::{EvalRunner, EvalSample};
 use sage_graph::{MemGraphStore, SledGraphStore};
 use sage_llm::{ClaudeCliLlm, MockLlm};
-use sage_reader::HeuristicReader;
+use sage_reader::{HeuristicReader, LlmQueryPlanner};
 use sage_runtime::SageEngine;
 use sage_writer::{
     apply_action, apply_action_embedded, EntityRef, LlmWriterPolicy, WriterAction, WriterPolicy,
@@ -77,6 +77,10 @@ enum Cmd {
         k: usize,
         #[arg(long, default_value_t = 0)]
         tenant: u64,
+        /// Use Claude CLI to expand each query (LlmQueryPlanner). ~2s LLM call
+        /// per unique query; cached within run. Honors $SAGE_CLAUDE_BIN.
+        #[arg(long, default_value_t = false)]
+        llm_plan: bool,
     },
     /// Ingest a real document via LLM-extracted triples into a sled-backed graph.
     ///
@@ -154,7 +158,12 @@ async fn main() -> Result<()> {
         Cmd::IngestStub { db, doc_id, tenant } => {
             run_ingest_stub(db, TenantId(tenant), doc_id).await
         }
-        Cmd::Eval { db, k, tenant } => run_eval(db, TenantId(tenant), k).await,
+        Cmd::Eval {
+            db,
+            k,
+            tenant,
+            llm_plan,
+        } => run_eval(db, TenantId(tenant), k, llm_plan).await,
         Cmd::Ingest {
             db,
             doc_id,
@@ -455,7 +464,15 @@ async fn build_index_for_query(
     Ok(Arc::new(idx))
 }
 
-async fn run_eval(db_path: PathBuf, t: TenantId, k: usize) -> Result<()> {
+fn make_claude_cli_for_planner() -> ClaudeCliLlm {
+    let mut c = ClaudeCliLlm::new();
+    if let Ok(p) = std::env::var("SAGE_CLAUDE_BIN") {
+        c = c.with_binary(p);
+    }
+    c
+}
+
+async fn run_eval(db_path: PathBuf, t: TenantId, k: usize, llm_plan: bool) -> Result<()> {
     use std::io::Read;
     let mut s = String::new();
     std::io::stdin()
@@ -473,13 +490,29 @@ async fn run_eval(db_path: PathBuf, t: TenantId, k: usize) -> Result<()> {
     let g: Arc<SledGraphStore> = Arc::new(SledGraphStore::open(&db_path).context("open sled")?);
     let embedder: Arc<dyn sage_core::Embedder> = Arc::new(DeterministicEmbedder::new(128));
     let index = build_index_for_query(g.as_ref(), t, 128).await?;
-    let reader = Arc::new(
-        HeuristicReader::default()
-            .with_embedder(embedder)
-            .with_vector_index(index),
-    );
-    let runner = EvalRunner::new(reader, k).with_tenant(t);
-    let report = runner.run(g.as_ref(), &samples).await?;
+    let report = if llm_plan {
+        tracing::info!("eval using LlmQueryPlanner (claude-cli)");
+        let planner = LlmQueryPlanner::new(Arc::new(make_claude_cli_for_planner()));
+        let reader = Arc::new(
+            HeuristicReader::with_planner(planner)
+                .with_embedder(embedder)
+                .with_vector_index(index),
+        );
+        EvalRunner::new(reader, k)
+            .with_tenant(t)
+            .run(g.as_ref(), &samples)
+            .await?
+    } else {
+        let reader = Arc::new(
+            HeuristicReader::default()
+                .with_embedder(embedder)
+                .with_vector_index(index),
+        );
+        EvalRunner::new(reader, k)
+            .with_tenant(t)
+            .run(g.as_ref(), &samples)
+            .await?
+    };
     let out = serde_json::json!({
         "samples":        report.samples,
         "k":              report.k,
@@ -487,6 +520,7 @@ async fn run_eval(db_path: PathBuf, t: TenantId, k: usize) -> Result<()> {
         "precision_at_k": report.precision_at_k,
         "f1_at_k":        report.f1_at_k,
         "mrr":            report.mrr,
+        "planner":        if llm_plan { "llm" } else { "heuristic" },
     });
     println!("{}", serde_json::to_string_pretty(&out)?);
     Ok(())

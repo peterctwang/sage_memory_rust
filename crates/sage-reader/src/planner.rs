@@ -1,14 +1,17 @@
 //! Query planner — SPEC §5.1.
 //!
 //! `HeuristicPlanner` derives expansions/aliases/probes from the raw query string
-//! without an LLM. Suitable as M2 baseline and as fallback in production.
+//! without an LLM (M2 baseline and fallback). `LlmQueryPlanner` (separate module)
+//! uses an LLM for cognition-inspired expansion (SPEC §5.1 / paper §4.2.1).
 
-use sage_core::{Probe, Query, QueryPlan};
+use async_trait::async_trait;
+use sage_core::{Probe, Query, QueryPlan, Result};
 use smol_str::SmolStr;
 use std::sync::Arc;
 
+#[async_trait]
 pub trait QueryPlanner: Send + Sync {
-    fn plan(&self, q: &Query) -> QueryPlan;
+    async fn plan(&self, q: &Query) -> Result<QueryPlan>;
 }
 
 #[derive(Debug, Default)]
@@ -20,10 +23,9 @@ impl HeuristicPlanner {
     pub fn new() -> Self {
         Self { min_token_len: 2 }
     }
-}
 
-impl QueryPlanner for HeuristicPlanner {
-    fn plan(&self, q: &Query) -> QueryPlan {
+    /// Synchronous flavor — useful from non-async contexts and tests.
+    pub fn plan_sync(&self, q: &Query) -> QueryPlan {
         let tokens: Vec<SmolStr> = q
             .text
             .split(|c: char| !c.is_alphanumeric())
@@ -47,6 +49,13 @@ impl QueryPlanner for HeuristicPlanner {
             etype_hint: None,
             probes,
         }
+    }
+}
+
+#[async_trait]
+impl QueryPlanner for HeuristicPlanner {
+    async fn plan(&self, q: &Query) -> Result<QueryPlan> {
+        Ok(self.plan_sync(q))
     }
 }
 
@@ -89,7 +98,7 @@ mod tests {
     #[test]
     fn extracts_lowercased_tokens() {
         let p = HeuristicPlanner::new();
-        let plan = p.plan(&Query::ask("Who founded Acme Corp?"));
+        let plan = p.plan_sync(&Query::ask("Who founded Acme Corp?"));
         assert!(plan.expansions.iter().any(|t| t == "founded"));
         assert!(plan.expansions.iter().any(|t| t == "acme"));
         assert!(plan.expansions.iter().any(|t| t == "corp"));
@@ -98,7 +107,7 @@ mod tests {
     #[test]
     fn drops_stopwords() {
         let p = HeuristicPlanner::new();
-        let plan = p.plan(&Query::ask("the cat is on the mat"));
+        let plan = p.plan_sync(&Query::ask("the cat is on the mat"));
         assert!(!plan.expansions.iter().any(|t| t == "the"));
         assert!(!plan.expansions.iter().any(|t| t == "is"));
         assert!(plan.expansions.iter().any(|t| t == "cat"));
@@ -107,7 +116,7 @@ mod tests {
     #[test]
     fn produces_one_probe_with_full_text() {
         let p = HeuristicPlanner::new();
-        let plan = p.plan(&Query::ask("xyz"));
+        let plan = p.plan_sync(&Query::ask("xyz"));
         assert_eq!(plan.probes.len(), 1);
         assert_eq!(plan.probes[0].alpha, 1.0);
     }

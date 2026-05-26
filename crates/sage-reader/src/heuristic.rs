@@ -100,7 +100,7 @@ impl<P: QueryPlanner> HeuristicReader<P> {
 #[async_trait]
 impl<P: QueryPlanner + std::fmt::Debug> Reader for HeuristicReader<P> {
     async fn read(&self, t: TenantId, q: &Query, g: &dyn ReaderGraph) -> Result<ReadOutput> {
-        let plan = self.planner.plan(q);
+        let plan = self.planner.plan(q).await?;
 
         let query_emb: Option<Arc<[f32]>> = match &self.embedder {
             Some(e) => Some(Arc::clone(

@@ -96,7 +96,7 @@ impl<P: QueryPlanner + std::fmt::Debug> Reader for GfmReader<P> {
             )));
         }
 
-        let plan = self.planner.plan(q);
+        let plan = self.planner.plan(q).await?;
         let entities = g.all_entities(t).await?;
         if entities.is_empty() {
             return Ok(ReadOutput::default());
