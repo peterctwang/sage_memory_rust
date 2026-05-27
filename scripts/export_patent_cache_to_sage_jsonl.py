@@ -209,7 +209,14 @@ def main():
         default=1500,
         help="Truncate final paragraph to this many chars",
     )
+    ap.add_argument(
+        "--filter-html",
+        default=None,
+        help="Regex; only emit patents whose raw HTML contains this pattern. "
+        "Useful for assignee-scoped exports (e.g. 'Peplink|Pismo Labs').",
+    )
     args = ap.parse_args()
+    filter_re = re.compile(args.filter_html, re.IGNORECASE) if args.filter_html else None
 
     if not args.cache.is_dir():
         sys.stderr.write(f"cache dir not found: {args.cache}\n")
@@ -226,6 +233,8 @@ def main():
             if args.limit and n_seen >= args.limit:
                 break
             n_seen += 1
+            if filter_re is not None and not filter_re.search(html):
+                continue
             rec = parse_one(html)
             if rec is None or not rec["publication_number"]:
                 n_skip_noparse += 1
