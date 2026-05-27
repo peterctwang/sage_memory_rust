@@ -385,7 +385,61 @@ pub trait Embedder: Send + Sync {
 }
 ```
 
-內建：`OpenAILlm`, `AnthropicLlm`, `LocalLlamaCpp` (可選 feature)；`BgeEmbedder`, `E5Embedder` via `candle`.
+內建：`AnthropicLlm` (feature `anthropic`)、`ClaudeCliLlm`/`CodexCliLlm`/`GeminiCliLlm` (subprocess backends, feature-gated)、`MinimaxLlm` (feature `minimax`)、`MockLlm`；`BgeEmbedder`, `E5Embedder` via `candle`.
+
+### 7.1 Composite clients
+
+兩個 wrapper 同樣實作 `LlmClient`，可以**透明套在任何呼叫點**（writer / planner / judge），不必改現有流程。
+
+#### `FallbackLlm<P, F>` — 縱向兩段保險
+
+```rust
+pub struct FallbackLlm<P: LlmClient + ?Sized, F: LlmClient + ?Sized> {
+    primary:  Arc<P>,
+    fallback: Arc<F>,
+    fallback_count: AtomicU64,
+}
+```
+
+行為（`complete`）：
+1. 呼 `primary.complete()`。
+2. 若 `Ok` 且 `content.trim().chars().count() >= 2` → 直接 return。
+3. 否則（空回應 / Error）→ 呼 `fallback.complete()`，遞增 `fallback_count`。
+
+`judge()` 只在 primary `Err` 時 fallback（YES/NO 沒有「empty payload」概念）。
+
+設計用途：包單一不穩定的 backend (例如 MiniMax) 加一層 Claude 兜底。
+
+#### `HeuristicRouter` — 橫向兩臂 + 跨臂 failover
+
+```rust
+pub struct HeuristicRouter {
+    light: Arc<dyn LlmClient>,
+    deep:  Arc<dyn LlmClient>,
+    threshold: u32,
+    light_hits / deep_hits / failover_hits: AtomicU64,
+}
+```
+
+行為（`complete`）：
+1. `profile = profile_user_content(&req)` — 計算 user message 的 `(char_len, sentence_count, capitalized_phrase_count)`。
+2. `score = char_len/50 + caps×5 + sentences×2`。
+3. 若 `score >= threshold` → primary = deep, alternate = light；反之亦然。
+4. 試 primary。空回應 / Error → 自動切 alternate（跨臂 failover），遞增 `failover_hits`。
+5. 兩臂都失敗才 bubble error。
+
+`judge()`：永遠先打 light（YES/NO 不需深推理）；light 失敗才打 deep。
+
+`profile_user_content` 故意只計算 `Role::User` 訊息 — system prompt 是固定 boilerplate，不該影響決策。
+
+**Invariants**：
+- `EMPTY_THRESHOLD_CHARS = 2`。`FallbackLlm` 與 `HeuristicRouter` 共用同一定義以維持兩層 composition 語意一致。
+- Router arms 可遞迴 — `light` 或 `deep` 可以自己是另一個 `FallbackLlm` 或 `HeuristicRouter`（CLI 用 `build_llm_client(kind)` 構造，但禁止 arm 本身是 `"router"`，避免無限遞迴）。
+- 兩個 wrapper 都 `Clone`-able，shared state 走 `Arc<AtomicU64>`。
+
+**Telemetry**：`router.failover_hits()` 跑完批次後可查實際救援次數，作為品質/可靠性指標。
+
+**Roadmap (M5+)**：拓展為 N-arm chain (priority list)，依優先序逐一 failover；目前 2-arm 足夠對應「便宜 + 高品質」與「主 + 備援」兩個常見場景。
 
 ---
 
