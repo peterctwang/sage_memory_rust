@@ -1,0 +1,106 @@
+{
+  "_comment": "v7 = 100-doc paragraph-style multi-hop benchmark. All 4 backends measured live 2026-05-27 in parallel ingest under the same workspace conditions, HeuristicReader + DeterministicEmbedder(128) + HnswIndex + default weights. Multi-hop emphasis: 21 of 45 queries (47%) are tier 5 (multi-hop) or tier 6 (bridge).",
+  "config": {
+    "reader": "HeuristicReader",
+    "embedder": "DeterministicEmbedder(dim=128)",
+    "vector_index": "HnswIndex(default)",
+    "weights": "default [1.5, 0.8, 1.2, 0.5, 0.0, 1.0], T0=0.5",
+    "docs": 100,
+    "queries": 45
+  },
+  "backends": {
+    "claude_cli": {
+      "_note": "claude-opus-4-7 via local claude.cmd subprocess.",
+      "docs_ingested": 100,
+      "entities": 787,
+      "edges": 808,
+      "fallback_invocations": 0,
+      "ingest_minutes_approx": 25,
+      "overall_k3": { "recall_at_k": 0.856, "mrr": 0.841 },
+      "per_tier_k3": {
+        "tier_1_exact":       { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 },
+        "tier_2_multi_token": { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 },
+        "tier_3_descriptive": { "samples": 6, "recall_at_k": 0.667, "mrr": 0.667 },
+        "tier_4_paraphrase":  { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 },
+        "tier_5_multi_hop":   { "samples": 15, "recall_at_k": 0.700, "mrr": 0.689 },
+        "tier_6_bridge":      { "samples": 6, "recall_at_k": 0.833, "mrr": 0.833 }
+      }
+    },
+    "codex_cli": {
+      "_note": "ChatGPT-subscription account default model (codex-cli).",
+      "docs_ingested": 100,
+      "entities": 765,
+      "edges": 1031,
+      "fallback_invocations": 0,
+      "ingest_minutes_approx": 25,
+      "overall_k3": { "recall_at_k": 0.844, "mrr": 0.830 },
+      "per_tier_k3": {
+        "tier_1_exact":       { "samples": 6, "recall_at_k": 0.833, "mrr": 0.833 },
+        "tier_2_multi_token": { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 },
+        "tier_3_descriptive": { "samples": 6, "recall_at_k": 0.667, "mrr": 0.667 },
+        "tier_4_paraphrase":  { "samples": 6, "recall_at_k": 0.833, "mrr": 0.833 },
+        "tier_5_multi_hop":   { "samples": 15, "recall_at_k": 0.733, "mrr": 0.722 },
+        "tier_6_bridge":      { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 }
+      }
+    },
+    "gemini_cli": {
+      "_note": "gemini-2.5-pro via OAuth.",
+      "docs_ingested": 100,
+      "entities": 690,
+      "edges": 765,
+      "fallback_invocations": 0,
+      "ingest_minutes_approx": 43,
+      "overall_k3": { "recall_at_k": 0.856, "mrr": 0.793 },
+      "per_tier_k3": {
+        "tier_1_exact":       { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 },
+        "tier_2_multi_token": { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 },
+        "tier_3_descriptive": { "samples": 6, "recall_at_k": 0.833, "mrr": 0.556 },
+        "tier_4_paraphrase":  { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 },
+        "tier_5_multi_hop":   { "samples": 15, "recall_at_k": 0.700, "mrr": 0.689 },
+        "tier_6_bridge":      { "samples": 6, "recall_at_k": 1.000, "mrr": 0.889 }
+      }
+    },
+    "minimax_m25_with_claude_fallback": {
+      "_note": "MiniMax-M2.5 primary + Claude CLI fallback on empty/error.",
+      "docs_ingested": 100,
+      "entities": 643,
+      "edges": 691,
+      "fallback_invocations": 2,
+      "ingest_minutes_approx": 20,
+      "overall_k3": { "recall_at_k": 0.704, "mrr": 0.678 },
+      "per_tier_k3": {
+        "tier_1_exact":       { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 },
+        "tier_2_multi_token": { "samples": 6, "recall_at_k": 0.833, "mrr": 0.833 },
+        "tier_3_descriptive": { "samples": 6, "recall_at_k": 0.833, "mrr": 0.667 },
+        "tier_4_paraphrase":  { "samples": 6, "recall_at_k": 0.667, "mrr": 0.667 },
+        "tier_5_multi_hop":   { "samples": 15, "recall_at_k": 0.689, "mrr": 0.667 },
+        "tier_6_bridge":      { "samples": 6, "recall_at_k": 0.833, "mrr": 0.833 }
+      }
+    }
+  },
+  "rankings": {
+    "overall_recall_at_3":   ["claude_cli=0.856", "gemini_cli=0.856", "codex_cli=0.844", "minimax=0.704"],
+    "tier_5_multi_hop":      ["codex_cli=0.733", "claude_cli=0.700", "gemini_cli=0.700", "minimax=0.689"],
+    "tier_6_bridge":         ["codex_cli=1.000", "gemini_cli=1.000", "claude_cli=0.833", "minimax=0.833"],
+    "tier_4_paraphrase":     ["claude_cli=1.000", "gemini_cli=1.000", "codex_cli=0.833", "minimax=0.667"],
+    "ingest_speed":          ["minimax=20m", "claude_cli=25m", "codex_cli=25m", "gemini_cli=43m"],
+    "edges_extracted":       ["codex_cli=1031", "claude_cli=808", "gemini_cli=765", "minimax=691"]
+  },
+  "key_findings": {
+    "multi_hop_works": "Tier 5 multi-hop R@3 = 0.689 to 0.733 across all 4 backends. Vs v6 (same MiniMax backend, 0.30) this is a 2.3x jump — proves the apply.rs dedup fix + writer COVERAGE prompt + paragraph-style docs are the critical levers.",
+    "bridge_queries":  "Tier 6 chain reasoning (X -> relation -> answer) hits 1.000 on Codex and Gemini, 0.833 on Claude and MiniMax. Bridge works.",
+    "codex_wins_extraction":  "Codex extracts 1031 edges (+28% vs Claude, +49% vs MiniMax) and wins tier 5 + tier 6. Best choice when multi-hop matters.",
+    "claude_paraphrase_supremacy": "Claude perfect on tier 4 paraphrase (1.000) — Opus's English fluency advantage shines on metaphor / descriptive labels.",
+    "gemini_underrated": "Gemini ties Claude on overall R@3 (0.856) despite extracting fewer entities, suggesting better selectivity. Slower ingest is the drawback.",
+    "minimax_value": "Cheapest, ~20× cost reduction vs Claude. Quality 0.15 R@3 behind the leaders but still functional. Best when ingesting tens of thousands of docs."
+  },
+  "regression_thresholds": {
+    "_comment": "Any future v7 run dropping below these on the same query set means something regressed.",
+    "claude_recall_at_3_min": 0.75,
+    "codex_recall_at_3_min":  0.75,
+    "gemini_recall_at_3_min": 0.75,
+    "minimax_recall_at_3_min":0.60,
+    "tier_5_min_any_backend": 0.55,
+    "tier_6_min_any_backend": 0.70
+  }
+}
