@@ -28,7 +28,7 @@ use crate::planner::{HeuristicPlanner, QueryPlanner};
 const SYSTEM_PROMPT: &str = r#"You are a retrieval query planner.
 Given the user's question, output ONLY a JSON object (no prose, no markdown fences):
 {
-  "expansions": ["3-5 likely named entities or key nouns"],
+  "expansions": ["3-8 likely answer entities or key nouns"],
   "aliases":    ["common alternative names or abbreviations"],
   "etype":      "Person" | "Org" | "Concept" | "Event" | "Time" | null,
   "probes":     ["1-3 paraphrases of the question"]
@@ -36,7 +36,12 @@ Given the user's question, output ONLY a JSON object (no prose, no markdown fenc
 Rules:
 - expansions/aliases: short, just the name/term (no full sentences)
 - etype: pick the type of the ANSWER entity, not the question's subject
-- probes: full-sentence rewordings"#;
+- probes: full-sentence rewordings
+- **Multi-entity queries** ("Two X who Y", "Three X who Y", "Both X", "X and Y"):
+  list EVERY plausible answer entity by name in `expansions`. For example,
+  "Two CEOs of Microsoft" → ["Bill Gates","Satya Nadella","Steve Ballmer"];
+  "Two co-founders of OpenAI" → ["Sam Altman","Elon Musk","Greg Brockman","Ilya Sutskever"].
+  Your enumeration directly drives retrieval — be exhaustive within 8 items."#;
 
 #[derive(Debug, Deserialize)]
 struct LlmPlanJson {

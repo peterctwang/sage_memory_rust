@@ -64,7 +64,15 @@ impl<L: LlmClient + ?Sized> LlmWriterPolicy<L> {
         let system = ChatMessage::system(
             "You extract knowledge-graph triples. Respond with ONLY a JSON object: \
              {\"triples\":[{\"src\":..,\"rel\":..,\"dst\":..}],\"stop\":bool}. \
-             Keep entity names short and canonical.",
+             Keep entity names short and canonical.\n\n\
+             COVERAGE RULE — extract one triple for **every** named entity \
+             (person, org, place, product, work) explicitly mentioned in the doc, \
+             not just the main subject. E.g. for 'Satya Nadella took over as \
+             Microsoft CEO in 2014' you MUST emit BOTH a triple anchoring \
+             'Satya Nadella' AND one anchoring 'Microsoft' — otherwise downstream \
+             queries about Microsoft will never reach this doc. Use relations \
+             like 'works_at', 'role_at', 'product_of', 'located_in' to connect \
+             co-mentioned entities.",
         );
         let user = ChatMessage::user(format!(
             "Document #{id}:\n{text}\n\nExtract triples now.",
