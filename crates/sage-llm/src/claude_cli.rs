@@ -132,7 +132,13 @@ impl ClaudeCliLlm {
         if let Some(s) = system {
             // CRITICAL: --append, not replace. See module docs.
             cmd.push("--append-system-prompt".into());
-            cmd.push(s.to_string());
+            // Windows .cmd shim corrupts argv with embedded newlines →
+            // "batch file arguments are invalid" (observed 2026-05-27 when
+            // a multi-line writer system prompt first hit the Claude
+            // fallback path). Collapsing to spaces is semantically safe
+            // (the model treats the prompt as a single paragraph) and
+            // cross-platform consistent.
+            cmd.push(s.replace(['\n', '\r'], " "));
         }
         cmd
     }
@@ -274,6 +280,20 @@ mod tests {
         assert_eq!(c.binary(), "claude");
         assert_eq!(c.model(), DEFAULT_MODEL);
         assert!(c.cwd().is_none());
+    }
+
+    #[test]
+    fn system_prompt_newlines_are_sanitized_for_windows_cmd() {
+        let c = ClaudeCliLlm::new();
+        let argv = c.build_argv(Some("line1\nline2\r\nline3"));
+        let sys_idx = argv
+            .iter()
+            .position(|a| a == "--append-system-prompt")
+            .unwrap();
+        let payload = &argv[sys_idx + 1];
+        assert!(!payload.contains('\n'), "got: {payload:?}");
+        assert!(!payload.contains('\r'), "got: {payload:?}");
+        assert!(payload.contains("line1") && payload.contains("line3"));
     }
 
     #[test]
