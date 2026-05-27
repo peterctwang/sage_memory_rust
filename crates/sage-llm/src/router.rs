@@ -104,7 +104,28 @@ pub fn profile_text(text: &str) -> DocProfile {
     }
 }
 
-/// Pick `light` vs `deep` based on a `DocProfile` score threshold.
+/// Threshold below which a response is considered "empty" and triggers
+/// the cross-arm failover. Matches the FallbackLlm behavior so the two
+/// composition layers (router-level failover, single-backend FallbackLlm)
+/// have consistent semantics.
+const EMPTY_THRESHOLD_CHARS: usize = 2;
+
+fn is_empty_payload(s: &str) -> bool {
+    s.trim().chars().count() < EMPTY_THRESHOLD_CHARS
+}
+
+/// Pick `light` vs `deep` based on a `DocProfile` score threshold, with
+/// **automatic cross-arm failover** — if the primary arm errors or
+/// returns an empty payload, the other arm is tried before bubbling the
+/// failure up.
+///
+/// Failover use cases observed in production:
+/// - Codex (deep arm) hits ChatGPT subscription rate limit mid-batch.
+///   Router falls back to MiniMax (light arm) which has its own quota.
+/// - MiniMax (light arm) hits the 1500-call / 5h hard cap. Router falls
+///   back to Codex (deep) for short docs.
+/// - Either subprocess CLI crashes on a malformed input. The other arm
+///   gets a chance.
 #[derive(Clone)]
 pub struct HeuristicRouter {
     light: Arc<dyn LlmClient>,
@@ -113,6 +134,9 @@ pub struct HeuristicRouter {
     /// Atomic counters for telemetry (which arm was used how often).
     light_hits: Arc<std::sync::atomic::AtomicU64>,
     deep_hits: Arc<std::sync::atomic::AtomicU64>,
+    /// Counts cross-arm failovers (primary arm produced empty / errored,
+    /// alternate arm was tried).
+    failover_hits: Arc<std::sync::atomic::AtomicU64>,
 }
 
 impl std::fmt::Debug for HeuristicRouter {
@@ -127,6 +151,12 @@ impl std::fmt::Debug for HeuristicRouter {
                 "deep_hits",
                 &self.deep_hits.load(std::sync::atomic::Ordering::Relaxed),
             )
+            .field(
+                "failover_hits",
+                &self
+                    .failover_hits
+                    .load(std::sync::atomic::Ordering::Relaxed),
+            )
             .finish_non_exhaustive()
     }
 }
@@ -139,6 +169,7 @@ impl HeuristicRouter {
             threshold: DEFAULT_THRESHOLD,
             light_hits: Arc::new(std::sync::atomic::AtomicU64::new(0)),
             deep_hits: Arc::new(std::sync::atomic::AtomicU64::new(0)),
+            failover_hits: Arc::new(std::sync::atomic::AtomicU64::new(0)),
         }
     }
 
@@ -153,20 +184,31 @@ impl HeuristicRouter {
     pub fn deep_hits(&self) -> u64 {
         self.deep_hits.load(std::sync::atomic::Ordering::Relaxed)
     }
+    /// How many times the primary arm errored / returned empty and the
+    /// alternate arm was tried.
+    pub fn failover_hits(&self) -> u64 {
+        self.failover_hits
+            .load(std::sync::atomic::Ordering::Relaxed)
+    }
     pub fn threshold(&self) -> u32 {
         self.threshold
     }
 
-    /// Pick the backend for a given profile and increment its counter.
-    fn pick(&self, profile: &DocProfile) -> &Arc<dyn LlmClient> {
+    /// Pick the (primary, alternate) backend pair for a given profile.
+    /// Bumps the relevant primary-arm hit counter. The alternate is the
+    /// arm we fall back to if the primary errors or returns empty.
+    fn pick_pair(
+        &self,
+        profile: &DocProfile,
+    ) -> (&Arc<dyn LlmClient>, &Arc<dyn LlmClient>, &'static str) {
         if profile.score() >= self.threshold {
             self.deep_hits
                 .fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-            &self.deep
+            (&self.deep, &self.light, "deep")
         } else {
             self.light_hits
                 .fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-            &self.light
+            (&self.light, &self.deep, "light")
         }
     }
 }
@@ -175,22 +217,56 @@ impl HeuristicRouter {
 impl LlmClient for HeuristicRouter {
     async fn complete(&self, req: ChatRequest) -> Result<ChatResponse> {
         let profile = profile_user_content(&req);
+        let (primary, alternate, primary_name) = self.pick_pair(&profile);
         tracing::debug!(
             score = profile.score(),
             threshold = self.threshold,
-            char_len = profile.char_len,
-            entities = profile.capitalized_phrase_count,
+            arm = primary_name,
             "router routing decision"
         );
-        self.pick(&profile).complete(req).await
+
+        // Try the primary arm first. On error OR empty payload, fall over
+        // to the alternate arm so a single quota / rate-limit / parse
+        // failure doesn't drop the doc.
+        match primary.complete(req.clone()).await {
+            Ok(r) if !is_empty_payload(&r.content) => Ok(r),
+            Ok(_) => {
+                tracing::warn!(
+                    primary = primary_name,
+                    "router primary returned empty — failing over to alternate arm"
+                );
+                self.failover_hits
+                    .fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                alternate.complete(req).await
+            }
+            Err(e) => {
+                tracing::warn!(
+                    primary = primary_name,
+                    error = %e,
+                    "router primary errored — failing over to alternate arm"
+                );
+                self.failover_hits
+                    .fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                alternate.complete(req).await
+            }
+        }
     }
 
     async fn judge(&self, q: &str, y: &str, ev: &[String]) -> Result<bool> {
         // Judge is always a YES/NO classification — never benefits from the
-        // deep model. Force `light` regardless of evidence size.
+        // deep model. Force `light` regardless of evidence size; on error,
+        // fall over to deep so a transient failure still gets a verdict.
         self.light_hits
             .fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-        self.light.judge(q, y, ev).await
+        match self.light.judge(q, y, ev).await {
+            Ok(b) => Ok(b),
+            Err(e) => {
+                tracing::warn!(error = %e, "router judge light errored — failing over to deep arm");
+                self.failover_hits
+                    .fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                self.deep.judge(q, y, ev).await
+            }
+        }
     }
 }
 
@@ -309,11 +385,106 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn threshold_override_changes_decision_boundary() {
-        let light = Arc::new(MockLlm::new()); // would error if hit twice
-        light.push("L");
+    async fn deep_arm_error_failovers_to_light() {
+        // Long paragraph → routes to deep. Deep errors (empty queue) → light catches.
+        let light = Arc::new(MockLlm::new());
+        light.push("rescued by light");
+        let deep = Arc::new(MockLlm::new()); // empty queue → MockLlm returns error
+        let router = HeuristicRouter::new(light, deep);
+        let r = router
+            .complete(ChatRequest {
+                messages: vec![ChatMessage::user(
+                    "Bill Gates co-founded Microsoft with Paul Allen in 1975. \
+                     He served as CEO until 2000, when Steve Ballmer took over. \
+                     In 2014, Satya Nadella succeeded Ballmer.",
+                )],
+                temperature: 0.0,
+                max_tokens: None,
+            })
+            .await
+            .unwrap();
+        assert_eq!(r.content, "rescued by light");
+        assert_eq!(router.deep_hits(), 1, "deep was the primary arm");
+        assert_eq!(router.failover_hits(), 1, "failover fired exactly once");
+    }
+
+    #[tokio::test]
+    async fn light_arm_error_failovers_to_deep() {
+        // Short prompt → routes to light. Light errors → deep catches.
+        let light = Arc::new(MockLlm::new()); // empty queue
         let deep = Arc::new(MockLlm::new());
-        deep.push("D");
+        deep.push("rescued by deep");
+        let router = HeuristicRouter::new(light, deep);
+        let r = router
+            .complete(ChatRequest {
+                messages: vec![ChatMessage::user("hi.")],
+                temperature: 0.0,
+                max_tokens: None,
+            })
+            .await
+            .unwrap();
+        assert_eq!(r.content, "rescued by deep");
+        assert_eq!(router.light_hits(), 1);
+        assert_eq!(router.failover_hits(), 1);
+    }
+
+    #[tokio::test]
+    async fn deep_arm_empty_response_failovers_to_light() {
+        let light = Arc::new(MockLlm::new());
+        light.push("from light");
+        let deep = Arc::new(MockLlm::new());
+        deep.push(""); // empty payload → failover
+        let router = HeuristicRouter::new(light, deep);
+        let r = router
+            .complete(ChatRequest {
+                messages: vec![ChatMessage::user(
+                    "Bill Gates co-founded Microsoft with Paul Allen in 1975. \
+                     He served as CEO until 2000, when Steve Ballmer took over. \
+                     In 2014, Satya Nadella succeeded Ballmer and pivoted to Azure.",
+                )],
+                temperature: 0.0,
+                max_tokens: None,
+            })
+            .await
+            .unwrap();
+        assert_eq!(r.content, "from light");
+        assert_eq!(router.failover_hits(), 1);
+    }
+
+    #[tokio::test]
+    async fn both_arms_error_bubbles_failure() {
+        let light = Arc::new(MockLlm::new()); // empty
+        let deep = Arc::new(MockLlm::new()); // empty
+        let router = HeuristicRouter::new(light, deep);
+        let r = router
+            .complete(ChatRequest {
+                messages: vec![ChatMessage::user("anything")],
+                temperature: 0.0,
+                max_tokens: None,
+            })
+            .await;
+        assert!(r.is_err(), "both arms failed — error must propagate");
+        // Failover was attempted once.
+        assert_eq!(router.failover_hits(), 1);
+    }
+
+    #[tokio::test]
+    async fn judge_failovers_from_light_to_deep() {
+        let light = Arc::new(MockLlm::new()); // empty → judge will error
+        let deep = Arc::new(MockLlm::new());
+        deep.push_judge(true);
+        let router = HeuristicRouter::new(light, deep);
+        let v = router.judge("q", "y", &["e".to_string()]).await.unwrap();
+        assert!(v);
+        assert_eq!(router.failover_hits(), 1);
+    }
+
+    #[tokio::test]
+    async fn threshold_override_changes_decision_boundary() {
+        let light = Arc::new(MockLlm::new()); // would error if hit
+        light.push("light-response");
+        let deep = Arc::new(MockLlm::new());
+        deep.push("deep-response"); // 2+ chars so failover doesn't misfire
         let router = HeuristicRouter::new(light, deep).with_threshold(5);
         // Even "Bill Gates founded Microsoft" should now route to deep.
         let r = router
@@ -324,7 +495,8 @@ mod tests {
             })
             .await
             .unwrap();
-        assert_eq!(r.content, "D");
+        assert_eq!(r.content, "deep-response");
         assert_eq!(router.threshold(), 5);
+        assert_eq!(router.failover_hits(), 0, "deep succeeded; no failover");
     }
 }
