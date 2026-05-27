@@ -82,7 +82,12 @@ impl<L: LlmClient + ?Sized> LlmWriterPolicy<L> {
         ChatRequest {
             messages: vec![system, user],
             temperature: self.temperature,
-            max_tokens: Some(512),
+            // Bumped from 512 (2026-05-27): full-patent docs are 50-100k chars
+            // (~12-25k input tokens) and yield 50-150 triples per call. 8192
+            // covers worst-case JSON output for a fully detailed patent. LLM
+            // stops earlier on shorter docs via `stop=true`, so the budget
+            // isn't wasted. Well under all backends' per-message caps.
+            max_tokens: Some(8192),
         }
     }
 }

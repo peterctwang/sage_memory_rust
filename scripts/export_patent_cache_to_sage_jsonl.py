@@ -63,6 +63,23 @@ RE_FILING = re.compile(r'<dd itemprop="filingDate"[^>]*>([^<]+)</dd>')
 RE_FIRST_CLAIM = re.compile(
     r'itemprop="claim"[^>]*>\s*<div[^>]*>(.*?)</div>', re.DOTALL | re.IGNORECASE
 )
+# Full extraction (used when --full flag is set):
+RE_DESCRIPTION_SECTION = re.compile(
+    r'<section[^>]*itemprop="description"[^>]*>(.*?)</section>', re.DOTALL | re.IGNORECASE
+)
+RE_CLAIMS_SECTION = re.compile(
+    r'<section[^>]*itemprop="claims"[^>]*>(.*?)</section>', re.DOTALL | re.IGNORECASE
+)
+RE_BACKWARD_CITES = re.compile(
+    r'<tr itemprop="backwardReferences(?:Orig|Family)"[^>]*>.*?'
+    r'<span itemprop="publicationNumber"[^>]*>([^<]+)</span>',
+    re.DOTALL,
+)
+RE_FORWARD_CITES = re.compile(
+    r'<tr itemprop="forwardReferences(?:Orig|Family)"[^>]*>.*?'
+    r'<span itemprop="publicationNumber"[^>]*>([^<]+)</span>',
+    re.DOTALL,
+)
 
 # Collapse runs of whitespace and strip remaining HTML tags from a fragment.
 RE_TAG = re.compile(r"<[^>]+>")
@@ -103,6 +120,16 @@ def parse_one(html: str) -> dict | None:
     claim1_m = RE_FIRST_CLAIM.search(html)
     claim1 = _clean(claim1_m.group(1)) if claim1_m else ""
 
+    # Full-mode fields (parsed unconditionally — composer decides whether
+    # to include them). Saves a second pass and keeps the regex set in one
+    # place.
+    description_m = RE_DESCRIPTION_SECTION.search(html)
+    description_full = _clean(description_m.group(1)) if description_m else ""
+    claims_m = RE_CLAIMS_SECTION.search(html)
+    claims_full = _clean(claims_m.group(1)) if claims_m else ""
+    backward_cites = list(dict.fromkeys(RE_BACKWARD_CITES.findall(html)))[:20]
+    forward_cites = list(dict.fromkeys(RE_FORWARD_CITES.findall(html)))[:20]
+
     return {
         "publication_number": pubnum,
         "title": title,
@@ -112,10 +139,14 @@ def parse_one(html: str) -> dict | None:
         "cpc": cpc,
         "filing": filing,
         "claim1": claim1,
+        "description_full": description_full,
+        "claims_full": claims_full,
+        "backward_cites": backward_cites,
+        "forward_cites": forward_cites,
     }
 
 
-def compose_paragraph(rec: dict, max_chars: int = 1500) -> str:
+def compose_paragraph(rec: dict, max_chars: int = 1500, full: bool = False) -> str:
     """Build a single dense paragraph that names every co-mentioned entity.
 
     Shape (one paragraph, no newlines):
@@ -149,9 +180,22 @@ def compose_paragraph(rec: dict, max_chars: int = 1500) -> str:
         # Ensure the abstract ends with a period for sentence-count
         if not parts[-1].endswith("."):
             parts[-1] = parts[-1] + "."
-    if rec["claim1"]:
-        # Claims tend to be huge; first 250 chars captures the protected scope.
-        parts.append("First claim: " + rec["claim1"][:250] + "...")
+    if full:
+        # Include the full claims section and description body. These are
+        # the bulk of a patent and the source of citation chains + tech-
+        # detail entities. Order matters: claims first (most info-dense),
+        # then description, then citations.
+        if rec.get("claims_full"):
+            parts.append("Claims: " + rec["claims_full"])
+        if rec.get("description_full"):
+            parts.append("Description: " + rec["description_full"])
+        if rec.get("backward_cites"):
+            parts.append("Cites: " + ", ".join(rec["backward_cites"]) + ".")
+        if rec.get("forward_cites"):
+            parts.append("Cited by: " + ", ".join(rec["forward_cites"]) + ".")
+    else:
+        if rec["claim1"]:
+            parts.append("First claim: " + rec["claim1"][:250] + "...")
     text = " ".join(parts)
     if len(text) > max_chars:
         text = text[: max_chars - 4] + " ..."
@@ -215,6 +259,13 @@ def main():
         help="Regex; only emit patents whose raw HTML contains this pattern. "
         "Useful for assignee-scoped exports (e.g. 'Peplink|Pismo Labs').",
     )
+    ap.add_argument(
+        "--full",
+        action="store_true",
+        help="Include FULL description body + all claims + citation graph. "
+        "Increases per-doc text 10-50× — only use when SAGE writer is "
+        "configured for larger max_tokens (default 2048+).",
+    )
     args = ap.parse_args()
     filter_re = re.compile(args.filter_html, re.IGNORECASE) if args.filter_html else None
 
@@ -248,7 +299,7 @@ def main():
                 # twice). Skip the duplicate — first one wins.
                 continue
             seen_ids[doc_id] = rec["publication_number"]
-            text = compose_paragraph(rec, max_chars=args.max_text_chars)
+            text = compose_paragraph(rec, max_chars=args.max_text_chars, full=args.full)
             out_fh.write(json.dumps({"doc_id": doc_id, "text": text}, ensure_ascii=False))
             out_fh.write("\n")
             if map_fh is not None:
