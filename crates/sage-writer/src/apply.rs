@@ -96,26 +96,41 @@ async fn resolve(
             }
             let id = name_to_id(name);
             local.insert(name.clone(), id);
-            if store.get_entity(tenant, id).await?.is_none() {
-                let mut e = Entity::new(id, name.clone(), etype.clone());
-                e.tenant = tenant;
-                if let Some(d) = desc {
-                    e.desc = Some(std::sync::Arc::<str>::from(d.as_str()));
+            match store.get_entity(tenant, id).await? {
+                None => {
+                    let mut e = Entity::new(id, name.clone(), etype.clone());
+                    e.tenant = tenant;
+                    if let Some(d) = desc {
+                        e.desc = Some(std::sync::Arc::<str>::from(d.as_str()));
+                    }
+                    e.source_docs.push(provenance);
+                    if let Some(emb) = embedder {
+                        let text = match &e.desc {
+                            Some(d) => format!("{name} {d}"),
+                            None => name.to_string(),
+                        };
+                        let vecs = emb.embed(&[text.as_str()]).await?;
+                        if let Some(v) = vecs.into_iter().next() {
+                            e.embedding = Some(v);
+                        }
+                    }
+                    store.upsert_entity(tenant, e).await?;
+                    report.entities_added += 1;
+                    report.added_entity_ids.push(id);
                 }
-                e.source_docs.push(provenance);
-                if let Some(emb) = embedder {
-                    let text = match &e.desc {
-                        Some(d) => format!("{name} {d}"),
-                        None => name.to_string(),
-                    };
-                    let vecs = emb.embed(&[text.as_str()]).await?;
-                    if let Some(v) = vecs.into_iter().next() {
-                        e.embedding = Some(v);
+                // BUG FIX (2026-05-27 multi-hop diagnosis): when an entity
+                // already exists, the prior code returned its id without
+                // recording the new doc as a provenance — so "Microsoft"
+                // ended up linked only to whichever doc mentioned it FIRST,
+                // making every other Microsoft-mentioning doc unreachable
+                // via Microsoft-anchored queries. We now append the new
+                // provenance and persist.
+                Some(mut e) => {
+                    if !e.source_docs.contains(&provenance) {
+                        e.source_docs.push(provenance);
+                        store.upsert_entity(tenant, e).await?;
                     }
                 }
-                store.upsert_entity(tenant, e).await?;
-                report.entities_added += 1;
-                report.added_entity_ids.push(id);
             }
             Ok(id)
         }
@@ -147,5 +162,71 @@ mod tests {
         assert_eq!(r.entities_added, 0);
         assert_eq!(r.edges_added, 0);
         assert_eq!(r.triples_skipped, 0);
+    }
+
+    /// REGRESSION (2026-05-27): the writer extracted "Microsoft" from
+    /// both doc 1015 (Bill Gates) and doc 1027 (Satya Nadella), but the
+    /// shared "Microsoft" entity only listed doc 1015 in `source_docs`
+    /// because `apply_action` skipped provenance updates whenever the
+    /// entity already existed. As a result no Microsoft-anchored query
+    /// could ever reach doc 1027 — tier-5 multi-hop "Two CEOs of
+    /// Microsoft" was forced to find at most one of the two GT docs.
+    /// This test pins the dedup-with-merge behavior.
+    #[tokio::test]
+    async fn shared_entity_accumulates_source_docs_across_docs() {
+        use crate::action::{EntityRef, WriterAction};
+        use sage_core::{EntityType, GraphStore, TenantId};
+        use sage_graph::MemGraphStore;
+        use smallvec::smallvec;
+
+        let store = MemGraphStore::new();
+        let t = TenantId::DEFAULT;
+
+        let mk_ref = |n: &str| EntityRef::New {
+            name: SmolStr::new(n),
+            etype: EntityType::Org,
+            desc: None,
+        };
+
+        // doc 1: "Bill Gates founded Microsoft"
+        apply_action(
+            &store,
+            t,
+            &WriterAction {
+                triples: smallvec![(
+                    mk_ref("Bill Gates"),
+                    SmolStr::new("founded"),
+                    mk_ref("Microsoft")
+                )],
+                source: 1015,
+                stop: true,
+            },
+        )
+        .await
+        .unwrap();
+
+        // doc 2: "Satya Nadella ceo_of Microsoft"
+        apply_action(
+            &store,
+            t,
+            &WriterAction {
+                triples: smallvec![(
+                    mk_ref("Satya Nadella"),
+                    SmolStr::new("works_at"),
+                    mk_ref("Microsoft")
+                )],
+                source: 1027,
+                stop: true,
+            },
+        )
+        .await
+        .unwrap();
+
+        let ms_id = name_to_id("Microsoft");
+        let docs = store.docs_of_entity(t, ms_id).await.unwrap();
+        assert!(
+            docs.contains(&1015) && docs.contains(&1027),
+            "Microsoft entity must link to both source docs, got {docs:?}"
+        );
     }
 }
