@@ -1,0 +1,123 @@
+[
+  {"tier": 1, "kind": "exact",       "query": "Who founded Microsoft",                         "ground_truth": [1001]},
+  {"tier": 1, "kind": "exact",       "query": "Who founded Apple",                             "ground_truth": [1002]},
+  {"tier": 1, "kind": "exact",       "query": "Who invented Linux",                            "ground_truth": [1008]},
+  {"tier": 1, "kind": "exact",       "query": "Who painted the Mona Lisa",                     "ground_truth": [4002]},
+  {"tier": 1, "kind": "exact",       "query": "Who painted The Scream",                        "ground_truth": [4006]},
+  {"tier": 1, "kind": "exact",       "query": "Who founded IKEA",                              "ground_truth": [7003]},
+
+  {"tier": 2, "kind": "multi-token", "query": "Who created the C programming language at Bell Labs", "ground_truth": [1010]},
+  {"tier": 2, "kind": "multi-token", "query": "Who proposed the DNA double helix structure",        "ground_truth": [2005]},
+  {"tier": 2, "kind": "multi-token", "query": "Who composed the Brandenburg Concertos",             "ground_truth": [4007]},
+  {"tier": 2, "kind": "multi-token", "query": "Who invented the RSA cryptosystem at MIT",           "ground_truth": [1023]},
+  {"tier": 2, "kind": "multi-token", "query": "Who developed mRNA vaccines for COVID-19",           "ground_truth": [2014]},
+  {"tier": 2, "kind": "multi-token", "query": "Who directed Titanic and Avatar",                    "ground_truth": [4013]},
+
+  {"tier": 3, "kind": "descriptive", "query": "Who proposed that black holes emit radiation",       "ground_truth": [2010]},
+  {"tier": 3, "kind": "descriptive", "query": "Who is considered the first programmer in history",  "ground_truth": [1025]},
+  {"tier": 3, "kind": "descriptive", "query": "First woman to win two Nobel Prizes in different sciences", "ground_truth": [2001]},
+  {"tier": 3, "kind": "descriptive", "query": "First Black president of South Africa",              "ground_truth": [3002]},
+  {"tier": 3, "kind": "descriptive", "query": "First human in space",                               "ground_truth": [3010]},
+  {"tier": 3, "kind": "descriptive", "query": "Inventor of the World Wide Web",                     "ground_truth": [1009]},
+
+  {"tier": 4, "kind": "paraphrase",  "query": "Architect of perestroika in the Soviet Union",       "ground_truth": [3004]},
+  {"tier": 4, "kind": "paraphrase",  "query": "Liberator of India through nonviolence",             "ground_truth": [3001]},
+  {"tier": 4, "kind": "paraphrase",  "query": "Pioneer of CRISPR gene editing",                     "ground_truth": [2013]},
+  {"tier": 4, "kind": "paraphrase",  "query": "Father of the assembly line for automobiles",        "ground_truth": [7004]},
+  {"tier": 4, "kind": "paraphrase",  "query": "Father of modern management thinking",               "ground_truth": [7010]},
+  {"tier": 4, "kind": "paraphrase",  "query": "Director of Parasite",                               "ground_truth": [4015]},
+
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Three CEOs of Microsoft",
+    "ground_truth": [1001],
+    "_note": "Doc 1001 names Gates, Ballmer, and Nadella in one paragraph. Requires the writer to extract Microsoft as a co-mentioned entity for ALL three people (the apply.rs dedup fix)."
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two CEOs of Google",
+    "ground_truth": [1003],
+    "_note": "Eric Schmidt, Larry Page resumed, then Sundar Pichai — all in doc 1003. Tests entity co-mention extraction within one paragraph."
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two co-founders of Microsoft",
+    "ground_truth": [1001],
+    "_note": "Gates + Allen — single doc but writer must emit triples for BOTH founders to the Microsoft entity."
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two co-founders of OpenAI",
+    "ground_truth": [1007],
+    "_note": "Altman, Musk, Brockman, Sutskever — multiple in one doc; query expects any 2 names anchored to OpenAI."
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two scientists who shared the Nobel for CRISPR",
+    "ground_truth": [2013]
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two physicists who shaped quantum mechanics in the 1920s",
+    "ground_truth": [2003, 2004]
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two Bell Labs scientists who designed programming languages",
+    "ground_truth": [1010]
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two 2018 Turing Award winners in deep learning",
+    "ground_truth": [1013]
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two female heads of government in Europe",
+    "ground_truth": [3005, 3006]
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two co-founders of Apple",
+    "ground_truth": [1002]
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two co-founders of DeepMind",
+    "ground_truth": [1015]
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two scientists who discovered DNA structure at Cambridge",
+    "ground_truth": [2005]
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two Nobel Peace Prize winners who led liberation movements",
+    "ground_truth": [3001, 3002, 3003]
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Two ancient Greek philosophers in the same teacher-student lineage",
+    "ground_truth": [6001, 6002]
+  },
+  { "tier": 5, "kind": "multi-hop",
+    "query": "Three rival tennis players known as the Big Three",
+    "ground_truth": [5004]
+  },
+
+  { "tier": 6, "kind": "bridge",
+    "query": "Who succeeded Bill Gates as CEO of Microsoft",
+    "ground_truth": [1001],
+    "_note": "BRIDGE: must traverse Gates -> Microsoft -> next CEO (Ballmer) inside the same doc."
+  },
+  { "tier": 6, "kind": "bridge",
+    "query": "Who succeeded Steve Jobs as Apple CEO",
+    "ground_truth": [1002]
+  },
+  { "tier": 6, "kind": "bridge",
+    "query": "Who tutored Alexander the Great",
+    "ground_truth": [6002]
+  },
+  { "tier": 6, "kind": "bridge",
+    "query": "Co-founder of the company that built AlphaGo",
+    "ground_truth": [1015],
+    "_note": "BRIDGE: AlphaGo -> DeepMind -> co-founders (Hassabis / Legg / Suleyman)."
+  },
+  { "tier": 6, "kind": "bridge",
+    "query": "Director of the film that dramatizes Oppenheimer",
+    "ground_truth": [4014],
+    "_note": "BRIDGE: Oppenheimer (film) -> directed by Nolan."
+  },
+  { "tier": 6, "kind": "bridge",
+    "query": "Vice president under the first Black U.S. president",
+    "ground_truth": [3007],
+    "_note": "BRIDGE: first Black president -> Obama -> VP Biden."
+  }
+]
