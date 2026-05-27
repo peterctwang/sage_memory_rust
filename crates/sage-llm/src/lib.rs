@@ -6,6 +6,12 @@ pub mod anthropic;
 #[cfg(feature = "claude-cli")]
 pub mod claude_cli;
 
+#[cfg(feature = "codex-cli")]
+pub mod codex_cli;
+
+#[cfg(feature = "gemini-cli")]
+pub mod gemini_cli;
+
 #[cfg(feature = "minimax")]
 pub mod minimax;
 
@@ -23,6 +29,12 @@ pub use anthropic::{AnthropicLlm, RetryCfg};
 
 #[cfg(feature = "claude-cli")]
 pub use claude_cli::ClaudeCliLlm;
+
+#[cfg(feature = "codex-cli")]
+pub use codex_cli::CodexCliLlm;
+
+#[cfg(feature = "gemini-cli")]
+pub use gemini_cli::GeminiCliLlm;
 
 #[cfg(feature = "minimax")]
 pub use minimax::MinimaxLlm;

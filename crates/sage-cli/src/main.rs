@@ -15,7 +15,9 @@ use sage_core::{EntityScan, EntityType, GraphStore, Query, Reader, ReaderGraph, 
 use sage_embed::{DeterministicEmbedder, HnswIndex};
 use sage_eval::{EvalRunner, EvalSample};
 use sage_graph::{MemGraphStore, SledGraphStore};
-use sage_llm::{ClaudeCliLlm, FallbackLlm, LlmClient, MinimaxLlm, MockLlm};
+use sage_llm::{
+    ClaudeCliLlm, CodexCliLlm, FallbackLlm, GeminiCliLlm, LlmClient, MinimaxLlm, MockLlm,
+};
 use sage_reader::{AddressingWeights, HeuristicReader, LlmQueryPlanner};
 use sage_runtime::SageEngine;
 use sage_writer::{
@@ -229,33 +231,25 @@ async fn run_ingest(
         step: 0,
     };
 
-    let action = match llm_kind {
-        "claude-cli" => {
-            let mut c = ClaudeCliLlm::new();
-            if let Ok(p) = std::env::var("SAGE_CLAUDE_BIN") {
-                c = c.with_binary(p);
-            }
-            tracing::info!(
-                binary = c.binary(),
-                model = c.model(),
-                doc_id,
-                "ingest via Claude CLI"
-            );
-            let policy = LlmWriterPolicy::new(Arc::new(c));
-            policy
-                .step(&state, &document)
-                .await
-                .context("LlmWriterPolicy step failed")?
-        }
-        "mock" => {
-            let resp = mock_response
-                .ok_or_else(|| anyhow::anyhow!("--llm=mock requires --mock-response"))?;
-            let m = Arc::new(MockLlm::new());
-            m.push(resp);
-            let policy = LlmWriterPolicy::new(m);
-            policy.step(&state, &document).await?
-        }
-        other => anyhow::bail!("unknown --llm '{other}'; use 'claude-cli' or 'mock'"),
+    let action = if llm_kind == "mock" {
+        let resp =
+            mock_response.ok_or_else(|| anyhow::anyhow!("--llm=mock requires --mock-response"))?;
+        let m = Arc::new(MockLlm::new());
+        m.push(resp);
+        let policy = LlmWriterPolicy::new(m);
+        policy.step(&state, &document).await?
+    } else {
+        // Delegate real LLM backends to the shared helper so claude/codex/
+        // gemini/minimax all flow through the same construction + logging
+        // logic. Single-doc ingest gets the same Claude-fallback wiring as
+        // batch ingest when --llm=minimax.
+        let llm = build_llm_client(llm_kind)?;
+        tracing::info!(llm_kind, doc_id, "ingest via shared LLM client");
+        let policy = LlmWriterPolicy::new(llm);
+        policy
+            .step(&state, &document)
+            .await
+            .context("LlmWriterPolicy step failed")?
     };
 
     // Use the same DeterministicEmbedder dim as `query` / `eval` so cos similarity
@@ -499,6 +493,15 @@ fn build_claude_cli() -> ClaudeCliLlm {
 fn build_llm_client(kind: &str) -> Result<Arc<dyn LlmClient>> {
     match kind {
         "claude-cli" => Ok(Arc::new(build_claude_cli())),
+        "codex-cli" => {
+            eprintln!("[sage] LLM: Codex CLI (account default model)");
+            Ok(Arc::new(CodexCliLlm::from_env()))
+        }
+        "gemini-cli" => {
+            let g = GeminiCliLlm::from_env();
+            eprintln!("[sage] LLM: Gemini CLI ({})", g.model());
+            Ok(Arc::new(g))
+        }
         "minimax" => {
             let mm =
                 MinimaxLlm::from_env().context("MinimaxLlm::from_env (need MINIMAX_API_KEY)")?;
@@ -514,7 +517,9 @@ fn build_llm_client(kind: &str) -> Result<Arc<dyn LlmClient>> {
                 Ok(Arc::new(mm))
             }
         }
-        other => anyhow::bail!("unknown llm kind '{other}'; use 'claude-cli' or 'minimax'"),
+        other => anyhow::bail!(
+            "unknown llm kind '{other}'; use 'claude-cli' / 'codex-cli' / 'gemini-cli' / 'minimax'"
+        ),
     }
 }
 

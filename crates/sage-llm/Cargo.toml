@@ -14,6 +14,8 @@ workspace = true
 default    = []
 anthropic  = ["dep:reqwest", "dep:serde_json", "dep:tokio"]
 claude-cli = ["dep:serde_json", "dep:tokio"]
+codex-cli  = ["dep:tokio"]
+gemini-cli = ["dep:tokio", "dep:serde_json"]
 minimax    = ["dep:reqwest", "dep:serde_json", "dep:tokio"]
 
 [dependencies]
