@@ -17,8 +17,10 @@ pub mod minimax;
 
 pub mod fallback;
 pub mod mock;
+pub mod router;
 
 pub use fallback::FallbackLlm;
+pub use router::{profile_text, profile_user_content, DocProfile, HeuristicRouter};
 
 use async_trait::async_trait;
 use sage_core::Result;

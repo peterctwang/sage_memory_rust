@@ -16,7 +16,8 @@ use sage_embed::{DeterministicEmbedder, HnswIndex};
 use sage_eval::{EvalRunner, EvalSample};
 use sage_graph::{MemGraphStore, SledGraphStore};
 use sage_llm::{
-    ClaudeCliLlm, CodexCliLlm, FallbackLlm, GeminiCliLlm, LlmClient, MinimaxLlm, MockLlm,
+    ClaudeCliLlm, CodexCliLlm, FallbackLlm, GeminiCliLlm, HeuristicRouter, LlmClient, MinimaxLlm,
+    MockLlm,
 };
 use sage_reader::{AddressingWeights, HeuristicReader, LlmQueryPlanner};
 use sage_runtime::SageEngine;
@@ -517,8 +518,37 @@ fn build_llm_client(kind: &str) -> Result<Arc<dyn LlmClient>> {
                 Ok(Arc::new(mm))
             }
         }
+        "router" => {
+            // Heuristic two-arm router. Defaults derived from eval_v7:
+            //   light = minimax  (fast + cheap, fine on simple docs)
+            //   deep  = codex-cli (top multi-hop / bridge scorer)
+            // Override via env: SAGE_ROUTER_LIGHT_LLM, SAGE_ROUTER_DEEP_LLM,
+            // SAGE_ROUTER_THRESHOLD.
+            let light_kind = std::env::var("SAGE_ROUTER_LIGHT_LLM")
+                .unwrap_or_else(|_| "minimax".to_string());
+            let deep_kind = std::env::var("SAGE_ROUTER_DEEP_LLM")
+                .unwrap_or_else(|_| "codex-cli".to_string());
+            if light_kind == "router" || deep_kind == "router" {
+                anyhow::bail!("router arms cannot themselves be 'router' (no recursion allowed)");
+            }
+            let light = build_llm_client(&light_kind)
+                .with_context(|| format!("constructing router LIGHT arm = {light_kind}"))?;
+            let deep = build_llm_client(&deep_kind)
+                .with_context(|| format!("constructing router DEEP arm = {deep_kind}"))?;
+            let mut router = HeuristicRouter::new(light, deep);
+            if let Ok(t) = std::env::var("SAGE_ROUTER_THRESHOLD") {
+                if let Ok(n) = t.parse::<u32>() {
+                    router = router.with_threshold(n);
+                }
+            }
+            eprintln!(
+                "[sage] LLM: Router(light={light_kind}, deep={deep_kind}, threshold={})",
+                router.threshold()
+            );
+            Ok(Arc::new(router))
+        }
         other => anyhow::bail!(
-            "unknown llm kind '{other}'; use 'claude-cli' / 'codex-cli' / 'gemini-cli' / 'minimax'"
+            "unknown llm kind '{other}'; use 'claude-cli' / 'codex-cli' / 'gemini-cli' / 'minimax' / 'router'"
         ),
     }
 }
