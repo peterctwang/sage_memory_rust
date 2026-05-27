@@ -60,6 +60,22 @@
         "tier_6_bridge":      { "samples": 6, "recall_at_k": 1.000, "mrr": 0.889 }
       }
     },
+    "router_minimax_codex": {
+      "_note": "HeuristicRouter with light=minimax, deep=codex-cli, threshold=25. Single-fact docs route to MiniMax; multi-sentence paragraphs with co-mentioned entities route to Codex. Best overall R@3 on the benchmark.",
+      "docs_ingested": 100,
+      "entities": 744,
+      "edges": 1003,
+      "ingest_minutes_approx": 35,
+      "overall_k3": { "recall_at_k": 0.874, "mrr": 0.837 },
+      "per_tier_k3": {
+        "tier_1_exact":       { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 },
+        "tier_2_multi_token": { "samples": 6, "recall_at_k": 0.833, "mrr": 0.833 },
+        "tier_3_descriptive": { "samples": 6, "recall_at_k": 0.833, "mrr": 0.667 },
+        "tier_4_paraphrase":  { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 },
+        "tier_5_multi_hop":   { "samples": 15, "recall_at_k": 0.689, "mrr": 0.689 },
+        "tier_6_bridge":      { "samples": 6, "recall_at_k": 1.000, "mrr": 1.000 }
+      }
+    },
     "minimax_m25_with_claude_fallback": {
       "_note": "MiniMax-M2.5 primary + Claude CLI fallback on empty/error.",
       "docs_ingested": 100,
@@ -79,12 +95,12 @@
     }
   },
   "rankings": {
-    "overall_recall_at_3":   ["claude_cli=0.856", "gemini_cli=0.856", "codex_cli=0.844", "minimax=0.704"],
-    "tier_5_multi_hop":      ["codex_cli=0.733", "claude_cli=0.700", "gemini_cli=0.700", "minimax=0.689"],
-    "tier_6_bridge":         ["codex_cli=1.000", "gemini_cli=1.000", "claude_cli=0.833", "minimax=0.833"],
-    "tier_4_paraphrase":     ["claude_cli=1.000", "gemini_cli=1.000", "codex_cli=0.833", "minimax=0.667"],
-    "ingest_speed":          ["minimax=20m", "claude_cli=25m", "codex_cli=25m", "gemini_cli=43m"],
-    "edges_extracted":       ["codex_cli=1031", "claude_cli=808", "gemini_cli=765", "minimax=691"]
+    "overall_recall_at_3":   ["router=0.874", "claude_cli=0.856", "gemini_cli=0.856", "codex_cli=0.844", "minimax=0.704"],
+    "tier_5_multi_hop":      ["codex_cli=0.733", "claude_cli=0.700", "gemini_cli=0.700", "router=0.689", "minimax=0.689"],
+    "tier_6_bridge":         ["router=1.000", "codex_cli=1.000", "gemini_cli=1.000", "claude_cli=0.833", "minimax=0.833"],
+    "tier_4_paraphrase":     ["router=1.000", "claude_cli=1.000", "gemini_cli=1.000", "codex_cli=0.833", "minimax=0.667"],
+    "ingest_speed":          ["minimax=20m", "claude_cli=25m", "codex_cli=25m", "router=35m", "gemini_cli=43m"],
+    "edges_extracted":       ["codex_cli=1031", "router=1003", "claude_cli=808", "gemini_cli=765", "minimax=691"]
   },
   "key_findings": {
     "multi_hop_works": "Tier 5 multi-hop R@3 = 0.689 to 0.733 across all 4 backends. Vs v6 (same MiniMax backend, 0.30) this is a 2.3x jump — proves the apply.rs dedup fix + writer COVERAGE prompt + paragraph-style docs are the critical levers.",
@@ -92,7 +108,8 @@
     "codex_wins_extraction":  "Codex extracts 1031 edges (+28% vs Claude, +49% vs MiniMax) and wins tier 5 + tier 6. Best choice when multi-hop matters.",
     "claude_paraphrase_supremacy": "Claude perfect on tier 4 paraphrase (1.000) — Opus's English fluency advantage shines on metaphor / descriptive labels.",
     "gemini_underrated": "Gemini ties Claude on overall R@3 (0.856) despite extracting fewer entities, suggesting better selectivity. Slower ingest is the drawback.",
-    "minimax_value": "Cheapest, ~20× cost reduction vs Claude. Quality 0.15 R@3 behind the leaders but still functional. Best when ingesting tens of thousands of docs."
+    "minimax_value": "Cheapest, ~20× cost reduction vs Claude. Quality 0.15 R@3 behind the leaders but still functional. Best when ingesting tens of thousands of docs.",
+    "router_wins":     "HeuristicRouter(light=minimax, deep=codex) achieves R@3=0.874 — strictly higher than every single backend. It wins because paragraph-rich docs (v7's bread and butter) route to Codex (winner of edge extraction + multi-hop), while short docs would route to MiniMax to save cost. With this 100-doc corpus most docs cross the threshold; on a mixed corpus the cost savings would compound. Tier 6 bridge stays at 1.000 (matches Codex)."
   },
   "regression_thresholds": {
     "_comment": "Any future v7 run dropping below these on the same query set means something regressed.",
