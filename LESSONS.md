@@ -7,6 +7,68 @@
 
 ---
 
+## L009 — Zero-token 結構性 ingest 在 patent 領域擊敗 full LLM 抽取
+
+**發生** 2026-05-28, Strategy Pareto 實驗
+
+**症狀**(其實是反向 — 預設「LLM 抽更好」結果反例)
+- 我們花 100 分鐘 + 2.7M tokens 用 router(MiniMax+Codex) 對 91 件 patent
+  做 full-text LLM extraction (Strategy C),拿到的 sled 在 queries.json
+  上 **overall MRR = 0.667**。
+- 同 corpus 用 0 tokens、4 秒、純 HTML regex parse 出結構性欄位 + title
+  bigrams (Strategy A),拿到 **overall MRR = 0.806**。
+- 多跳 tier 5: A=0.833 vs C=0.714 (+17%)；bridge tier 6: A=1.000 vs
+  C=0.833 (+20%)。
+- **零 token 戰略 (+21% MRR) 在 9/10 指標上贏過花 2.7M token 戰略**。
+
+**根因**(多因合一)
+1. **Title 被 LLM 抽成單一 multi-word entity**,SAGE addressing-score
+   的 `s_exact` 走 single-token 命中路徑只給 0.7 分,失去原本 1.0 滿分
+   的 exact-match path。Strategy A 把 title 切 bigrams,每個 bigram 變
+   獨立 entity → query 命中 1.0 滿分。
+2. **LLM 抽取產生 ~30% 雜訊 entity**(整段標題、句子片段、vague
+   concept 如 "first device"),這些 entity 連到太多 doc,稀釋 retrieval
+   訊號。Regex 完全沒這問題。
+3. **citation edges 結構性資料 LLM 抽不到**。HTML `<tr
+   itemprop="backwardReferencesOrig">` 用 5 行 regex 即可全抽;LLM 看到
+   citation 字串卻不會建 typed cites edge。
+4. **COVERAGE RULE prompt (L005 修的) 反過來變累贅** — 對 100k 字元
+   long-form patent,「抽出每個 named entity」變成過度抽取放大噪音。
+5. LLM 抽取的 entity 經 sanitizer 規範後容易與原文偏離(`Patrick H.W.
+   Sung` vs `Patrick Ho Wai Sung`),與 query token 失準。
+
+**修法** (commit `7e0846c`)
+- 新 `scripts/build_strategy_sleds.py` 實作 Strategy A:從 patent-ai
+  HTML cache 抽 (inventors, assignees, CPC, citations) + title bigrams,
+  直接走 `sage ingest-stub`,零 LLM。
+- 91 件 patent 4 秒建完,sled 5016 條 typed triples。
+
+**事後驗證**(STRATEGY_PARETO.md)
+- queries.json overall MRR: 0.806 (A) vs 0.667 (C),tier 5/6 都升
+- complexity queries MRR: 0.825 (A) vs 0.853 (C) — C 只勝 +0.028 而需
+  2.7M tokens。經濟上 A 完勝。
+- 建構時間 4s vs 100min,**1500× 加速**。
+
+**衍生教訓**
+- **「LLM-first 是默認」是錯誤直覺**。對任何有 schema 的領域
+  (patent / 論文 / commit log / 表單),HTML/JSON 中的 itemprop / 欄位
+  比 LLM 抽得**更乾淨、更便宜、更快、retrieval 還更準**。
+- **Title bigram trick 應變 SAGE 的標準 ingest 步驟**。任何 "name"
+  欄位都該同時以原樣 + bigram 兩種形式入 graph,讓 addressing-score
+  的 exact-match path 拿得到 1.0。
+- **生產 ingest 預設用 Strategy A**;Strategy B (A + 小量 LLM on
+  abstract) 留給「需要 paraphrase / synthesis 補洞」的場景。
+- **這個發現適用 SAGE 本體**:writer 那層其實是最弱、最貴、最不必要
+  的環節。SAGE 真正的價值是 graph store + reader + router。
+
+**Regression**(預期未來加)
+- `scripts/build_strategy_sleds.py` 本身就是個 regression — re-run
+  應該每次都產出相同 MRR(±0.01)。
+- `examples/eval_peplink/baselines_strategy.json` 可固化 A 的最低
+  MRR (queries=0.78, complexity=0.80) 作為 CI 護欄。
+
+---
+
 ## L008 — Router 必須有跨臂 failover（不只靠單臂 fallback）
 
 **發生** 2026-05-27, Peplink 91-doc 完整 patent ingest
