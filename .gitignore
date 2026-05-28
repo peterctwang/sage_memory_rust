@@ -8,3 +8,26 @@ Cargo.lock.bak
 /runs
 /data
 *.tmp
+
+# ── ASUS 私有：競品分析、揭露書、避雷簡報、相關生成器 ──
+# (此目錄為 SAGE eval 結果產出區；其下 ASUS 相關產物為內部資產不得上傳)
+/examples/eval_peplink/disclosures/
+/examples/eval_peplink/BONDING_AND_REPLICATION_ANALYSIS.md
+/examples/eval_peplink/slides/
+/examples/eval_peplink/h2h_log_snapshot.txt
+/scripts/make_peplink_share_pptx.py
+# Design-around / breakthrough analysis 私有資產
+/examples/eval_peplink/REPORT.md
+/examples/eval_peplink/REPORT_zh.md
+/examples/eval_peplink/BREAKTHROUGH_BRIEF.md
+/examples/eval_peplink/AUTO_BREAKTHROUGH_robust_link.md
+**/*BREAKTHROUGH*
+**/*breakthrough*
+
+# 通用規則：任何 ASUS 揭露 / 避雷分析檔
+**/disclosures/
+**/ASUS-*.md
+**/ASUS_*.md
+**/*_ASUS_*.md
+**/*_design_around*.md
+**/*_FTO_*.md
